@@ -31,7 +31,7 @@ SALES MATE is a web application built using the MERN (MongoDB, Express.js, React
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/sales-mate.git
+   https://github.com/Khan1git/SalesMate.git
    ```
 
 2. Navigate to the project directory:
