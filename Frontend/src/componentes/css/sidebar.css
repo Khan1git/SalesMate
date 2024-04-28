@@ -1,0 +1,475 @@
+/*===== GOOGLE FONTS =====*/
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+/*===== VARIABLES CSS =====*/
+:root {
+  --nav-width: 92px;
+
+  /*===== Colores =====*/
+  --first-color: #0C5DF4;
+  --bg-color: #12192C;
+  --sub-color: #B6CEFC;
+  --white-color: #FFF;
+
+  /*===== Fuente y tipografia =====*/
+  --body-font: 'Poppins', sans-serif;
+  --normal-font-size: 1rem;
+  --small-font-size: .875rem;
+
+  /*===== z index =====*/
+  --z-fixed: 100;
+}
+
+
+/*===== BASE =====*/
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  padding: 1rem 0 0 6.25rem;
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+  transition: .5s;
+  background-color: #f0f1f7;
+}
+
+h1 {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+/*===== l NAV =====*/
+.l-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--nav-width);
+  height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--white-color);
+  padding: 1.5rem 1.5rem 2rem;
+  transition: .5s;
+  z-index: var(--z-fixed);
+}
+
+/*===== NAV =====*/
+.nav {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.nav__brand {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.nav__toggle {
+  font-size: 1.25rem;
+  padding: .75rem;
+  cursor: pointer;
+}
+
+.nav__logo {
+  color: var(--white-color);
+  font-weight: 600;
+}
+
+.nav__link {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  align-items: center;
+  column-gap: .75rem;
+  padding: .75rem;
+  color: var(--white-color);
+  border-radius: .5rem;
+  margin-bottom: 1rem;
+  transition: .3s;
+  cursor: pointer;
+}
+
+.nav__link:hover {
+  background-color: var(--first-color);
+}
+
+.nav__icon {
+  font-size: 1.25rem;
+}
+
+.nav__name {
+  font-size: var(--small-font-size);
+}
+
+/*Expander menu*/
+.expander {
+  width: calc(var(--nav-width) + 9.25rem);
+}
+
+/*Add padding body*/
+.body-pd {
+  padding: 2rem 0 0 16rem;
+}
+
+/*Active links menu*/
+.active {
+  background-color: var(--first-color);
+}
+
+/*===== COLLAPSE =====*/
+.collapse {
+  grid-template-columns: 20px max-content 1fr;
+}
+
+.collapse__link {
+  justify-self: flex-end;
+  transition: .5s;
+}
+
+.collapse__menu {
+  display: none;
+  padding: .75rem 2.25rem;
+}
+
+.collapse__sublink {
+  color: var(--sub-color);
+  font-size: var(--small-font-size);
+}
+
+.collapse__sublink:hover {
+  color: var(--white-color);
+}
+
+/*Show collapse*/
+.showCollapse {
+  display: block;
+}
+
+/*Rotate icon*/
+.rotate {
+  transform: rotate(180deg);
+}
+
+/* ------- THE MAIN CONTENT SECTION ------------------ */
+
+.contnet {
+  margin: 0;
+  padding: 1rem;
+  box-sizing: border-box;
+  height: 100vh;
+  /* border: 2px solid black; */
+}
+.contnet .head{
+  display: flex;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.contnet .head button {
+  width: 10vw;
+  overflow: hidden;
+  height: 5vh;
+  /* box-shadow: 0 1px 2px gray;   */
+  /* border: 1px solid gray; */
+  border: none;
+  background-color: white;
+  color: #000;
+  border-radius: 9px;
+  margin: .2rem;
+}
+
+.contnet .head button:hover {
+  background-color: rgba(64, 64, 197, 0.137);
+  cursor: pointer;
+}
+
+
+
+.contnet .cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-gap: 1rem;
+  /* height: 20vh; */
+}
+
+.contnet .cards .card1 {
+  background-color: #845adf;
+  display: flex;
+  height: 20vh;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  padding-left: 20px;
+  align-items: start;
+  border-radius: 12px;
+}
+
+.card1 p {
+  margin: 3px 0;
+}
+
+
+.contnet .cards .card2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  padding-left: 20px;
+  align-items: start;
+
+  background-color: #7978E9;
+  height: 20vh;
+  border-radius: 12px;
+  /* border: 1px solid black; */
+
+}
+
+.card2 p {
+  margin: 3px 0;
+}
+
+.contnet .cards .card3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  padding-left: 20px;
+  align-items: start;
+  height: 20vh;
+  background-color: #F2797E;
+  border-radius: 12px;
+  /* border: 1px solid black; */
+}
+
+.card3 p {
+  margin: 3px 0;
+}
+
+.contnet .cards .card4 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  padding-left: 20px;
+  align-items: start;
+  background-color: #7DA0F9;
+  height: 20vh;
+  border-radius: 12px;
+  /* border: 1px solid black; */
+}
+
+.card4 p {
+  margin: 3px 0;
+  /* Adjust top and bottom margin of paragraph elements */
+}
+
+.contnet .Analytics {
+  display: flex;
+  gap: 1rem;
+  /* border: 1px solid black; */
+  margin: 1rem 2px;
+  height: 50%;
+ 
+}
+.contnet .Analytics .graph {
+  /* border: 1px solid black; */
+  background-color: white;
+  border-radius: 12px;
+  /* padding: 1rem; */
+  height: 100%;
+  width: 60%;
+}
+
+.contnet .Analytics .customer {
+  width: 40%;
+  background-color: white;
+  border-radius: 12px;
+  /* border: 1px solid black; */
+}
+
+@media (max-width:900px) {
+  .contnet .Analytics {
+    flex-direction: column;
+  }
+
+  .contnet .Analytics .graph {
+    /* border: 1px solid black; */
+    height: 60%;
+    width: 100%;
+  }
+
+  .contnet .Analytics .customer {
+    height: 40%;
+    width: 100%;
+    /* border: 1px solid black; */
+  }
+
+}
+
+.contnet .table {
+  height: 50vh;
+  display: flex;
+  /* margin: 1rem 0; */
+  gap: 1rem;
+  /* margin-bottom: 1rem; */
+}
+
+.contnet .table .product{
+  background-color: white;
+  width: 60%;
+
+}
+.contnet .table .customer{
+  width: 40%;
+  /* border: 1px solid black; */
+  background-color: white;
+}
+
+
+@media (max-width:900px) {
+  .contnet .table  {
+    flex-direction: column;
+  }
+
+  .contnet .table .product {
+    /* border: 1px solid black; */
+    height: 60%;
+    width: 100%;
+  }
+
+  .contnet .table .card {
+    height: 40%;
+    width: 100%;
+    /* border: 1px solid black; */
+  }
+
+}
+
+.table .card{
+  width: 40%;
+  background-color: white;
+  border-radius: 12px;
+}
+
+.table .product{
+  overflow: hidden;
+  overflow-y: scroll;
+  overflow-x: scroll;
+}
+.table .product::-webkit-scrollbar {
+  width: 0.5px solid rgb(182, 158, 158);
+  /* Width of the scrollbar */
+  background: transparent;
+}
+
+
+.table .product table {
+  /* box-shadow: 0 3px 4px gray; */
+  /* width: 100vw; */
+  padding: 1rem;
+  border: none;
+  outline: none;
+  font-size: small;
+  border-radius: 12px;
+  /* width: 60%; */
+}
+
+
+.table .product  table th {
+  background-color: #7DA0F9;
+  text-align: start;
+  border: none;
+}
+
+.table .product  table td {
+  text-align: start;
+  border: none;
+}
+
+.table .product  table tr {
+  border: none;
+}
+
+/* ---------------------------- THE CUSTOMER TABLE SECTION ------------------ */
+
+
+.Analytics .customer{
+  overflow: hidden;
+  overflow-y: scroll;
+  overflow-x: scroll;
+}
+
+.Analytics .customer::-webkit-scrollbar {
+  width: 0.5px solid rgb(182, 158, 158);
+  background: transparent;
+}
+
+
+.Analytics .customer table {
+  /* box-shadow: 0 3px 4px gray; */
+  /* width: 100vw; */
+  padding: 1rem;
+  font-size: 14px;
+  border: none;
+  outline: none;
+  border-radius: 12px;
+  /* width: 60%; */
+}
+
+
+.Analytics .customer  table th {
+  /* background-color: #7DA0F9; */
+  text-align: start;
+  border: none;
+}
+
+.Analytics  .customer table td {
+  text-align: start;
+  border: none;
+}
+
+.Analytics .customer table tr {
+  border: none;
+}
+
+  /* ----------- THE INVOICE TABLE---------------- */
+  
+  .contnet .purchases{
+    margin: 1rem 2px;
+    overflow: hidden;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    height: 50vh;
+    border-radius: 12px;
+    /* border: 1px solid black; */
+    background-color: white;
+  }
+
+  .contnet .purchases::-webkit-scrollbar {
+    width: 0.5px solid rgb(182, 158, 158);
+    background: transparent;
+  }
+/* .contnet .{
+  height: 50vh;
+  margin: 1rem 0;
+  border: 1px solid black;
+  width: 100%;
+} */

@@ -1,0 +1,103 @@
+#invoice {
+    height: 100%;
+    /* border: 1px solid black; */
+    padding: 1rem;
+    width: 99%;
+    background-color: white;
+}
+
+#invoice input {
+    border: 0.1px solid grey;
+    outline: none;
+    padding: .4rem;
+    border-radius: 3px;
+    max-width: 20rem;
+}
+
+#invoice .invoice_table {
+    height: 83vh;
+    font-size: medium;
+    width: 100%;
+    overflow-y: hidden;
+    font-size: small;
+    overflow-y: scroll;
+    border: 0.1px solid grey;
+}
+
+#invoice .invoice_table table td {
+    padding: .5rem;
+    border-bottom: 0.1px solid grey;
+
+}
+
+#invoice .invoice_table table th {
+    padding: .4rem;
+    border-bottom: 0.1px solid grey;
+    background-color: rgba(119, 110, 110, 0.411);
+}
+
+
+#invoice .btns {
+    /* width: 100%; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#invoice .btns input {
+    padding: .4rem;
+    margin-bottom: .3rem;
+    /* box-shadow: inset 0px 0px 0px 1px rgba(1, 1, 0, 0.2); */
+    /* box-shadow: inset 1px 1px 1px 1px grey; */
+    /* border: none; */
+    width: 100%;
+    border: .1px solid gray;
+    outline: none;
+    background-color: white;
+    color: black;
+}
+
+#invoice .btns button {
+    width: 10vw;
+    overflow: hidden;
+    height: 5vh;
+    /* box-shadow: 0 1px 2px gray;   */
+    border: 1px solid gray;
+    /* border: none; */
+    cursor: pointer;
+    background-color: white;
+    color: #000;
+    border-radius: 9px;
+    margin: .2rem;
+}
+
+#invoice .invoice_table::-webkit-scrollbar {
+    width: 0.5px solid rgb(182, 158, 158);
+    background: transparent;
+    width: 4px;
+}
+
+#invoice .invoice_table::-webkit-scrollbar-thumb {
+    background: #e2c7c7;
+    border-radius: 2px;
+
+}
+
+#invoice .invoice_table::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.pages button{
+    width: 10vw;
+    display: none;
+    overflow: hidden;
+    height: 5vh;
+    /* box-shadow: 0 1px 2px gray;   */
+    border: 1px solid gray;
+    /* border: none; */
+    cursor: pointer;
+    background-color: white;
+    color: #000;
+    border-radius: 9px;
+    margin-top: .2rem;
+}

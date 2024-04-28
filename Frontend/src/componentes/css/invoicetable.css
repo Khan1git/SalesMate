@@ -1,0 +1,35 @@
+table {
+    /* box-shadow: 0 3px 4px gray; */
+    /* width: 100vw; */
+    padding: 1rem;
+    border: none;
+    outline: none;
+    border-radius: 12px;
+    /* width: 60%; */
+}
+
+#invoiceTable .headers{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+table th {
+    /* background-color: #7DA0F9; */
+    text-align: start;
+    border: none;
+}
+
+table td {
+    text-align: start;
+    border: none;
+}
+
+table tr {
+    border: none;
+}
+
+table .select{
+    border: none;
+    outline: none;
+}
