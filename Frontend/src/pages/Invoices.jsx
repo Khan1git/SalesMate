@@ -21,23 +21,25 @@ const Invoices = () => {
     try {
       const response = await fetch("http://localhost:5000/api/order/getall", {
         method: "GET"
-      })
-      const result = await response.json()
+      });
+      const result = await response.json();
+      
       const filteredOrders = result.filter(order =>
-        order.customer.name.toLowerCase().includes(search.toLowerCase())
+        order.customer && order.customer.name && 
+        (search ? order.customer.name.toLowerCase().includes(search.toLowerCase()) : true)
       );
-
+  
       setOrders(filteredOrders);
-      setTime(result)
+      setTime(result);
     } catch (error) {
-      console.log("Fetching Orders Error")
+      console.log("Fetching Orders Error", error);
     }
-  }
-
+  };
+  
   useEffect(() => {
-    ShowAllorders()
-  }, [search])
-
+    ShowAllorders();
+  }, [search]);
+  
 
   const handleDelete = async (id) => {
     Swal.fire({

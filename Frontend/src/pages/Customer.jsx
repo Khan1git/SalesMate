@@ -236,7 +236,7 @@ const Customer = () => {
     <>
       <Navbar/>
       <div id="customer_Home">
-        <h2 style={{textAlign: 'center'}}>ADD CUSTOMER DATA HERE</h2>
+        <h2 style={{textAlign: 'center', padding: "0%", margin: "0%"}}>ADD CUSTOMER DATA HERE</h2>
         <div className="c_form">
           <form action="">
             <div className="center">

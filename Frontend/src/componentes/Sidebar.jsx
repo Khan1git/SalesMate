@@ -92,12 +92,9 @@ const Sidebar = () => {
     }
   }
 
-  // console.log(pdata)
-
   useEffect(() => {
     showAllproducts()
   }, [])
-
 
   return (
     <>

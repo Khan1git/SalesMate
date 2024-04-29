@@ -250,8 +250,43 @@ const Order = () => {
   }, [id]);
 
 
-  const handleUpdate = async () => {
+  // const handleUpdate = async () => {
 
+  //   const payload = {
+  //     customer: {
+  //       customerId: customerID,
+  //       name: datas.find(customer => customer._id === customerID)?.name,
+  //     },
+  //     products: tableData.map(data => ({
+  //       productId: data.productId,
+  //       name: products.find(product => product._id === data.productId)?.productName,
+  //       quantity: data.quantity,
+  //       price: data.price,
+  //       discount: data.discount,
+  //     })),
+  //     paid: paid
+  //   };
+  //   try {
+  //     const response = await fetch(`http://localhost:5000/api/order/updateorder/${id}`,
+  //       {
+  //         method: "PUT",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(payload),
+  //       });
+  //     const data = await response.json();
+  //     console.log(data)
+  //     if (response.ok) {
+  //       navigate("/");
+  //       // alert("Post Updated....");
+  //     }
+  //   } catch (error) {
+  //     console.log('DATA UPDATE FAILED')
+  //   }
+  // }
+
+  const handleUpdate = async () => {
     const payload = {
       customer: {
         customerId: customerID,
@@ -266,26 +301,28 @@ const Order = () => {
       })),
       paid: paid
     };
+  
     try {
-      const response = await fetch(`http://localhost:5000/api/order/updateorder/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        });
+      const response = await fetch(`http://localhost:5000/api/order/updateorder/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+  
       const data = await response.json();
-      console.log(data)
+      console.log(data);
+  
       if (response.ok) {
         navigate("/");
         // alert("Post Updated....");
       }
     } catch (error) {
-      console.log('DATA UPDATE FAILED')
+      console.log('DATA UPDATE FAILED');
     }
-  }
-
+  };
+  
   return (
     <>
       <Navbar />
