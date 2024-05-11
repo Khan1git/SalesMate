@@ -137,17 +137,19 @@ const Order = () => {
         const savedDataId = await responseData._id;
 
         if (!savedDataId) {
-          console.error('Missing savedDataId in response data:', responseData);
+          // console.error('Missing savedDataId in response data:', responseData);
           throw new Error('Missing savedDataId in response data');
         }
         // console.log('Table data:', tableData); 
 
         await Promise.all(tableData.map(async (data) => {
           const originalProduct = products.find(product => product._id === data.productId);
+          const Name = await(originalProduct.productName)
+          console.log("THIS IS THE ORIGINAL PRODUCT")
           if (originalProduct) {
             const newQuantity = originalProduct.quantity - data.quantity;
             if (newQuantity < 0) {
-              toast.error('Not enough stock available');
+              toast.error('Not enough stock available for '+ Name);
               throw new Error('Not enough stock available');
             }
             else {
@@ -182,7 +184,7 @@ const Order = () => {
       }
     } catch (error) {
       console.error('Error sending data:', error);
-      toast.error('Error Please try again later');
+      // toast.error('Error Please try again later');
     }
   };
 
@@ -249,42 +251,6 @@ const Order = () => {
     fetchOrderData();
   }, [id]);
 
-
-  // const handleUpdate = async () => {
-
-  //   const payload = {
-  //     customer: {
-  //       customerId: customerID,
-  //       name: datas.find(customer => customer._id === customerID)?.name,
-  //     },
-  //     products: tableData.map(data => ({
-  //       productId: data.productId,
-  //       name: products.find(product => product._id === data.productId)?.productName,
-  //       quantity: data.quantity,
-  //       price: data.price,
-  //       discount: data.discount,
-  //     })),
-  //     paid: paid
-  //   };
-  //   try {
-  //     const response = await fetch(`http://localhost:5000/api/order/updateorder/${id}`,
-  //       {
-  //         method: "PUT",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(payload),
-  //       });
-  //     const data = await response.json();
-  //     console.log(data)
-  //     if (response.ok) {
-  //       navigate("/");
-  //       // alert("Post Updated....");
-  //     }
-  //   } catch (error) {
-  //     console.log('DATA UPDATE FAILED')
-  //   }
-  // }
 
   const handleUpdate = async () => {
     const payload = {

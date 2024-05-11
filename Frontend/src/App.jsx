@@ -15,6 +15,7 @@ import Invoices from './pages/Invoices';
 import Order from './pages/Order';
 import Company from './pages/Company';
 import UpdateOrder from './pages/UpdateOrder';
+import Analytics from './pages/Analytics';
 
 const App = () => {
   return (
@@ -29,8 +30,7 @@ const App = () => {
         <Route path="/pdf/:id" element={<InvoicePDF />} />
         <Route path="/order/:id" element={<Order />} />
         <Route path="/order" element={<Order />} />
-
-        {/* <Route path="/updateorder/:id" element={<UpdateOrder/>} /> */}
+        <Route path="/analytics" element={<Analytics />} />
       </Routes>
     </Router>
   )

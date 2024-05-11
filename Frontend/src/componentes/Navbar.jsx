@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
-import { Home, LayoutDashboard, Truck, Text, ReceiptText, BarChart, Users, Settings, LogOut, ShoppingCart, ShoppingBag, BadgeDollarSign } from 'lucide-react'
+import {  LayoutDashboard, Truck, Text, ReceiptText, BarChart, Users, Settings, LogOut, ShoppingCart, ShoppingBag, BadgeDollarSign } from 'lucide-react'
 
 const Navbar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -70,12 +70,18 @@ const Navbar = () => {
                   <span className="nav__name">Invoices</span>
                 </Link>
               </Link>
+              <Link to={'/analytics'}>
+                <Link to="/analytics" className="nav__link" onClick={handleLinkClick}>
+                  <ion-icon name="pie-chart-outline" className="nav__icon"><BarChart /></ion-icon>
+                  <span className="nav__name">Analytics</span>
+                </Link>
+              </Link>
             </div>
           </div>
-          <Link to="#" className="nav__link" onClick={handleLinkClick}>
+          {/* <Link to="#" className="nav__link" onClick={handleLinkClick}>
             <ion-icon name="log-out-outline" className="nav__icon"><LogOut /></ion-icon>
             <span className="nav__name">Logout</span>
-          </Link>
+          </Link> */}
         </nav>
       </div>
 

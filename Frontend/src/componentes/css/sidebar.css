@@ -205,7 +205,7 @@ a {
 
 .contnet .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   grid-gap: 1rem;
   /* height: 20vh; */
 }
@@ -277,6 +277,42 @@ a {
 }
 
 .card4 p {
+  margin: 3px 0;
+  /* Adjust top and bottom margin of paragraph elements */
+}
+
+.contnet .cards .card5 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  padding-left: 20px;
+  align-items: start;
+  background-color: #7DA0F9;
+  height: 20vh;
+  border-radius: 12px;
+  /* border: 1px solid black; */
+}
+
+.card5 p {
+  margin: 3px 0;
+  /* Adjust top and bottom margin of paragraph elements */
+}
+
+.contnet .cards .card6 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  padding-left: 20px;
+  align-items: start;
+  background-color: #e336e096;
+  height: 20vh;
+  border-radius: 12px;
+  /* border: 1px solid black; */
+}
+
+.card6 p {
   margin: 3px 0;
   /* Adjust top and bottom margin of paragraph elements */
 }

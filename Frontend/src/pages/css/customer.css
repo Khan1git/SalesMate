@@ -136,7 +136,7 @@
 }
 
 #c_list .list table td {
-  padding: 1rem;
+  padding: .7rem;
   text-align: center;
   background-color: whitesmoke;
   /* border: none; */

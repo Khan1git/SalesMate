@@ -10,8 +10,8 @@ const InvoiceTable = () => {
   const [search, setSearch] = useState("")
 
 
-  console.log(price)
-  console.log(orders)
+  // console.log(price)
+  // console.log(orders)
 
   const ShowAllorders = async () => {
     try {

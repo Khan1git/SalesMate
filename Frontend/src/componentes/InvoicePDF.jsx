@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     invoiceDetails: {
         textAlign: 'center',
     },
-    heading: {
+    heading: {  
         fontSize: 16,
         marginBottom: 10,
         textDecoration: 'underline',

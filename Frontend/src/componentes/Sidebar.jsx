@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './css/sidebar.css';
-import { Home, Building2, Text, ReceiptText, BarChart, Users, Settings, LogOut, ShoppingCart, ShoppingBag, BadgeDollarSign } from 'lucide-react'
+import { Home, Building2, Text, ReceiptText, BarChart, Users, Settings, LogOut, ShoppingCart, ShoppingBag, BadgeDollarSign, CookingPot } from 'lucide-react'
 import Graph from './graph';
 import Piechart from './Piechart';
 import InvoiceTable from './InvoiceTable';
@@ -35,7 +35,7 @@ const Sidebar = () => {
         method: "GET"
       });
       const result = await countAllproducts.json();
-      console.log("Result from API:", result); // Log the result for debugging
+      // console.log("Result from API:", result); // Log the result for debugging
       setProductCount(result);
     } catch (error) {
       console.log("Error fetching customer count:", error);
@@ -84,10 +84,11 @@ const Sidebar = () => {
         totalPrice += product.purchasePrice * product.quantity;
       });
       setTotalPurchase(totalPrice)
+      // console.log(totalPrice)
 
     } catch (error) {
       toast.error("An Error Has Occured")
-      console.log(error)
+      // console.log(error)
 
     }
   }
@@ -95,6 +96,54 @@ const Sidebar = () => {
   useEffect(() => {
     showAllproducts()
   }, [])
+
+  // ----------------- FINDING THE TOTAL SALES ----------------
+  const [orders, setOrders] = useState([]);
+  const [sales, setSales] = useState('')
+  const [unpaidOrders, setUnpaidOrders] = useState([]);
+  // console.log(object)
+  const [unpaid, setUnpaid]  = useState("")
+
+  const showOrders = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/order/getall', {
+        method: 'GET', // Corrected method definition
+        headers: {
+          'Content-type': 'application/json',
+        },
+      });
+      const result = await response.json();
+      setOrders(result)
+
+      let totalSales = 0;
+      result.forEach(sale => {
+        sale.products.forEach(product => {
+          totalSales += product.price * product.quantity - product.discount;
+        });
+      });
+      setSales(totalSales)
+
+      let unpaidTotalSales = 0;
+      const unpaid = result.filter(order => order.paid === false);
+      setUnpaidOrders(unpaid);
+
+      unpaid.forEach(order => {
+        order.products.forEach(product => {
+          unpaidTotalSales += product.price * product.quantity - product.discount;
+        });
+      });
+      setUnpaid(unpaidTotalSales)
+
+    } catch (error) {
+      // console.error('Error sending data:', error);
+      toast.error('An error occurred while sending data');
+    }
+  };
+
+  useEffect(() => {
+    showOrders();
+  }, []);
+
 
   return (
     <>
@@ -121,11 +170,21 @@ const Sidebar = () => {
           <div className="card3">
             <BadgeDollarSign />
             <p>total Sales</p>
-            <p>$2300.2</p></div>
+            <p>${sales}</p></div>
           <div className="card4">
             <ShoppingBag />
             <p>total Purchases</p>
-            <p>0</p>
+            <p>${totalPurchase}</p>
+          </div>
+          <div className="card5">
+            <Users />
+            <p>Customers Dues</p>
+            <p>${unpaid}</p>
+          </div>
+          <div className="card6">
+            <Users />
+            <p>Bussines Payable</p>
+            <p>{counts}</p>
           </div>
         </div>
         <div className="Analytics">

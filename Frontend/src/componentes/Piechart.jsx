@@ -17,7 +17,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 
 const Piechart = () => {
   const [counts, setCounts] = useState({ customers: 0, products: 0 });
-  console.log(counts)
+  // console.log(counts)
 
   useEffect(() => {
     const countCustomers = async () => {

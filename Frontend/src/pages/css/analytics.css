@@ -1,0 +1,13 @@
+#analytics {
+    margin: 0;
+    padding: 1rem;
+    box-sizing: border-box;
+    height: 100vh;
+    /* border: 210px solid black; */
+  }
+
+  #analytics .profit{
+    height: 50%;
+    background-color: white;
+    /* padding: 1rem; */
+  }
