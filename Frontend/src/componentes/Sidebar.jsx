@@ -176,7 +176,7 @@ const Sidebar = () => {
             <p>total Purchases</p>
             <p>${totalPurchase}</p>
           </div>
-          <div className="card5">
+          {/* <div className="card5">
             <Users />
             <p>Customers Dues</p>
             <p>${unpaid}</p>
@@ -185,7 +185,7 @@ const Sidebar = () => {
             <Users />
             <p>Bussines Payable</p>
             <p>{counts}</p>
-          </div>
+          </div> */}
         </div>
         <div className="Analytics">
           {/* <p>Customer And Sales</p><br/> */}

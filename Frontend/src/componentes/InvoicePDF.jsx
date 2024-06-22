@@ -3,37 +3,53 @@ import React, { useState } from 'react';
 import { PDFViewer, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-// Function to generate the invoice
 
-
-// Styles for the PDF
 const styles = StyleSheet.create({
     page: {
         flexDirection: 'row',
         padding: 20,
+    },
+    line: {
+        display: 'flex',
+        gap: '1rem',
+        width: '100%',
+        border: '2px solid black',
+        // height: '100rem'
+
     },
     section: {
         flexGrow: 1,
     },
     companyDetails: {
         marginBottom: 20,
+        textAlign: 'center'
     },
     invoiceDetails: {
-        textAlign: 'center',
+        display: 'flex',
+        // flexDirection: 'row',
+        // justifyContent: 'space-between',
+        textAlign: 'start',
+        width: '100%'
+        // fontSize: 'small'
     },
-    heading: {  
+    part2: {
+        alignItems: 'center'
+    },
+    heading: {
+        // display: 'flex',
+        // justifyContent: 'center',
+        // alignItems: "center",
         fontSize: 16,
         marginBottom: 10,
         textDecoration: 'underline',
+        textAlign: 'center'
     },
     table: {
         display: 'table',
         width: '100%',
         borderStyle: 'solid',
         margin: 10,
-        borderWidth: 1,
-        // borderRightWidth: 0,
-        // borderBottomWidth: 0,
+        // borderWidth: 1,
     },
     tableRow: {
         // margin: 9,
@@ -42,7 +58,8 @@ const styles = StyleSheet.create({
     tableCellHeader: {
         padding: 0,
         borderStyle: 'solid',
-        borderWidth: 1,
+        // borderWidth: 1,
+        borderBottom: 1,
         // margin: 8,
         width: "100%",
         // borderLeftWidth: 0,
@@ -53,13 +70,20 @@ const styles = StyleSheet.create({
         padding: 2,
         // margin: 28,
         width: "100%",
-        border: 1,
+        borderBottom: 1,
         // fontSize: "100%",
         // borderStyle: 'solid',
         // borderWidth: 1,
         // borderLeftWidth: 1,
         // borderTopWidth: 0,
     },
+    amount:{
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        textAlign: 'center',
+        // padding: '1rem'
+    }
 });
 
 // Main App component
@@ -106,7 +130,7 @@ const InvoicePDF = () => {
         showOrder()
     }, [id])
 
-    const TotalPrice = products.reduce((total, product) => total + (product.price * product.quantity),0)
+    const TotalPrice = products.reduce((total, product) => total + (product.price * product.quantity), 0)
     const TotalAmount = products.reduce((total, product) => total + (product.price * product.quantity - product.discount), 0);
     const TotalDiscount = products.reduce((total, product) => total + (product.discount), 0)
 
@@ -114,13 +138,9 @@ const InvoicePDF = () => {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
-      });
-      
-      console.log(FormattedDate);
-      
-    
+    });
 
-
+    //   console.log(FormattedDate);
 
 
     // ---------- THE PDF GENERATOR ---------------------------------
@@ -133,20 +153,27 @@ const InvoicePDF = () => {
                             <Text style={styles.heading}>Company Details</Text>
                             {companyData.length > 0 && (
                                 <>
-                                    <Text>Name: {companyData[0].companyName}</Text>
-                                    <Text>Address: {companyData[0].Address}</Text>
+                                    <Text> {companyData[0].companyName} </Text>
+                                    <Text>{companyData[0].Address}</Text>
                                     <Text>Phone No: {companyData[0].phone}</Text>
-                                    <Text>Email: {companyData[0].email}</Text>
                                 </>
                             )}
+                            <Text style={styles.line}></Text>
                         </View>
                         <View style={styles.invoiceDetails}>
                             <Text style={styles.heading}>Customer Details:</Text>
                             <Text>Customer Name: {orderData.customer ? orderData.customer.name : ''}</Text>
                             <Text>Status: {orderData.paid ? "Paid" : "Unpaid"}</Text>
                             <Text>Date: {FormattedDate}</Text>
-                            {/* <Text>Customer Address: ADDRESS</Text>
-                            <Text>Customer Phone: PHONE NO</Text> */}
+                            <Text>Address: Batkhela</Text>
+                            <Text>Phone: </Text>
+                            <Text style={styles.line}></Text>
+                            <view style={styles.part2}>
+                                <Text>Invoice: 1</Text>
+                                <Text>Date: 16/23/24</Text>
+                                <Text>Price: 22 </Text>
+                            </view>
+
                             <Text style={styles.heading}>Invoice Details: Products Details</Text>
                             <View style={styles.table}>
                                 <View style={styles.tableRow}>
@@ -165,10 +192,12 @@ const InvoicePDF = () => {
                                         <Text style={styles.tableCell}>${prod.price * prod.quantity - prod.discount}</Text>
                                     </View>
                                 ))}
-                            </View >
-                            <Text  >Total Price: ${TotalPrice}</Text>
-                            <Text id='disconunt'>Discount: ${TotalDiscount}</Text>
-                            <Text>Total Cost: ${TotalAmount} </Text>
+                            </View  >
+                            <View style={styles.amount}>
+                                <Text  >Total Price: ${TotalPrice}</Text>
+                                <Text id='disconunt'>Discount: ${TotalDiscount}</Text>
+                                <Text>Total Cost: ${TotalAmount} </Text>
+                            </View>
                         </View>
                     </View>
                 </Page>

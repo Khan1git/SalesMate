@@ -108,7 +108,7 @@ const Order = () => {
 
   const sendTableDataToBackend = async () => {
     try {
-      // Create payload including customer and product data
+      // Creating a  payload including customer and product data
       const payload = {
         customer: {
           customerId: customerID,
@@ -133,15 +133,11 @@ const Order = () => {
       });
       if (response.ok) {
         const responseData = await response.json();
-        // console.log('Response data:', responseData);
         const savedDataId = await responseData._id;
 
         if (!savedDataId) {
-          // console.error('Missing savedDataId in response data:', responseData);
           throw new Error('Missing savedDataId in response data');
         }
-        // console.log('Table data:', tableData); 
-
         await Promise.all(tableData.map(async (data) => {
           const originalProduct = products.find(product => product._id === data.productId);
           const Name = await(originalProduct.productName)
@@ -153,7 +149,6 @@ const Order = () => {
               throw new Error('Not enough stock available');
             }
             else {
-
               const response = await fetch(`http://localhost:5000/api/product/update/${data.productId}`, {
                 method: "PUT",
                 headers: {
