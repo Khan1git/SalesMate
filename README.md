@@ -37,7 +37,7 @@ SALES MATE is a web application built using the MERN (MongoDB, Express.js, React
 2. Navigate to the project directory:
 
    ```bash
-   cd sales-mate
+   cd frontend / cd backend
    ```
 
 3. Install dependencies:
