@@ -17,6 +17,7 @@ const Order = () => {
   const [discount, setDiscount] = useState('');
   const [customerAccountBalance, setCustomerAccountBalance] = useState(0);
   const [paid, setPaid] = useState(false);
+  const [unit, setUnit] = useState('')
 
   // Function to handle checkbox change
   const handleCheckboxChange = (e) => {
@@ -309,6 +310,7 @@ const Order = () => {
               <input type="text" placeholder='quantity' value={quantity} onChange={(e) => setQuantity(e.target.value)} />
               <input type="Number" placeholder='Price' value={price} onChange={(e) => setPrice(e.target.value)} />
               <input type="number" placeholder='DISCOUNT' value={discount} onChange={(e) => setDiscount(e.target.value)} />
+              <input type="text" placeholder='Unit' value={discount} onChange={(e) => setDiscount(e.target.value)} />
             </div>
             {/*  The Status section ---------------------------------- */}
             <div>

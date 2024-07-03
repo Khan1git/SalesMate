@@ -2,8 +2,8 @@ import InvoiceModel from "../models/orderModel.js";
 
 export const addOrder = async (req, res) => {
     try {
-        const { customer, products, paid } = req.body;
-        const invoice = new InvoiceModel({ customer, products, paid });
+        const { InvoiceNo, customer, products, paid } = req.body;
+        const invoice = new InvoiceModel({ InvoiceNo, customer, products, paid });
         const result = await invoice.save();
         res.status(201).json(result);
     } catch (error) {
@@ -36,6 +36,19 @@ export const countOrders = async (req, res) => {
     }
 }
 
+// ------------- count all orders -------------
+
+export const countAllOrders = async(req, res)=>{
+    try {
+        const result = await InvoiceModel.countDocuments()
+        res.status(200).json(result)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+// --------------------------------------------------------
 export const getOrderById = async (req, res) => {
     try {
         const id = req.params.id;

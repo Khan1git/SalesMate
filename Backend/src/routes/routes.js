@@ -3,7 +3,7 @@ import { LoginUser, RegisterUser } from '../controllers/userController.js'
 import { createCustomer, deleteCustomerById, getAllCustomers, getAllCustomersNumber, updateById } from '../controllers/customerController.js'
 import { addProduct, countProducts, deleteProduct, getAllProducts, updateProductById } from '../controllers/productController.js'
 import { UpdateByid, addCompanyDetails, getCompanyById, showDetails } from '../controllers/companyController.js'
-import { DeleteById, UpdateOrder, addOrder, countOrders, getAllOrders, getOrderById } from '../controllers/orderController.js'
+import { DeleteById, UpdateOrder, addOrder, countAllOrders,  countOrders, getAllOrders, getOrderById } from '../controllers/orderController.js'
 const router = express.Router()
 
 // -------------  THE ADMIN ROUTES ----------
@@ -34,6 +34,7 @@ router.get('/company/getbyid/:id', getCompanyById)
 router.post('/order/add', addOrder)
 router.get('/order/getall', getAllOrders)
 router.get('/order/countall', countOrders)
+router.get('/order/countInvoice', countAllOrders)
 router.get('/order/getbyid/:id', getOrderById)
 router.delete('/order/deletebyid/:id', DeleteById)
 router.put('/order/updateorder/:id', UpdateOrder)

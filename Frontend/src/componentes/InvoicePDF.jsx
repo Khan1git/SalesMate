@@ -1,21 +1,18 @@
-import React, { useState } from 'react';
-// import { Button } from '@progress/kendo-react-buttons';
+import React, { useState, useEffect } from 'react';
 import { PDFViewer, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
-import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 const styles = StyleSheet.create({
     page: {
         flexDirection: 'row',
         padding: 20,
+        fontSize: '10px'
     },
     line: {
         display: 'flex',
         gap: '1rem',
         width: '100%',
-        border: '2px solid black',
-        // height: '100rem'
-
+        border: '1px solid grey',
     },
     section: {
         flexGrow: 1,
@@ -26,113 +23,150 @@ const styles = StyleSheet.create({
     },
     invoiceDetails: {
         display: 'flex',
-        // flexDirection: 'row',
-        // justifyContent: 'space-between',
         textAlign: 'start',
-        width: '100%'
-        // fontSize: 'small'
+        width: '100%',
     },
     part2: {
-        alignItems: 'center'
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 10,
     },
     heading: {
-        // display: 'flex',
-        // justifyContent: 'center',
-        // alignItems: "center",
-        fontSize: 16,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: "center",
+        // fontSize: 16,
         marginBottom: 10,
         textDecoration: 'underline',
-        textAlign: 'center'
+        textAlign: 'center',
+        fontSize: '10px'
     },
     table: {
         display: 'table',
         width: '100%',
-        borderStyle: 'solid',
+        // borderStyle: 'solid',
+        border: 1,
         margin: 10,
-        // borderWidth: 1,
     },
     tableRow: {
-        // margin: 9,
         flexDirection: 'row',
+        // border: .3,
+
     },
     tableCellHeader: {
-        padding: 0,
-        borderStyle: 'solid',
-        // borderWidth: 1,
-        borderBottom: 1,
-        // margin: 8,
+        padding: 7,
+        // borderStyle: 'solid',
+        // borderLeft: 1,
+        borderRight:1,
+        // borderTop: 1,
+        // borderWidth: '1px solid black',
+        textAlign: 'center',
+        fontSize: '12px',
+        // borderBottom: 1,
         width: "100%",
-        // borderLeftWidth: 0,
-        // borderTopWidth: 0,
-        // fontWeight: 'bold',
     },
     tableCell: {
-        padding: 2,
-        // margin: 28,
+        padding: 5,
         width: "100%",
-        borderBottom: 1,
-        // fontSize: "100%",
-        // borderStyle: 'solid',
-        // borderWidth: 1,
-        // borderLeftWidth: 1,
-        // borderTopWidth: 0,
+        fontSize: '10px',
+        textAlign: 'center',
+        borderRight:1,
+        borderTop:1,
+        // borderWidth: '1px solid grey',
+
     },
-    amount:{
+    amount: {
         display: 'flex',
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
+        flexDirection: 'row',
+        paddingRight: '10%',
+        // textAlign: 'center',
+        // gap: '90px'
+        margin: '1px'
+    },
+    total_amount: {
+        display: 'flex',
+        flexDirection: 'row',
+        // alignItems: 'center',
+    },
+    price: {
+        border: 1,
+        // fontWeight: 'bold',
+        width: '19%',
+        backgroundColor: '#edece8',
+        marginLeft: '2%',
+        marginRight: '-13%',
         textAlign: 'center',
-        // padding: '1rem'
+        padding: '2px',
+        // margin: "1px"
+    },
+    words: {
+        // marginTop: '40px',
+        // textDecoration: 'underline',
+        fontSize: '12px',
+        margin: '3px',
+        borderStyle: 'solid'
     }
 });
 
-// Main App component
+const numberToWords = (num) => {
+    const ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+    const teens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+    const belowTwenty = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+
+    if (num < 10) return ones[num];
+    if (num < 20) return belowTwenty[num - 10];
+    if (num < 100) return teens[Math.floor(num / 10)] + (num % 10 !== 0 ? '-' + ones[num % 10] : '');
+    if (num < 1000) return ones[Math.floor(num / 100)] + ' hundred ' + (num % 100 !== 0 ? numberToWords(num % 100) : '');
+
+    return numberToWords(Math.floor(num / 1000)) + ' thousand ' + (num % 1000 !== 0 ? numberToWords(num % 1000) : '');
+};
+
+
 const InvoicePDF = () => {
-    const [companyData, setCompanyData] = useState('')
+    const [companyData, setCompanyData] = useState('');
+    const [orderData, setOrderData] = useState({});
+    const [products, setProduct] = useState([]);
 
-    const [orderData, setOrderData] = useState({})
-    const [products, setProduct] = useState([])
+    console.log(products)
 
-    // ------------------------ SHOWING THE COMPANY DETAILS HERE ---------------------
-
+  
     const showCompanyDate = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/company/get', {
-                method: "GET",
-            })
-            const result = await response.json()
-            setCompanyData(result)
+            const response = await fetch('http://localhost:5000/api/company/get', { method: "GET" });
+            const result = await response.json();
+            setCompanyData(result);
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-    }
-    useEffect(() => {
-        showCompanyDate()
-    }, [])
+    };
 
-    // ---------------------- FETCHING ORDER BY ID ---------------
-    const { id } = useParams()
+    useEffect(() => {
+        showCompanyDate();
+    }, []);
+
+    const { id } = useParams();
 
     const showOrder = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/order/getbyid/${id}`, {
-                method: "GET"
-            })
-            const result = await response.json()
-            setOrderData(result)
+            const response = await fetch(`http://localhost:5000/api/order/getbyid/${id}`, { method: "GET" });
+            const result = await response.json();
+            setOrderData(result);
             setProduct(result.products);
         } catch (error) {
-            showOrder
+            console.log(error);
         }
-    }
+    };
 
     useEffect(() => {
-        showOrder()
-    }, [id])
+        showOrder();
+    }, [id]);
 
-    const TotalPrice = products.reduce((total, product) => total + (product.price * product.quantity), 0)
+    const TotalPrice = products.reduce((total, product) => total + (product.price * product.quantity), 0);
     const TotalAmount = products.reduce((total, product) => total + (product.price * product.quantity - product.discount), 0);
-    const TotalDiscount = products.reduce((total, product) => total + (product.discount), 0)
+    const TotalDiscount = products.reduce((total, product) => total + (product.discount), 0);
 
     const FormattedDate = new Date(orderData.date).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -140,10 +174,7 @@ const InvoicePDF = () => {
         day: 'numeric',
     });
 
-    //   console.log(FormattedDate);
-
-
-    // ---------- THE PDF GENERATOR ---------------------------------
+ 
     function generateInvoice() {
         return (
             <Document>
@@ -153,50 +184,51 @@ const InvoicePDF = () => {
                             <Text style={styles.heading}>Company Details</Text>
                             {companyData.length > 0 && (
                                 <>
-                                    <Text> {companyData[0].companyName} </Text>
+                                    <Text>{companyData[0].companyName}</Text>
                                     <Text>{companyData[0].Address}</Text>
                                     <Text>Phone No: {companyData[0].phone}</Text>
                                 </>
                             )}
-                            <Text style={styles.line}></Text>
                         </View>
                         <View style={styles.invoiceDetails}>
-                            <Text style={styles.heading}>Customer Details:</Text>
+                            <View style={styles.part2}>
+                                <Text>Invoice No:  {orderData.InvoiceNo ? orderData.InvoiceNo : ''}</Text>
+                                <Text style={{ ...styles.text, textDecoration: 'underline' }}>Invoice</Text>
+                                <Text>Date: 7/3/24</Text>
+                            </View>
                             <Text>Customer Name: {orderData.customer ? orderData.customer.name : ''}</Text>
-                            <Text>Status: {orderData.paid ? "Paid" : "Unpaid"}</Text>
-                            <Text>Date: {FormattedDate}</Text>
-                            <Text>Address: Batkhela</Text>
-                            <Text>Phone: </Text>
-                            <Text style={styles.line}></Text>
-                            <view style={styles.part2}>
-                                <Text>Invoice: 1</Text>
-                                <Text>Date: 16/23/24</Text>
-                                <Text>Price: 22 </Text>
-                            </view>
-
-                            <Text style={styles.heading}>Invoice Details: Products Details</Text>
+                            <Text>Previous Remaining Balance: 2340</Text>
+                            <Text>Payment Method: cash</Text>
                             <View style={styles.table}>
                                 <View style={styles.tableRow}>
-                                    <Text style={styles.tableCellHeader}>Product Name</Text>
-                                    <Text style={styles.tableCellHeader}>Quantity</Text>
-                                    <Text style={styles.tableCellHeader}>Price</Text>
-                                    <Text style={styles.tableCellHeader}>Discount</Text>
-                                    <Text style={styles.tableCellHeader}>Total</Text>
+                                    <Text style={styles.tableCellHeader}>Item</Text>
+                                    <Text style={styles.tableCellHeader}>Quantity (in Units)</Text>
+                                    <Text style={styles.tableCellHeader}>Unit</Text>
+                                    <Text style={styles.tableCellHeader}>Rate/Unit</Text>
+                                    <Text style={styles.tableCellHeader}>Discount/item</Text>
+                                    <Text style={styles.tableCellHeader}>Amount</Text>
                                 </View>
-                                {products.map((prod, index) => ( // Rename the variable used in map function
+                                {products.map((prod, index) => (
                                     <View style={styles.tableRow} key={index}>
                                         <Text style={styles.tableCell}>{prod.name}</Text>
-                                        <Text style={styles.tableCell}>{prod.quantity}</Text>
-                                        <Text style={styles.tableCell}>${prod.price}</Text>
-                                        <Text style={styles.tableCell}>${prod.discount}</Text>
-                                        <Text style={styles.tableCell}>${prod.price * prod.quantity - prod.discount}</Text>
+                                        <Text style={styles.tableCell}>{prod.quantity}.00</Text>
+                                        <Text style={styles.tableCell}>Kg</Text>
+                                        <Text style={styles.tableCell}>{prod.price}.00</Text>
+                                        <Text style={styles.tableCell}>{prod.discount}.00</Text>
+                                        <Text style={styles.tableCell}>{prod.price * prod.quantity - prod.discount}.00</Text>
                                     </View>
                                 ))}
-                            </View  >
+                            </View>
                             <View style={styles.amount}>
-                                <Text  >Total Price: ${TotalPrice}</Text>
-                                <Text id='disconunt'>Discount: ${TotalDiscount}</Text>
-                                <Text>Total Cost: ${TotalAmount} </Text>
+                                <Text style={styles.total_amount}>Total Discount (in ):</Text>
+                                <Text style={styles.price}>{TotalDiscount}.00</Text>
+                            </View>
+                            <View style={styles.amount}>
+                                <Text style={styles.total_amount}>Total Payable (in ):</Text>
+                                <Text style={styles.price}>{TotalAmount}.00</Text>
+                            </View>
+                            <View style={styles.words}>
+                                <Text>Amount In Words:{numberToWords(TotalAmount)} only</Text>
                             </View>
                         </View>
                     </View>
@@ -207,7 +239,7 @@ const InvoicePDF = () => {
 
     return (
         <>
-            <PDFViewer style={{ width: '90vw', height: '90vh', backgroundColor: "black" }}>
+            <PDFViewer style={{ width: '90vw', height: '100vh', backgroundColor: "black" }}>
                 {generateInvoice()}
             </PDFViewer>
         </>

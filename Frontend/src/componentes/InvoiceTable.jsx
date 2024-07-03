@@ -38,7 +38,7 @@ const InvoiceTable = () => {
     <>
       <div id='invoiceTable'>
         <div className="headers">
-          <input type="search" style={{
+          {/* <input type="search" style={{
             border: "none",
             outline: "none"
           }}
@@ -49,7 +49,7 @@ const InvoiceTable = () => {
             onChange={(e) => setSearch(e.target.value)}
             className='table_search'
             placeholder='search by customer...'
-          />
+          /> */}
           <Link to={'/invoices'}>
             <MoveRight size={20} color="#000000" strokeWidth={2} />
           </Link>
