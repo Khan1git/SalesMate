@@ -38,7 +38,7 @@ export const countOrders = async (req, res) => {
 
 // ------------- count all orders -------------
 
-export const countAllOrders = async(req, res)=>{
+export const countAllOrders = async (req, res) => {
     try {
         const result = await InvoiceModel.countDocuments()
         res.status(200).json(result)
@@ -70,7 +70,7 @@ export const DeleteById = async (req, res) => {
     }
 }
 
-export const UpdateOrder = async(req, res)=>{
+export const UpdateOrder = async (req, res) => {
     try {
         const id = req.params.id
         const response = await InvoiceModel.findByIdAndUpdate(id, req.body)
@@ -79,3 +79,15 @@ export const UpdateOrder = async(req, res)=>{
         console.log('Can not update order', error)
     }
 }
+
+//------------ finding order where status is unpaid
+
+export const findUnpaidCustomerBill = async (req, res) => {
+    try {
+        const { customerId } = req.params;
+        const orders = await InvoiceModel.find({ customer_id: customerId, paid: false });
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};

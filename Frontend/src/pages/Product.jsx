@@ -18,6 +18,7 @@ const Product = () => {
   const [purchasePrice, setpurchasePrice] = useState("")
   const [totalPurchase, setTotalPurchase] = useState("")
   const [search, setSearch] = useState("")
+  const [unit, setUnit] = useState('')
 
   // ---------- HADNLING THE TRASHES -----------------
   const handleClear = (e) => {
@@ -71,14 +72,14 @@ const Product = () => {
   // ------------------ THE ADDING RPODUCT SECTION -----------------
 
   const handleAddProduct = async (e) => {
-    e.preventDefault()
+    // e.preventDefault()
     try {
       const response = await fetch("http://localhost:5000/api/product/add", {
         method: "POST",
         headers: {
           "Content-type": "application/json"
         },
-        body: JSON.stringify({ productName, category, quantity, saleprice, purchasePrice })
+        body: JSON.stringify({ productName, category, quantity, saleprice, purchasePrice, unit })
       })
       if (response.ok) {
         const successMessage = await response.text();
@@ -166,18 +167,20 @@ const Product = () => {
     setquantity(product.quantity);
     setSetsalePrice(product.saleprice);
     setpurchasePrice(product.purchasePrice);
+    setUnit(product.unit);
+    // alert(product.unit)
     // setAccountBalance(customer.AccountBalance);
   };
 
   const handleUpdate = async (e, id) => {
-    e.preventDefault()
+    // e.preventDefault()
     try {
       const response = await fetch(`http://localhost:5000/api/product/update/${currentProduct._id}`, {
         method: "PUT",
         headers: {
           "Content-type": "application/json"
         },
-        body: JSON.stringify({ productName, category, quantity, saleprice, purchasePrice })
+        body: JSON.stringify({ productName, category, quantity, saleprice, purchasePrice, unit })
       })
       if (response.ok) {
         const updatedData = await response.json();
@@ -211,14 +214,15 @@ const Product = () => {
         <div className="p_form">
           <form action="">
             <div className="p_center">
-              <input type="text" placeholder='name' value={productName} onChange={(e) => setproductName(e.target.value)} />
-              <input type="text" placeholder='Category' value={category} onChange={(e) => setCategory(e.target.value)} />
+              <input type="text" placeholder='Product Name' value={productName} onChange={(e) => setproductName(e.target.value)} />
+              {/* <input type="text" placeholder='Category' value={category} onChange={(e) => setCategory(e.target.value)} /> */}
             </div>
             <input type="number" placeholder='Quantity' value={quantity} onChange={(e) => setquantity(e.target.value)} />
             {/* <input type="text" placeholder='Avaliability' /> */}
             <div className="p_center2">
-              <input type="Number" placeholder='sales price' value={saleprice} onChange={(e) => setSetsalePrice(e.target.value)} />
-              <input type="Number" placeholder='purchase price' value={purchasePrice} onChange={(e) => setpurchasePrice(e.target.value)} />
+              <input type="Number" placeholder='Sale Price' value={saleprice} onChange={(e) => setSetsalePrice(e.target.value)} />
+              <input type="Number" placeholder='Purchase price' value={purchasePrice} onChange={(e) => setpurchasePrice(e.target.value)} />
+              <input type="text" placeholder='Unit' value={unit} onChange={(e) => setUnit(e.target.value)} />
             </div>
             {/* <input type="number" placeholder='Account Balance' /> */}
             <div className="product_btns">
@@ -246,10 +250,11 @@ const Product = () => {
               <tr>
                 <th>No</th>
                 <th>Name</th>
-                <th>category</th>
+                <th>unit</th>
+                {/* <th>category</th> */}
                 <th>Quantity</th>
-                <th>Market Price</th>
-                <th>Cost Price</th>
+                <th>cost/unit</th>
+                <th>sale Price</th>
                 <th>Total Cost</th>
                 <th>Delete</th>
                 <th>Update</th>
@@ -260,11 +265,12 @@ const Product = () => {
                 <tr key={product._id}>
                   <td>{index + 1}</td>
                   <td>{product.productName}</td>
-                  <td>{product.category}</td>
+                  <td>{product.unit ? product.unit : "others"}</td>
+                  {/* <td>{product.category}</td> */}
                   <td>{product.quantity}</td>
-                  <td>${product.saleprice}</td>
-                  <td>${product.purchasePrice}</td>
-                  <td>${product.purchasePrice * product.quantity}</td>
+                  <td>{product.purchasePrice}</td>
+                  <td>{product.saleprice}</td>
+                  <td>{product.purchasePrice * product.quantity}</td>
                   <td><XCircle size={16} onClick={(e) => handleDelete(product._id)} /></td>
                   <td><Pen size={16} onClick={() => handleEdit(product)} /></td>
                 </tr>

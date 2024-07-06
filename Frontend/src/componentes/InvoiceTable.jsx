@@ -58,7 +58,7 @@ const InvoiceTable = () => {
           <thead>
             <tr>
               <th>No</th>
-              <th>Invoice Id</th>
+              {/* <th>Invoice Id</th> */}
               <th>Customer Name</th>
               <th>Products</th>
               <th>Price</th>
@@ -74,7 +74,7 @@ const InvoiceTable = () => {
             {Array.isArray(orders) && orders.map((order, index) => (
               <tr key={order._id}>
                 <td>{index + 1}</td>
-                <td>INV{(order._id).slice(0, 5)}</td>
+                {/* <td>INV{(order._id).slice(0, 5)}</td> */}
                 <td>{order.customer.name}</td>
                 <td>
                   <select className='select' id="productSelect" >

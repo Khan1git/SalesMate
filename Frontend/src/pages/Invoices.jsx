@@ -120,7 +120,7 @@ const Invoices = () => {
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Price</th>
-                <th>Discount</th>
+                {/* <th>Discount</th> */}
                 <th>Tota Amount</th>
                 <th>Status</th>
                 <th>Show</th>
@@ -159,9 +159,9 @@ const Invoices = () => {
                   <td>
                     ${order.products.reduce((total, product) => total + product.price * product.quantity, 0)}
                   </td>
-                  <td>
+                  {/* <td>
                     ${order.products.reduce((total, product) => total + product.discount, 0) || 0}
-                  </td>
+                  </td> */}
                   <td>
                     $ {order.products.reduce((total, product) => total + product.price * product.quantity, 0) - order.products.reduce((total, product) => total + product.discount, 0)}
                   </td>

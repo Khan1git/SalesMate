@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         padding: 7,
         // borderStyle: 'solid',
         // borderLeft: 1,
-        borderRight:1,
+        borderRight: 1,
         // borderTop: 1,
         // borderWidth: '1px solid black',
         textAlign: 'center',
@@ -71,8 +71,8 @@ const styles = StyleSheet.create({
         width: "100%",
         fontSize: '10px',
         textAlign: 'center',
-        borderRight:1,
-        borderTop:1,
+        borderRight: 1,
+        borderTop: 1,
         // borderWidth: '1px solid grey',
 
     },
@@ -84,7 +84,8 @@ const styles = StyleSheet.create({
         paddingRight: '10%',
         // textAlign: 'center',
         // gap: '90px'
-        margin: '1px'
+        marginTop: '-8px',
+        // margin: '1px'
     },
     total_amount: {
         display: 'flex',
@@ -94,12 +95,12 @@ const styles = StyleSheet.create({
     price: {
         border: 1,
         // fontWeight: 'bold',
-        width: '19%',
+        width: '22.4%',
         backgroundColor: '#edece8',
         marginLeft: '2%',
         marginRight: '-13%',
         textAlign: 'center',
-        padding: '2px',
+        padding: '4px',
         // margin: "1px"
     },
     words: {
@@ -129,10 +130,11 @@ const InvoicePDF = () => {
     const [companyData, setCompanyData] = useState('');
     const [orderData, setOrderData] = useState({});
     const [products, setProduct] = useState([]);
+    console.log(products)
 
     console.log(products)
 
-  
+
     const showCompanyDate = async () => {
         try {
             const response = await fetch('http://localhost:5000/api/company/get', { method: "GET" });
@@ -174,7 +176,7 @@ const InvoicePDF = () => {
         day: 'numeric',
     });
 
- 
+
     function generateInvoice() {
         return (
             <Document>
@@ -198,6 +200,7 @@ const InvoicePDF = () => {
                             </View>
                             <Text>Customer Name: {orderData.customer ? orderData.customer.name : ''}</Text>
                             <Text>Previous Remaining Balance: 2340</Text>
+                            <Text>Previous Balance: 13340</Text>
                             <Text>Payment Method: cash</Text>
                             <View style={styles.table}>
                                 <View style={styles.tableRow}>
@@ -205,24 +208,25 @@ const InvoicePDF = () => {
                                     <Text style={styles.tableCellHeader}>Quantity (in Units)</Text>
                                     <Text style={styles.tableCellHeader}>Unit</Text>
                                     <Text style={styles.tableCellHeader}>Rate/Unit</Text>
-                                    <Text style={styles.tableCellHeader}>Discount/item</Text>
+                                    {/* <Text style={styles.tableCellHeader}>Discount/item</Text> */}
                                     <Text style={styles.tableCellHeader}>Amount</Text>
                                 </View>
                                 {products.map((prod, index) => (
                                     <View style={styles.tableRow} key={index}>
                                         <Text style={styles.tableCell}>{prod.name}</Text>
                                         <Text style={styles.tableCell}>{prod.quantity}.00</Text>
-                                        <Text style={styles.tableCell}>Kg</Text>
+                                        <Text style={styles.tableCell}>{prod.unit ? prod.unit : "other"}</Text>
                                         <Text style={styles.tableCell}>{prod.price}.00</Text>
-                                        <Text style={styles.tableCell}>{prod.discount}.00</Text>
-                                        <Text style={styles.tableCell}>{prod.price * prod.quantity - prod.discount}.00</Text>
+                                        {/* <Text style={styles.tableCell}>{prod.discount}.00</Text> */}
+                                        {/* <Text style={styles.tableCell}>{prod.price * prod.quantity - prod.discount}.00</Text> */}
+                                        <Text style={styles.tableCell}>{prod.price * prod.quantity}.00</Text>
                                     </View>
                                 ))}
                             </View>
-                            <View style={styles.amount}>
+                            {/* <View style={styles.amount}>
                                 <Text style={styles.total_amount}>Total Discount (in ):</Text>
                                 <Text style={styles.price}>{TotalDiscount}.00</Text>
-                            </View>
+                            </View> */}
                             <View style={styles.amount}>
                                 <Text style={styles.total_amount}>Total Payable (in ):</Text>
                                 <Text style={styles.price}>{TotalAmount}.00</Text>

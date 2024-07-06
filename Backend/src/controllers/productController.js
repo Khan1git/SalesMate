@@ -2,14 +2,14 @@ import ProductModel from "../models/productModel.js";
 
 export const addProduct = async (req, res) => {
     try {
-        const { productName, category, quantity, saleprice, purchasePrice, totalCost } = req.body
+        const { productName, category, quantity, saleprice, purchasePrice, unit  } = req.body
         const doc = new ProductModel({
             productName,
             category,
             quantity,
             saleprice,
             purchasePrice,
-            totalCost
+            unit
         })
         const result = await doc.save()
         res.status(200).json(result)

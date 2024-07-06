@@ -19,7 +19,11 @@ const ProductSchema = new mongoose.Schema({
     },
     purchasePrice: {
         type: Number,
-        required: true
+        // required: true
+    },
+    unit:{
+        type: String, 
+        // required: true
     }
 
 

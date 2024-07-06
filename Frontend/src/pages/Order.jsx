@@ -98,6 +98,7 @@ const Order = () => {
       quantity,
       price,
       discount,
+      unit
     };
     setTableData([...tableData, newData]);
 
@@ -105,6 +106,7 @@ const Order = () => {
     setQuantity('');
     setPrice('');
     setDiscount('');
+    setUnit('')
   };
 
   const sendTableDataToBackend = async () => {
@@ -121,6 +123,7 @@ const Order = () => {
           quantity: data.quantity,
           price: data.price,
           discount: data.discount,
+          unit: data.unit
         })),
         paid: paid
       };
@@ -260,6 +263,8 @@ const Order = () => {
         quantity: data.quantity,
         price: data.price,
         discount: data.discount,
+        unit: data.unit
+        
       })),
       paid: paid
     };
@@ -309,8 +314,8 @@ const Order = () => {
             <div className="center2">
               <input type="text" placeholder='quantity' value={quantity} onChange={(e) => setQuantity(e.target.value)} />
               <input type="Number" placeholder='Price' value={price} onChange={(e) => setPrice(e.target.value)} />
-              <input type="number" placeholder='DISCOUNT' value={discount} onChange={(e) => setDiscount(e.target.value)} />
-              <input type="text" placeholder='Unit' value={discount} onChange={(e) => setDiscount(e.target.value)} />
+              {/* <input type="number" placeholder='DISCOUNT' value={discount} onChange={(e) => setDiscount(e.target.value)} /> */}
+              <input type="text" placeholder='unit' value={unit} onChange={(e) => setUnit(e.target.value)} />
             </div>
             {/*  The Status section ---------------------------------- */}
             <div>
@@ -375,7 +380,7 @@ const Order = () => {
                   <td>{products.find(product => product._id === data.productId)?.productName}</td>
                   <td>{data.quantity} </td>
                   <td>{data.price} </td>
-                  <td>{data.discount}</td>
+                  <td>{data.unit ? data.unit : "others"}</td>
                   <td onClick={handleDelete} ><XCircle size={16} /></td>
                 </tr>
               ))}
