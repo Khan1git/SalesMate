@@ -7,15 +7,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { XCircle, Pen, Truck, Trash2 } from 'lucide-react'
 import Swal from 'sweetalert2';
 
-const Order = () => {
+const Order2 = () => {
 
   const [customerID, setCustomerID] = useState('');
   const [item, setItem] = useState('');
-  console.log(item)
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('');
   const [discount, setDiscount] = useState('');
-  const [customerAccountBalance, setCustomerAccountBalance] = useState(0);
   const [paid, setPaid] = useState(false);
   const [unit, setUnit] = useState('')
 
@@ -297,7 +295,7 @@ const Order = () => {
         {/* <h1>Place Order </h1> */}
         <div className="In_form">
           <form action="">
-            <label htmlFor="">ORDER DETAILS</label>
+            <label htmlFor="">TEMPORARY CUSTOMER ORDER</label>
             <div className="center">
               <select name="Select CUSTOMER" id="productSelect" onChange={(e) => setCustomerID(e.target.value)}>
                 <option value="">Select Customer</option>
@@ -337,9 +335,9 @@ const Order = () => {
             <div className="order_btns">
               {/* <button >Updat/e</button> */}
               <button type="button" onClick={handleAddToTable}>Add</button>
-              {/* <a href='/walk-order'>
-              Guest Customer
-              </a> */}
+              <a href='/order'>
+              Customer
+              </a>
             </div>
           </form>
         </div>
@@ -384,7 +382,7 @@ const Order = () => {
                   <td>{data.quantity} </td>
                   <td>{data.price} </td>
                   <td>{data.unit ? data.unit : "others"}</td>
-                  <td onClick={(e)=> handleDelete(index)} ><XCircle size={16} /></td>
+                  <td onClick={handleDelete} ><XCircle size={16} /></td>
                 </tr>
               ))}
             </tbody>
@@ -396,4 +394,4 @@ const Order = () => {
     </>
   )
 }
-export default Order
+export default Order2

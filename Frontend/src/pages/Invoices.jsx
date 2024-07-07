@@ -145,7 +145,7 @@ const Invoices = () => {
                   <td>
                     <select className='select' id="productSelect" >
                       {order.products.map(product => (
-                        <option key={product._id} value={`${product._id}`}>${product.price}</option>
+                        <option key={product._id} value={`${product._id}`}>{product.price}</option>
                       ))}
                     </select>
                   </td>
@@ -163,7 +163,7 @@ const Invoices = () => {
                     ${order.products.reduce((total, product) => total + product.discount, 0) || 0}
                   </td> */}
                   <td>
-                    $ {order.products.reduce((total, product) => total + product.price * product.quantity, 0) - order.products.reduce((total, product) => total + product.discount, 0)}
+                    {order.products.reduce((total, product) => total + product.price * product.quantity, 0) - order.products.reduce((total, product) => total + product.discount, 0)}
                   </td>
                   <td>
                     {order.paid ? (

@@ -4,6 +4,7 @@ import { createCustomer, deleteCustomerById, getAllCustomers, getAllCustomersNum
 import { addProduct, countProducts, deleteProduct, getAllProducts, updateProductById } from '../controllers/productController.js'
 import { UpdateByid, addCompanyDetails, getCompanyById, showDetails } from '../controllers/companyController.js'
 import { DeleteById, UpdateOrder, addOrder, countAllOrders,  countOrders, findUnpaidCustomerBill, getAllOrders, getOrderById } from '../controllers/orderController.js'
+import { tempInvoice } from '../controllers/order2Controller.js'
 const router = express.Router()
 
 // -------------  THE ADMIN ROUTES ----------
@@ -39,5 +40,9 @@ router.get('/order/getbyid/:id', getOrderById)
 router.delete('/order/deletebyid/:id', DeleteById)
 router.put('/order/updateorder/:id', UpdateOrder)
 router.get('/order/customerUnpaid/:id', findUnpaidCustomerBill)
+
+
+// ------------------ TEMPORARY INVOICES
+router.post('/order/tempOrder', tempInvoice)
 
 export default router
