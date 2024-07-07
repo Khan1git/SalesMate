@@ -30,13 +30,19 @@
   /* box-shadow: inset 0px 0px 0px 1px rgba(1, 1, 0, 0.2); */
   outline: none;
   background-color: white;
+  border: 0.1px solid rgba(0, 0, 0, 0.336);
   color: black;
+}
 
+#customer_Home .c_form form label{
+  text-align: start;
+  width: 100%;
 }
 
 
 #customer_Home .c_form form .center {
   display: flex;
+  /* flex-direction: column; */
   width: 100%;
   gap: .5rem;
 }

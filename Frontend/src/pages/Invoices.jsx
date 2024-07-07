@@ -98,14 +98,14 @@ const Invoices = () => {
     <>
       <Navbar />
       <section id="invoice">
-        <h1 style={{ textAlign: "center" }}>ALL INVOICES</h1>
+        {/* <h1 style={{ textAlign: "center" }}>ALL INVOICES</h1> */}
         {/* <>INVOICES</> */}
         <div className="btns">
           <input type="search" name="" id="" placeholder='Search by Customer Name...' value={search}
             // onChange={handleSearchChange}
             onChange={(e) => setSearch(e.target.value)} />
           <Link to={'/order/:id'}>
-            <button>ADD</button>
+            <button>ALL INVOICES</button>
           </Link>
         </div>
         <div className="invoice_table">
@@ -119,7 +119,7 @@ const Invoices = () => {
                 <th>Products</th>
                 <th>Price</th>
                 <th>Quantity</th>
-                <th>Price</th>
+                {/* <th>Price</th> */}
                 {/* <th>Discount</th> */}
                 <th>Tota Amount</th>
                 <th>Status</th>
@@ -156,9 +156,9 @@ const Invoices = () => {
                       ))}
                     </select>
                   </td>
-                  <td>
+                  {/* <td>
                     ${order.products.reduce((total, product) => total + product.price * product.quantity, 0)}
-                  </td>
+                  </td> */}
                   {/* <td>
                     ${order.products.reduce((total, product) => total + product.discount, 0) || 0}
                   </td> */}

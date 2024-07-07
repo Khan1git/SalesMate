@@ -42,10 +42,15 @@
     /* border: 1px solid gray; */
     outline: none;
     background-color: white;
+    border: 0.1px solid rgba(0, 0, 0, 0.336);
     color: black;
 
 }
 
+#In_home .In_form form label{
+    text-align: start;
+    width: 100%;
+  }
 
 #In_home .In_form form .center{
     display: flex;

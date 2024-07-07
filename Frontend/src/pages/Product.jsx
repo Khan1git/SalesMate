@@ -210,15 +210,18 @@ const Product = () => {
     <>
       <Navbar />
       <section id="p_home">
-        <h2 style={{ textAlign: 'center' }}>ADD PRODCUTS</h2>
+        {/* <h2 style={{ textAlign: 'center' }}>ADD PRODCUTS</h2> */}
         <div className="p_form">
           <form action="">
             <div className="p_center">
-              <input type="text" placeholder='Product Name' value={productName} onChange={(e) => setproductName(e.target.value)} />
+              <label htmlFor="">Product Details</label>
+              <input type="text" placeholder='Product Name' name='product' value={productName} onChange={(e) => setproductName(e.target.value)} />
               {/* <input type="text" placeholder='Category' value={category} onChange={(e) => setCategory(e.target.value)} /> */}
             </div>
-            <input type="number" placeholder='Quantity' value={quantity} onChange={(e) => setquantity(e.target.value)} />
+            <div className='p_mid'>
+            <input type="number"  placeholder='Quantity' value={quantity} onChange={(e) => setquantity(e.target.value)} />
             {/* <input type="text" placeholder='Avaliability' /> */}
+            </div>
             <div className="p_center2">
               <input type="Number" placeholder='Sale Price' value={saleprice} onChange={(e) => setSetsalePrice(e.target.value)} />
               <input type="Number" placeholder='Purchase price' value={purchasePrice} onChange={(e) => setpurchasePrice(e.target.value)} />

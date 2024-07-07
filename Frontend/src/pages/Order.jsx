@@ -294,9 +294,10 @@ const Order = () => {
     <>
       <Navbar />
       <section id="In_home">
-        <h1>Place Order </h1>
+        {/* <h1>Place Order </h1> */}
         <div className="In_form">
           <form action="">
+            <label htmlFor="">ORDER DETAILS</label>
             <div className="center">
               <select name="Select CUSTOMER" id="productSelect" onChange={(e) => setCustomerID(e.target.value)}>
                 <option value="">Select Customer</option>

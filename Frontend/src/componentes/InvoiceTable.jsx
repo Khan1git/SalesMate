@@ -19,11 +19,11 @@ const InvoiceTable = () => {
         method: "GET"
       })
       const result = await response.json()
-      const filteredOrders = result.filter(order =>
-        order.customer.name.toLowerCase().includes(search.toLowerCase())
-      );
+      // const filteredOrders = result.filter(order =>
+      //   order.customer.name.toLowerCase().includes(search.toLowerCase())
+      // );
 
-      setOrders(filteredOrders);
+      setOrders(result);
     } catch (error) {
       console.log("Fetching Orders Error")
     }

@@ -25,7 +25,7 @@
     padding: 1rem;
     /* box-shadow: inset 0px 0px 0px 1px rgba(1, 1, 0, 0.2); */
     /* box-shadow: inset 1px 1px 1px 1px grey; */
-    border: none;
+    border: 0.1px solid rgba(0, 0, 0, 0.336);
     width: 100%;
     /* border: .1px solid gray; */
     outline: none;
@@ -37,6 +37,15 @@
 
 #p_home .p_form form .p_center{
     display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: .5rem;
+}
+
+
+#p_home .p_form form .p_mid{
+    display: flex;
+    flex-direction: column;
     width: 100%;
     gap: .5rem;
 }

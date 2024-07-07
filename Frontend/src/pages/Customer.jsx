@@ -144,7 +144,7 @@ const Customer = () => {
   };
 
   const handleUpdate = async (e, id) => {
-    e.preventDefault();
+    // e.preventDefault();
     try {
       const response = await fetch(`http://localhost:5000/api/customer/updatebyid/${currentCustomer._id}`, {
         method: "PUT",
@@ -236,9 +236,10 @@ const Customer = () => {
     <>
       <Navbar/>
       <div id="customer_Home">
-        <h2 style={{textAlign: 'center', padding: "0%", margin: "0%"}}>ADD CUSTOMER DATA HERE</h2>
+        {/* <h2 style={{textAlign: 'center', padding: "0%", margin: "0%"}}>ADD CUSTOMER DATA HERE</h2> */}
         <div className="c_form">
           <form action="">
+              <label htmlFor="">Customer Details</label>
             <div className="center">
               <input type="text" placeholder='Name' value={name} onChange={(e) => setname(e.target.value)} />
               <input type="text" placeholder='Email' value={email} onChange={(e) => setemal(e.target.value)} />
