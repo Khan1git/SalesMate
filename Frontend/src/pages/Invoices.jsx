@@ -11,7 +11,7 @@ const Invoices = () => {
   const [price, setPrice] = useState('')
   const [search, setSearch] = useState("")
   const [time, setTime] = useState([])
-  console.log(orders)
+  // console.log(orders)
 
 
   // console.log(price)

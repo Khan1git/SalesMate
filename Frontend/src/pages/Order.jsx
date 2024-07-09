@@ -6,28 +6,26 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { XCircle, Pen, Truck, Trash2 } from 'lucide-react'
 import Swal from 'sweetalert2';
+import InvoicePDF from '../componentes/InvoicePDF';
 
 const Order = () => {
 
   const [customerID, setCustomerID] = useState('');
   const [item, setItem] = useState('');
-  console.log(item)
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('');
   const [discount, setDiscount] = useState('');
   const [customerAccountBalance, setCustomerAccountBalance] = useState(0);
   const [paid, setPaid] = useState(false);
   const [unit, setUnit] = useState('')
+  const [payment, setPayment] = useState('')
 
-  // Function to handle checkbox change
   const handleCheckboxChange = (e) => {
     setPaid(e.target.checked);
   };
 
 
   const navigate = useNavigate()
-
-
 
   // ------------------ FETCHING THE CUSTOMERS -------------------------
   const [datas, setData] = useState([])
@@ -98,7 +96,8 @@ const Order = () => {
       quantity,
       price,
       discount,
-      unit
+      unit,
+      payment
     };
     setTableData([...tableData, newData]);
 
@@ -109,9 +108,12 @@ const Order = () => {
     setUnit('')
   };
 
+
+
+
   const sendTableDataToBackend = async () => {
     try {
-      // Creating a  payload including customer and product data
+      // Creating a payload including customer and product data
       const payload = {
         customer: {
           customerId: customerID,
@@ -123,9 +125,10 @@ const Order = () => {
           quantity: data.quantity,
           price: data.price,
           discount: data.discount,
-          unit: data.unit
+          unit: data.unit,
         })),
-        paid: paid
+        paid: paid,
+        payment,
       };
 
       const response = await fetch('http://localhost:5000/api/order/add', {
@@ -135,6 +138,7 @@ const Order = () => {
         },
         body: JSON.stringify(payload),
       });
+
       if (response.ok) {
         const responseData = await response.json();
         const savedDataId = await responseData._id;
@@ -142,32 +146,65 @@ const Order = () => {
         if (!savedDataId) {
           throw new Error('Missing savedDataId in response data');
         }
-        await Promise.all(tableData.map(async (data) => {
-          const originalProduct = products.find(product => product._id === data.productId);
-          const Name = await(originalProduct.productName)
-          console.log("THIS IS THE ORIGINAL PRODUCT")
-          if (originalProduct) {
-            const newQuantity = originalProduct.quantity - data.quantity;
-            if (newQuantity < 0) {
-              toast.error('Not enough stock available for '+ Name);
-              throw new Error('Not enough stock available');
-            }
-            else {
-              const response = await fetch(`http://localhost:5000/api/product/update/${data.productId}`, {
-                method: "PUT",
-                headers: {
-                  "Content-type": "application/json"
-                },
-                body: JSON.stringify({
-                  quantity: newQuantity
-                })
-              });
-              if (!response.ok) {
-                throw new Error('Failed to update product quantity');
+
+        //---------------- CALCULATING THE TOTAL COST OF THE PRODUCTS
+        const totalCost = tableData.reduce((total, data) => {
+          const productTotal = data.price * data.quantity;
+          return total + productTotal;
+        }, 0);
+
+        // Update product quantities
+        await Promise.all(
+          tableData.map(async (data) => {
+            const originalProduct = products.find(product => product._id === data.productId);
+            const Name = await (originalProduct.productName);
+            console.log("THIS IS THE ORIGINAL PRODUCT");
+            if (originalProduct) {
+              const newQuantity = originalProduct.quantity - data.quantity;
+              if (newQuantity < 0) {
+                toast.error('Not enough stock available for ' + Name);
+                throw new Error('Not enough stock available');
+              } else {
+                const response = await fetch(`http://localhost:5000/api/product/update/${data.productId}`, {
+                  method: "PUT",
+                  headers: {
+                    "Content-type": "application/json"
+                  },
+                  body: JSON.stringify({
+                    quantity: newQuantity
+                  })
+                });
+                if (!response.ok) {
+                  throw new Error('Failed to update product quantity');
+                }
               }
             }
+          })
+        );
+
+        // Update customer balance
+        const customerResponse = await fetch(`http://localhost:5000/api/customer/findByid/${customerID}`);
+        if (customerResponse.ok) {
+          const customerData = await customerResponse.json();
+          const currentBalance = customerData.AccountBalance;
+          const newBalance = currentBalance + totalCost;
+
+          const updateBalanceResponse = await fetch(`http://localhost:5000/api/customer/updatebyid/${customerID}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              AccountBalance: newBalance,
+            }),
+          });
+
+          if (!updateBalanceResponse.ok) {
+            throw new Error('Failed to update customer balance');
           }
-        }));
+        } else {
+          throw new Error('Failed to fetch customer data');
+        }
 
         navigate(`/pdf/${savedDataId}`);
 
@@ -183,10 +220,9 @@ const Order = () => {
       }
     } catch (error) {
       console.error('Error sending data:', error);
-      // toast.error('Error Please try again later');
+      toast.error('Error Please try again later');
     }
   };
-
 
 
   // ------------ FETCHING THE DATA FROM THE DATABASE ------------
@@ -238,7 +274,7 @@ const Order = () => {
       const data = await response.json();
       setOrderData(data);
       setCustomerID(data.customer.customerId)
-      // setProduct(data.products)
+      setPayment(data.payment)
       setTableData(data.products)
     } catch (error) {
       console.error('Error fetching order data:', error);
@@ -264,11 +300,12 @@ const Order = () => {
         price: data.price,
         discount: data.discount,
         unit: data.unit
-        
+
       })),
-      paid: paid
+      paid: paid,
+      payment
     };
-  
+
     try {
       const response = await fetch(`http://localhost:5000/api/order/updateorder/${id}`, {
         method: "PUT",
@@ -277,10 +314,10 @@ const Order = () => {
         },
         body: JSON.stringify(payload),
       });
-  
+
       const data = await response.json();
       console.log(data);
-  
+
       if (response.ok) {
         navigate("/");
         // alert("Post Updated....");
@@ -289,7 +326,16 @@ const Order = () => {
       console.log('DATA UPDATE FAILED');
     }
   };
-  
+
+
+
+  const guestStyle = {
+    backgroundColor: 'white',
+    padding: '.3rem',
+    borderRadius: '10px',
+    fontSize: 'small',
+  }
+
   return (
     <>
       <Navbar />
@@ -302,7 +348,7 @@ const Order = () => {
               <select name="Select CUSTOMER" id="productSelect" onChange={(e) => setCustomerID(e.target.value)}>
                 <option value="">Select Customer</option>
                 {datas.map(customer => (
-                  <option key={customer._id} value={`${customer._id}`}>{customer.name}</option>
+                    <option key={customer._id} value={`${customer._id}`}>{customer.name}</option>
                 ))}
               </select>
               <select name="Select Product" id="productSelect" onChange={(e) => setItem(e.target.value)}>
@@ -311,6 +357,7 @@ const Order = () => {
                   <option key={product._id} value={product._id}>{product.productName}</option>
                 ))}
               </select>
+              <input type="text" placeholder='Payment Method' value={payment} onChange={((e) => setPayment(e.target.value))} />
             </div>
             <div className="center2">
               <input type="text" placeholder='quantity' value={quantity} onChange={(e) => setQuantity(e.target.value)} />
@@ -337,9 +384,9 @@ const Order = () => {
             <div className="order_btns">
               {/* <button >Updat/e</button> */}
               <button type="button" onClick={handleAddToTable}>Add</button>
-              {/* <a href='/walk-order'>
-              Guest Customer
-              </a> */}
+              <a href='/walk-order' style={guestStyle}>
+                Guest Customer
+              </a>
             </div>
           </form>
         </div>
@@ -352,13 +399,14 @@ const Order = () => {
               <tr>
                 <th>Customer ID</th>
                 <th>Customer Name</th>
+                <th>Payment Method</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>{customerID}</td>
                 <td>{datas.find(customer => customer._id === customerID)?.name}</td>
-                {/* <td>{paid}</td> */}
+                <td>{payment}</td>
               </tr>
             </tbody>
           </table>
@@ -370,7 +418,7 @@ const Order = () => {
                 <th>Product Name</th>
                 <th>Quantity</th>
                 <th>Price</th>
-                <th>Discount</th>
+                <th>Unit</th>
                 <th>Delete</th>
                 {/* <th>Update</th> */}
               </tr>
@@ -384,7 +432,7 @@ const Order = () => {
                   <td>{data.quantity} </td>
                   <td>{data.price} </td>
                   <td>{data.unit ? data.unit : "others"}</td>
-                  <td onClick={(e)=> handleDelete(index)} ><XCircle size={16} /></td>
+                  <td onClick={(e) => handleDelete(index)} ><XCircle size={16} /></td>
                 </tr>
               ))}
             </tbody>

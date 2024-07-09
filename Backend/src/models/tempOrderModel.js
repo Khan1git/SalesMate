@@ -1,5 +1,7 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 import AutoIncrementFactory from 'mongoose-sequence';
+
+
 
 const AutoIncrement = AutoIncrementFactory(mongoose);
 
@@ -16,15 +18,13 @@ const productSchema = new mongoose.Schema({
 });
 
 
-const invoiceSchema = new mongoose.Schema({
-    No: {
+const tempOrderSchema = new mongoose.Schema({
+    InvNo: {
         type: Number,
-        unique: true,
-        // required: true
+        unique: true
     },
     customer: {
-        type: String,
-        required: true
+        type: String
     },
     products: [productSchema],
     paid: {
@@ -35,11 +35,10 @@ const invoiceSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-}, { timestamps: true });
+}, { timestamps: true })
+
+tempOrderSchema.plugin(AutoIncrement, { inc_field: 'InvNo' });
 
 
-invoiceSchema.plugin(AutoIncrement, { inc_field: 'No' });
-
-
-const tempInvoiceModel = mongoose.model('tempInvoice', invoiceSchema);
-export default tempInvoiceModel
+const tempInvoice = mongoose.model('tempInvoice', tempOrderSchema)
+export default tempInvoice

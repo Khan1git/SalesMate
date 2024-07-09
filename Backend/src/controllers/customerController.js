@@ -31,6 +31,17 @@ export const getAllCustomers = async (req, res) => {
     }
 };
 
+
+export const getCustomerByid = async(req, res)=>{
+    try {
+        const id = req.params.id
+        const findCustomerByid = await CustomerModel.findById(id)
+        res.status(200).json(findCustomerByid)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const getAllCustomersNumber = async(req, res) =>{
     try {
         const count = await CustomerModel.countDocuments()

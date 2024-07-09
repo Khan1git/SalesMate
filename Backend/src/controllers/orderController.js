@@ -2,8 +2,8 @@ import InvoiceModel from "../models/orderModel.js";
 
 export const addOrder = async (req, res) => {
     try {
-        const { InvoiceNo, customer, products, paid } = req.body;
-        const invoice = new InvoiceModel({ InvoiceNo, customer, products, paid });
+        const { InvoiceNo, customer, products, paid, payment } = req.body;
+        const invoice = new InvoiceModel({ InvoiceNo, customer, products, paid, payment });
         const result = await invoice.save();
         res.status(201).json(result);
     } catch (error) {

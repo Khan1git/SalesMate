@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PDFViewer, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { useParams } from 'react-router-dom';
+import { format } from 'date-fns';
 
 const styles = StyleSheet.create({
     page: {
@@ -130,10 +131,11 @@ const InvoicePDF = () => {
     const [companyData, setCompanyData] = useState('');
     const [orderData, setOrderData] = useState({});
     const [products, setProduct] = useState([]);
-    console.log(products)
-
-    console.log(products)
-
+    const [customerId, setId] = useState('')
+    const [customerDetails, setCustomerDetails] = useState([])
+    // console.log(customerId)
+    // console.log(orderData)
+    // console.log(customerDetails)
 
     const showCompanyDate = async () => {
         try {
@@ -150,13 +152,13 @@ const InvoicePDF = () => {
     }, []);
 
     const { id } = useParams();
-
     const showOrder = async () => {
         try {
             const response = await fetch(`http://localhost:5000/api/order/getbyid/${id}`, { method: "GET" });
             const result = await response.json();
             setOrderData(result);
             setProduct(result.products);
+            setId(result.customer.customerId)
         } catch (error) {
             console.log(error);
         }
@@ -165,6 +167,36 @@ const InvoicePDF = () => {
     useEffect(() => {
         showOrder();
     }, [id]);
+
+    // --------------- showing the customer using the id
+
+
+    const showCustomerById = async () => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/customer/findByid/${customerId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            const result = await response.json();
+            if (typeof result === 'object' && result !== null) {
+                setCustomerDetails(result)
+                // console.log(result.name);
+            }
+    
+            // console.log(result);
+        } catch (error) {
+            console.error('Error fetching customer data:', error);
+        }
+    };
+
+    useEffect(() => {
+        if (customerId) {
+            showCustomerById();
+        }
+    }, [customerId]);
+
 
     const TotalPrice = products.reduce((total, product) => total + (product.price * product.quantity), 0);
     const TotalAmount = products.reduce((total, product) => total + (product.price * product.quantity - product.discount), 0);
@@ -196,12 +228,12 @@ const InvoicePDF = () => {
                             <View style={styles.part2}>
                                 <Text>Invoice No:  {orderData.InvoiceNo ? orderData.InvoiceNo : ''}</Text>
                                 <Text style={{ ...styles.text, textDecoration: 'underline' }}>Invoice</Text>
-                                <Text>Date: 7/3/24</Text>
+                                <Text>Date: {orderData.date ? format(new Date(orderData.date), 'dd-MMMM-yyyy') : ''}</Text>
                             </View>
                             <Text>Customer Name: {orderData.customer ? orderData.customer.name : ''}</Text>
                             <Text>Previous Remaining Balance: 2340</Text>
-                            <Text>Previous Balance: 13340</Text>
-                            <Text>Payment Method: cash</Text>
+                            <Text>Total Balance: {customerDetails.AccountBalance ? customerDetails.AccountBalance : ''}</Text>
+                            <Text>Payment Method: {orderData.payment ? orderData.payment : ''}</Text>
                             <View style={styles.table}>
                                 <View style={styles.tableRow}>
                                     <Text style={styles.tableCellHeader}>Item</Text>

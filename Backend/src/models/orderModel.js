@@ -25,11 +25,16 @@ const invoiceSchema = new mongoose.Schema({
     customer: {
         customerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' },
         name: String,
+        // RemainingBalance: Number,
     },
     products: [productSchema],
     paid: {
         type: Boolean,
         default: false
+    },
+    payment: {
+        type: String,
+        required: true
     },
     date: {
         type: Date,

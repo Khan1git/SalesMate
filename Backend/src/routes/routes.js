@@ -1,10 +1,11 @@
 import express from 'express'
 import { LoginUser, RegisterUser } from '../controllers/userController.js'
-import { createCustomer, deleteCustomerById, getAllCustomers, getAllCustomersNumber, updateById } from '../controllers/customerController.js'
+import { createCustomer, deleteCustomerById, getAllCustomers, getAllCustomersNumber, getCustomerByid, updateById } from '../controllers/customerController.js'
 import { addProduct, countProducts, deleteProduct, getAllProducts, updateProductById } from '../controllers/productController.js'
 import { UpdateByid, addCompanyDetails, getCompanyById, showDetails } from '../controllers/companyController.js'
 import { DeleteById, UpdateOrder, addOrder, countAllOrders,  countOrders, findUnpaidCustomerBill, getAllOrders, getOrderById } from '../controllers/orderController.js'
-import { tempInvoice } from '../controllers/order2Controller.js'
+import { addTempOrder } from '../controllers/tempOrderController.js'
+
 const router = express.Router()
 
 // -------------  THE ADMIN ROUTES ----------
@@ -14,6 +15,7 @@ router.post("/login", LoginUser)
 // --------------- CUSTOMER ROUTES----------------
 router.post('/customer/create', createCustomer)
 router.get('/customer/getall', getAllCustomers)
+router.get('/customer/findByid/:id', getCustomerByid)
 router.get('/customer/countall', getAllCustomersNumber)
 router.delete('/customer/deletebyid/:id', deleteCustomerById)
 router.put('/customer/updatebyid/:id', updateById)
@@ -43,6 +45,7 @@ router.get('/order/customerUnpaid/:id', findUnpaidCustomerBill)
 
 
 // ------------------ TEMPORARY INVOICES
-router.post('/order/tempOrder', tempInvoice)
+
+router.post('/order/temp', addTempOrder)
 
 export default router
