@@ -109,7 +109,7 @@ const Invoices = () => {
           </Link>
         </div>
         <div className="invoice_table">
-          <table border="1" width="100%">
+          <table  width="100%">
             <thead>
               <tr>
                 <th>No</th>
@@ -201,7 +201,7 @@ const Invoices = () => {
                     <Trash2 size={20} onClick={() => handleDelete(order._id)} color="#000000" strokeWidth={1} />
                   </td>
                   <td>
-                    <Link to={`/order/${order._id}`}><Pen size={20} color="#000000" strokeWidth={1} /></Link>
+                    <Link to={`/invoice/${order._id}`}><Pen size={20} color="#000000" strokeWidth={1} /></Link>
                   </td>
                 </tr>
               ))}

@@ -24,8 +24,15 @@
     border: 0.1px solid grey;
 }
 
+
+#invoice .invoice_table  select{
+    border: none;
+    outline: none;
+}
+
 #invoice .invoice_table table td {
     padding: .5rem;
+    /* border-right: 1px solid grey; */
     border-bottom: 0.1px solid grey;
 
 }
@@ -33,6 +40,7 @@
 #invoice .invoice_table table th {
     padding: .4rem;
     border-bottom: 0.1px solid grey;
+    
     background-color: rgba(119, 110, 110, 0.411);
 }
 

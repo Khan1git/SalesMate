@@ -176,16 +176,6 @@ const Sidebar = () => {
             <p>total Purchases</p>
             <p>${totalPurchase}</p>
           </div>
-          {/* <div className="card5">
-            <Users />
-            <p>Customers Dues</p>
-            <p>${unpaid}</p>
-          </div>
-          <div className="card6">
-            <Users />
-            <p>Bussines Payable</p>
-            <p>{counts}</p>
-          </div> */}
         </div>
         <div className="Analytics">
           {/* <p>Customer And Sales</p><br/> */}
@@ -193,16 +183,14 @@ const Sidebar = () => {
             <Graph />
           </div>
           <div className="customer">
-            {/* customers */}
-            <table border="1" width="100%">
+            <table  width="100%" className='client_table'>
               <thead>
                 <tr>
                   <th>No</th>
                   <th>Name</th>
                   <th>Address</th>
                   <th>Phone No</th>
-                  {/* <th></th> */}
-                  {/* <th>Total Purchase Amount</th> */}
+                 
                 </tr>
               </thead>
               <tbody>
@@ -212,7 +200,6 @@ const Sidebar = () => {
                     <td >{customer.name}</td>
                     <td>{customer.Address}</td>
                     <td>{customer.phone}</td>
-                    {/* <td>10000</td> */}
                   </tr>
                 ))}
               </tbody>
@@ -221,7 +208,7 @@ const Sidebar = () => {
         </div>
         <div className="table">
           <div className="product">
-            <table border="1" width="100%">
+            <table border="1" width="100%" className='product_table'>
               <thead>
                 <tr>
                   <th>No</th>
@@ -229,7 +216,6 @@ const Sidebar = () => {
                   <th>Quantity</th>
                   <th>Purchase Price</th>
                   <th>Per Sale Price</th>
-                  {/* <th>Category</th> */}
                   <th>Total Purchase Amount</th>
                 </tr>
               </thead>
@@ -241,7 +227,6 @@ const Sidebar = () => {
                     <td>{product.quantity}</td>
                     <td>${product.purchasePrice}</td>
                     <td>${product.saleprice}</td>
-                    {/* <td>{product.category}</td> */}
                     <td>${product.purchasePrice * product.quantity}</td>
                   </tr>
                 ))}

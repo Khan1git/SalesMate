@@ -1,4 +1,4 @@
-table {
+.Home_customer_table{
     /* box-shadow: 0 3px 4px gray; */
     /* width: 100vw; */
     padding: 1rem;
@@ -14,22 +14,22 @@ table {
 }
 
 
-table th {
+.Home_customer_table th {
     background-color: #7DA0F9;
     text-align: start;
     border: none;
 }
 
-table td {
+.Home_customer_table td {
     text-align: start;
     border: none;
 }
 
-table tr {
+.Home_customer_table tr {
     border: none;
 }
 
-table .select{
+.Home_customer_table .select{
     border: none;
     outline: none;
 }

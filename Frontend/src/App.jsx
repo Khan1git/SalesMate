@@ -17,6 +17,7 @@ import Company from './pages/Company';
 import UpdateOrder from './pages/UpdateOrder';
 import Analytics from './pages/Analytics';
 import Order2 from './pages/Order2';
+import InvoiceOrder from './pages/InvoiceOrder';
 
 const App = () => {
   return (
@@ -29,11 +30,13 @@ const App = () => {
         <Route path="/product" element={<Products />} />
         <Route path="/invoices" element={<Invoices />} />
         <Route path="/pdf/:id" element={<InvoicePDF />} />
-        <Route path="/order/:id" element={<Order />} />
-        <Route path="/order" element={<Order />} />
+        {/* <Route path="/order/:id" element={<Order />} />
+        <Route path="/order" element={<Order />} /> */}
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/walk-order" element={<Order2 />} />
-      </Routes>
+        <Route path="/invoice-order" element={<InvoiceOrder />} />
+        <Route path="/invoice/:id" element={<InvoiceOrder />} />
+        </Routes>
     </Router>
   )
 }

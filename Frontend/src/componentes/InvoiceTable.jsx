@@ -54,7 +54,7 @@ const InvoiceTable = () => {
             <MoveRight size={20} color="#000000" strokeWidth={2} />
           </Link>
         </div>
-        <table border="1" width="100%">
+        <table border="1" width="100%" className='Home_customer_table'> 
           <thead>
             <tr>
               <th>No</th>

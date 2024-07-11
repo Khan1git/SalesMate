@@ -58,8 +58,8 @@ const Navbar = () => {
                   <span className="nav__name">Product</span>
                 </Link>
               </Link>
-              <Link to={'/order'}>
-                <Link to="/order" className="nav__link" onClick={handleLinkClick}>
+              <Link to={'/invoice-order'}>
+                <Link to="/invoice-order" className="nav__link" onClick={handleLinkClick}>
                   <ion-icon name="settings-outline" className="nav__icon"><Truck /></ion-icon>
                   <span className="nav__name">Place Order</span>
                 </Link>

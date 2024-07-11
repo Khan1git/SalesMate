@@ -1,0 +1,145 @@
+/* body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+*/*
+#Invoice_home {
+    height: 100vh;
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    /* gap: 200rem; */
+    background-color: white;
+} 
+
+form {
+    height: 90%;
+    width: 95%;
+    /* border: 1px solid black; */
+    margin-top: 1%;
+}
+
+form .fields {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* flex-direction: ; */
+    height: 15%;
+    /* padding: .4rem; */
+    /* border: 1px solid blue; */
+    gap: .3rem;
+}
+
+form .fields input {
+    width: 30%;
+    /* height: 27%; */
+    padding: 1rem;
+    outline: none;
+}
+
+form .fields select {
+    width: 30%;
+    font-size: small;
+    padding: 1rem;
+    outline: none;
+}
+
+form .fields button {
+    padding: 1rem;
+    background-color: transparent;
+    border: .1px solid grey;
+}
+form .tables{
+    overflow: hidden;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    height: 70%;
+    border: 1px solid black;
+}
+form .tables::-webkit-scrollbar {
+    width: 0.5px solid rgb(182, 158, 158);
+    background: transparent;
+    width: 4px;
+}
+
+form .tables::-webkit-scrollbar-thumb {
+    background: #e2c7c7;
+    border-radius: 2px;
+
+}
+form .tables::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+.tables .product_table th {
+    padding: .4rem;
+    border-top: 1px solid grey;
+    background-color: #7da0f99a;
+     border-right: .1px solid grey;
+    border-bottom: .1px solid grey;
+    /* border-top: .1px solid grey; */
+} 
+
+.tables .product_table  td {
+    padding: .4rem;
+    text-align: center;
+    border-right: .1px solid grey;
+    border-bottom: .1px solid grey;
+}
+
+
+.customer_table td {
+    padding: .4rem;
+    /* font-size: ; */
+    text-align: center;
+    width: 20%;
+    border: 1px solid grey;
+    /* border: none; */
+} 
+.customer_table th{
+    /* border: 1px solid grey;
+    border-bottom: none;
+    border-top: none; */
+    background-color: #7da0f99a;
+    font-size: small;
+}
+.left{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    /* gap: 1rem; */
+    /* border: 1px solid green; */
+}
+.left .total_table th{
+    background-color: #7da0f99a;
+    border-top: none;
+    border: 1px solid grey;
+}
+.left .total_table td{
+    border: 1px solid grey;
+    text-align: center;
+}
+
+.left .order_btns{
+    /* margin: 1rem; */
+    display: flex;
+    gap: .3rem;
+    padding: 1rem;
+    /* border: 1px solid purple; */
+}
+.left .order_btns button{
+    padding: .2rem;
+    background-color: transparent;
+    border: 1px solid grey;
+}
+
+.left .order_btns button:hover{
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
