@@ -258,8 +258,12 @@ function ProductPage() {
                                         <td>{product.purchasePrice}</td>
                                         <td>{product.saleprice}</td>
                                         <td>{product.purchasePrice * product.quantity}</td>
-                                        <td><XCircle size={16} onClick={(e) => handleDelete(product._id)} /></td>
-                                        <td><Pen size={16} onClick={() => handleEdit(product)} /></td>
+                                        <td><XCircle size={16} onClick={(e) => handleDelete(product._id)} style={{
+                                            cursor: "pointer"
+                                        }} /></td>
+                                        <td><Pen size={16} onClick={() => handleEdit(product)}style={{
+                                            cursor: "pointer"
+                                        }} /></td>
                                     </tr>
                                 ))}
                             </tbody>

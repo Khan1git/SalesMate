@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
-import {  LayoutDashboard, Truck, Text, ReceiptText, BarChart, Users, Settings, LogOut, ShoppingCart, ShoppingBag, BadgeDollarSign } from 'lucide-react'
+import {  LayoutDashboard, Truck, ListOrdered, Text, ReceiptText, BarChart, Users, Settings, LogOut, ShoppingCart, ShoppingBag, BadgeDollarSign } from 'lucide-react'
 
 const Navbar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -55,22 +55,22 @@ const Navbar = () => {
               </Link>
               <Link to={'/invoice-order'}>
                 <Link to="/invoice-order" className="nav__link" onClick={handleLinkClick}>
-                  <ion-icon name="settings-outline" className="nav__icon"><Truck /></ion-icon>
+                  <ion-icon name="settings-outline" className="nav__icon"><ReceiptText /></ion-icon>
                   <span className="nav__name">Place Order</span>
                 </Link>
               </Link>
               <Link to={'/invoices'}>
                 <Link to="/invoices" className="nav__link" onClick={handleLinkClick}>
-                  <ion-icon name="pie-chart-outline" className="nav__icon"><ReceiptText /></ion-icon>
+                  <ion-icon name="pie-chart-outline" className="nav__icon"><ListOrdered /></ion-icon>
                   <span className="nav__name">Invoices</span>
                 </Link>
               </Link>
-              <Link to={'/analytics'}>
+              {/* <Link to={'/analytics'}>
                 <Link to="/analytics" className="nav__link" onClick={handleLinkClick}>
                   <ion-icon name="pie-chart-outline" className="nav__icon"><BarChart /></ion-icon>
                   <span className="nav__name">Analytics</span>
                 </Link>
-              </Link>
+              </Link> */}
             </div>
           </div>
           {/* <Link to="#" className="nav__link" onClick={handleLinkClick}>

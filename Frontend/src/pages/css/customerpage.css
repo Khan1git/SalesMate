@@ -39,7 +39,7 @@ form .customer_tables {
     overflow: hidden;
     overflow-y: scroll;
     height: 80%;
-    border: 1px solid black
+    border: .1px solid grey
 }
 
 form .customer_tables::-webkit-scrollbar {
@@ -62,6 +62,7 @@ form .customer_tables::-webkit-scrollbar-thumb:hover {
 .customer_tables input {
     margin: .3rem;
     width: 30%;
+    outline: none;
     padding: .3rem;
 }
 
@@ -84,6 +85,12 @@ form .customer_tables::-webkit-scrollbar-thumb:hover {
     text-align: center;
     border-right: .1px solid grey;
     border-bottom: .1px solid grey;
+}
+
+.customer_info_table .icon_style:hover{
+    color: black;
+    background: #7da0f99a;;
+    cursor: pointer;
 }
 
 /* ---------------------  THE LAST FOOTER SECTION ---------------------*/

@@ -7,7 +7,9 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2'
 
-import { XCircle, Pen } from 'lucide-react'
+import { XCircle, Pen, UserRoundSearch} from 'lucide-react'
+
+
 function CustomerPage() {
     const [datas, setData] = useState([])
     // console.log(datas)
@@ -19,6 +21,7 @@ function CustomerPage() {
     // const [idno, setIdno] = useState("")
     const [AccountBalance, setAccountBalance] = useState("")
     const [search, setSearch] = useState("")
+    const [totalCustomers, setTotalCustomers] = useState(0)
     const navigate = useNavigate();
 
     // =================== THE ADDING CUSTOMER API ==================================
@@ -258,6 +261,7 @@ function CustomerPage() {
                                     <th>Account Balance</th>
                                     <th>Delete</th>
                                     <th>Update</th>
+                                    <th>Details</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -269,8 +273,9 @@ function CustomerPage() {
                                         <td>{customer.phone}</td>
                                         <td>{customer.Address}</td>
                                         <td>${customer.AccountBalance}</td>
-                                        <td><XCircle size={16} onClick={() => handleDelete(customer._id)} /></td>
-                                        <td><Pen size={16} onClick={() => handleEdit(customer)} /></td>
+                                        <td className='icon_style'><XCircle size={16} onClick={() => handleDelete(customer._id)} /></td>
+                                        <td className='icon_style'><Pen size={16} onClick={() => handleEdit(customer)} /></td>
+                                        <td className='icon_style'><UserRoundSearch  size={16}/></td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -281,15 +286,14 @@ function CustomerPage() {
                             <button onClick={HandleaddCustomer}>Add</button>
                             <button onClick={handleUpdate}>Update</button>
                         </div>
-                        <table width="30%" className='total_table '>
+                        {/* <table width="30%" className='total_table '>
                             <thead>
                                 <tr>
                                     <th>Total Amount</th>
-                                    <td>120</td>
+                                    <td>{totalCustomers}</td>
                                 </tr>
                             </thead>
-
-                        </table>
+                        </table> */}
                     </div>
                 </form>
             </section>
