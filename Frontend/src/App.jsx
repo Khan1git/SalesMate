@@ -6,18 +6,16 @@ import {
   Link
 } from "react-router-dom";
 import Sidebar from './componentes/Sidebar';
-import Customer from './pages/Customer';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Products from './pages/Product';
 import InvoicePDF from './componentes/InvoicePDF';
 import Invoices from './pages/Invoices';
-import Order from './pages/Order';
 import Company from './pages/Company';
-import UpdateOrder from './pages/UpdateOrder';
 import Analytics from './pages/Analytics';
 import Order2 from './pages/Order2';
 import InvoiceOrder from './pages/InvoiceOrder';
+import ProductPage from './pages/ProductPage';
+import CustomerPage from './pages/CustomerPage';
 
 const App = () => {
   return (
@@ -26,17 +24,15 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Sidebar />} />
         <Route path="/company" element={<Company />} />
-        <Route path="/customer" element={<Customer />} />
-        <Route path="/product" element={<Products />} />
         <Route path="/invoices" element={<Invoices />} />
         <Route path="/pdf/:id" element={<InvoicePDF />} />
-        {/* <Route path="/order/:id" element={<Order />} />
-        <Route path="/order" element={<Order />} /> */}
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/walk-order" element={<Order2 />} />
         <Route path="/invoice-order" element={<InvoiceOrder />} />
         <Route path="/invoice/:id" element={<InvoiceOrder />} />
-        </Routes>
+        <Route path="/product-page" element={<ProductPage />} />
+        <Route path="/customer-page" element={<CustomerPage />} />
+      </Routes>
     </Router>
   )
 }

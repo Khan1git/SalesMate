@@ -38,22 +38,17 @@ const Navbar = () => {
                   <span className="nav__name">Dashboard</span>
                 </Link>
               </Link>
-              <Link to={'/customer'}>
+              <Link to={'/customer-page'}>
                 <div className="nav__link collapse" onClick={handleLinkClick} >
                   <ion-icon name="people-outline" className="nav__icon">
                     <Users />
                   </ion-icon>
                   <span className="nav__name">Customer</span>
                   <ion-icon name="chevron-down-outline" className="collapse__link"></ion-icon>
-                  {/* <ul className="collapse__menu">
-                  <Link to="#" className="collapse__sublink">Data</Link>
-                  <Link to="#" className="collapse__sublink">Group</Link>
-                  <Link to="#" className="collapse__sublink">Members</Link>
-                </ul> */}
                 </div>
               </Link>
-              <Link to={'/product'}>
-                <Link to="/product" className="nav__link" onClick={handleLinkClick}>
+              <Link to={'/product-page'}>
+                <Link to="/product-page" className="nav__link" onClick={handleLinkClick}>
                   <ion-icon name="chatbubbles-outline" className="nav__icon"><ShoppingCart /></ion-icon>
                   <span className="nav__name">Product</span>
                 </Link>

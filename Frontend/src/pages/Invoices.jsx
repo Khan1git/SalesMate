@@ -104,7 +104,7 @@ const Invoices = () => {
           <input type="search" name="" id="" placeholder='Search by Customer Name...' value={search}
             // onChange={handleSearchChange}
             onChange={(e) => setSearch(e.target.value)} />
-          <Link to={'/order/:id'}>
+          <Link to={'/invoice-order'}>
             <button>ALL INVOICES</button>
           </Link>
         </div>

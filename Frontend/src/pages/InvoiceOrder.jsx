@@ -84,8 +84,8 @@ const InvoiceOrder = () => {
       payment
     };
     setTableData([...tableData, newData]);
-    const newTotalCost = cost + parseFloat(price);
-    setCost(newTotalCost)
+    const newTotalCost = cost + parseFloat(price) * quantity;
+    setCost(newTotalCost) 
 
     setItem('');
     setQuantity('');
@@ -95,7 +95,7 @@ const InvoiceOrder = () => {
   };
 
   // -------- SENDING DATA TO THE BACKEND ADDING THE ORDER
-  
+
   const sendTableDataToBackend = async (e) => {
     e.preventDefault()
     try {
@@ -210,7 +210,7 @@ const InvoiceOrder = () => {
     }
   };
 
-  
+
 
   // ------------ FETCHING THE DATA FROM THE DATABASE ------------
   const [orders, setOrders] = useState("");
@@ -346,7 +346,9 @@ const InvoiceOrder = () => {
             <table width="60%" class="customer_table">
               <thead>
                 <tr>
-                  <th>Customer ID</th>
+                  <th
+                    style={{ display: 'none' }}
+                  >Customer ID</th>
                   <th>Customer Name</th>
                   {/* <th>Invoice No</th> */}
                   <th>Payment Method</th>
@@ -355,7 +357,9 @@ const InvoiceOrder = () => {
               </thead>
               <tbody>
                 <tr>
-                  <td>{customerID}</td>
+                  <td
+                    style={{ display: 'none' }}
+                  >{customerID}</td>
                   <td>{datas.find(customer => customer._id === customerID)?.name}</td>
                   {/* <td></td> */}
                   <td>{payment}</td>
@@ -363,8 +367,8 @@ const InvoiceOrder = () => {
                     <input type="checkbox"
                       className='check'
                       name="paid"
-                      checked={paid}
-                      onChange={handleCheckboxChange} />
+                      onChange={handleCheckboxChange}
+                      checked={paid} />
                   </td>
                 </tr>
               </tbody>
@@ -373,7 +377,9 @@ const InvoiceOrder = () => {
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Product ID</th>
+                  <th
+                    style={{ display: 'none' }}
+                  >Product ID</th>
                   <th>Product Name</th>
                   <th>Quantity</th>
                   <th>Price</th>
@@ -382,17 +388,19 @@ const InvoiceOrder = () => {
                 </tr>
               </thead>
               <tbody>
-              {tableData.map((data, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td >{data.productId} </td>
-                  <td>{products.find(product => product._id === data.productId)?.productName}</td>
-                  <td>{data.quantity} </td>
-                  <td>{data.price} </td>
-                  <td>{data.unit ? data.unit : "others"}</td>
-                  <td onClick={(e) => handleDelete(index)} ><XCircle size={16} /></td>
-                </tr>
-              ))}
+                {tableData.map((data, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td
+                      style={{ display: 'none' }}
+                    >{data.productId} </td>
+                    <td>{products.find(product => product._id === data.productId)?.productName}</td>
+                    <td>{data.quantity} </td>
+                    <td>{data.price} </td>
+                    <td>{data.unit ? data.unit : "others"}</td>
+                    <td onClick={(e) => handleDelete(index)} ><XCircle size={16} /></td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

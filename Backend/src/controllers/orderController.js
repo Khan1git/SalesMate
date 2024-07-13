@@ -51,8 +51,8 @@ export const countAllOrders = async (req, res) => {
 // --------------------------------------------------------
 export const getOrderById = async (req, res) => {
     try {
-        const id = req.params.id;
-        const response = await InvoiceModel.findById(id)
+        // const id = ;
+        const response = await InvoiceModel.findById(req.params.id)
         res.status(200).json(response)
     } catch (error) {
         console.log(error)

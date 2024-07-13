@@ -1,5 +1,5 @@
 import Navbar from '../componentes/Navbar'
-import './css/order.css'
+import './css/order2.css'
 import React, { useEffect, useState, } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify';

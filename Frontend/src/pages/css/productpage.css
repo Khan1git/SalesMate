@@ -1,0 +1,143 @@
+
+#product_table_home {
+    height: 100vh;
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    /* flex-direction: column; */
+    align-items: center;
+    font-size: smaller ;
+}
+
+form {
+    height: 90%;
+    width: 95%;
+    /* border: 1px solid black; */
+    margin-top: 1%;
+}
+
+form .product_table_fields {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* flex-direction: ; */
+    height: 10%;
+    padding: .4rem;
+    /* border: 1px solid blue; */
+    gap: .3rem;
+    /* overflow: hidden; */
+    /* overflow-y: scroll; */
+}
+
+form .product_table_fields input {
+    width: 100%;
+    /* height: 27%; */
+    padding: 1rem;
+    outline: none;
+}
+
+
+form .product_table_fields button {
+    padding: 1rem;
+    background-color: transparent;
+    border: .1px solid grey;
+}
+form .product_tables{
+    overflow: hidden;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    height: 80%;
+    border: .1px solid grey
+}
+
+.product_tables input{
+    margin: .3rem;
+    width: 30%;
+    outline: none;
+    border: .1px solid grey;
+    padding: .3rem;
+}
+
+form .product_tables::-webkit-scrollbar {
+    width: 0.5px solid rgb(182, 158, 158);
+    background: transparent;
+    width: 4px;
+}
+
+form .product_tables::-webkit-scrollbar-thumb {
+    background: #e2c7c7;
+    border-radius: 2px;
+
+}
+form .product_tables::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+ /* .info_table {
+    border: .1px solid grey;
+}  */
+
+.info_table th {
+    padding: .4rem;
+    background-color: #7da0f99a;;
+    border-top: .1px solid grey;
+    border-right: .1px solid grey;
+    border-bottom: .1px solid grey;
+    /* border-top: .1px solid grey; */
+}
+
+.info_table td {
+    padding: .4rem;
+    text-align: center;
+    border-right: .1px solid grey;
+    border-bottom: .1px solid grey;
+}
+.product_left{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    /* gap: 1rem; */
+    /* border: 1px solid green; */
+}
+.product_left table th{
+    border-top: none;
+    border-bottom: 1px solid grey;
+}
+.product_left table td{
+    border-bottom: 1px solid grey;
+}
+
+
+
+.product_left .order_btns{
+    /* margin: 1rem; */
+    display: flex;
+    gap: .3rem;
+    padding-top: .5rem;
+    /* border: 1px solid purple; */
+}
+.product_left .order_btns button{
+    padding: .5rem;
+    background-color: transparent;
+    border: 1px solid grey;
+}
+
+.product_left .order_btns button:hover{
+    background-color: #7da0f99a;;
+    color: black;
+    cursor: pointer;
+}
+
+.product_left .total_table th{
+    background-color: #7da0f99a;
+    border-top: none;
+    border: 1px solid grey;
+}
+.product_left  .total_table td{
+    text-align: center;
+    border: 1px solid grey;
+    text-align: center;
+}
