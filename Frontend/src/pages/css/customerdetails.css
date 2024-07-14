@@ -1,0 +1,110 @@
+#customer_details_section {
+    height: 100vh;
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: center;
+    /* flex-direction: column; */
+    align-items: center;
+    background-color: white;
+}
+
+form {
+    height: 90%;
+    width: 90%;
+    /* border: 1px solid black; */
+    /* margin-top: 1%; */
+}
+
+
+form .customer_section_tables {
+    overflow: hidden;
+    overflow-y: scroll;
+    height: 70%;
+    border: 1px solid black
+}
+
+form .customer_section_tables::-webkit-scrollbar {
+    width: 0.5px solid rgb(182, 158, 158);
+    background: transparent;
+    width: 4px;
+}
+
+form .customer_section_tables::-webkit-scrollbar-thumb {
+    background: #e2c7c7;
+    border-radius: 2px;
+
+}
+
+form .customer_section_tables::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+.customer_table_Details th {
+    padding: .5rem;
+    background-color: #7da0f99a;
+    border: .1px solid grey;
+}
+
+.customer_table_Details td {
+    border-top: none;
+    padding: .5rem;
+    text-align: center;
+    border-bottom: .1px solid grey;
+    border-left: .1px solid grey;
+    border-right: .1px solid grey;
+}
+
+
+.customer_section_tables input {
+    margin: .3rem;
+    width: 30%;
+    padding: .3rem;
+}
+
+/* .customer_info_table {
+    border: .1px solid grey;
+} */
+
+.customer_info_table th {
+    padding: .4rem;
+    /* border-top: .1px solid grey; */
+    border-right: .1px solid grey;
+    border-bottom: .1px solid grey;
+    /* border-top: .1px solid grey; */
+}
+
+.customer_info_table td {
+    padding: .4rem;
+    text-align: center;
+    border-right: .1px solid grey;
+    /* border-bottom: .1px solid grey; */
+}
+
+.customer-left_section {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    /* gap: 1rem; */
+    /* border: 1px solid green; */
+}
+
+.customer-left_section table th {
+    border-top: none;
+    border-bottom: 1px solid grey;
+}
+
+.customer-left_section table td {
+    border-bottom: 1px solid grey;
+}
+
+.customer-left_section .order_btns {
+    padding: 1rem;
+    /* border: 1px solid purple; */
+}
+
+.customer-left_section .order_btns button {
+    padding: .4rem;
+    background-color: transparent;
+    border: 1px solid grey;
+}

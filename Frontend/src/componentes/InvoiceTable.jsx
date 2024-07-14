@@ -63,8 +63,8 @@ const InvoiceTable = () => {
               <th>Products</th>
               <th>Price</th>
               <th>Quantity</th>
-              <th>Amount</th>
-              <th>Discount</th>
+              {/* <th>Amount</th> */}
+              {/* <th>Discount</th> */}
               <th>Tota Amount</th>
               <th>Opt</th>
               <th>Status</th>
@@ -98,14 +98,14 @@ const InvoiceTable = () => {
                   </select>
                 </td>
                 <td>
-                  ${order.products.reduce((total, product) => total + product.price, 0)}
+                  ${order.products.reduce((total, product) => total + product.price * product.quantity, 0)}
                 </td>
-                <td>
+                {/* <td>
                   ${order.products.reduce((total, product) => total + product.discount, 0) || 0}
-                </td>
-                <td>
+                </td> */}
+                {/* <td>
                   $ {order.products.reduce((total, product) => total + product.price, 0) - order.products.reduce((total, product) => total + product.discount, 0)}
-                </td>
+                </td> */}
                 <td>
                   <Link to={`/pdf/${order._id}`}><Eye size={20} color="#000000" strokeWidth={1} /></Link>
                 </td>

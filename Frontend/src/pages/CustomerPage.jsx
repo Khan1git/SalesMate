@@ -208,21 +208,21 @@ function CustomerPage() {
             });
             const result = await response.json();
 
-            // Calculate paid and unpaid counts
-            let paid = 0;
-            let unpaid = 0;
-            result.forEach(order => {
-                if (order.paid) {
-                    paid++;
-                } else {
-                    unpaid++;
-                }
-            });
+            // // Calculate paid and unpaid counts
+            // let paid = 0;
+            // let unpaid = 0;
+            // result.forEach(order => {
+            //     if (order.paid) {
+            //         paid++;
+            //     } else {
+            //         unpaid++;
+            //     }
+            // });
 
             // Update state with orders and counts
             setOrders(result);
-            setPaidCount(paid);
-            setUnpaidCount(unpaid);
+            // setPaidCount(paid);
+            // setUnpaidCount(unpaid);
         } catch (error) {
             console.error('Error sending data:', error);
             toast.error('An error occurred while sending data');
@@ -275,7 +275,7 @@ function CustomerPage() {
                                         <td>${customer.AccountBalance}</td>
                                         <td className='icon_style'><XCircle size={16} onClick={() => handleDelete(customer._id)} /></td>
                                         <td className='icon_style'><Pen size={16} onClick={() => handleEdit(customer)} /></td>
-                                        <td className='icon_style'><UserRoundSearch  size={16}/></td>
+                                        <td className='icon_style'><UserRoundSearch  size={16} onClick={()=> navigate(`/customer-details/${customer._id}`)}/></td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -283,7 +283,7 @@ function CustomerPage() {
                     </div>
                     <div class="customer_left">
                         <div class="order_btns">
-                            <button onClick={HandleaddCustomer}>Add</button>
+                            <button onClick={HandleaddCustomer}>Add Customer</button>
                             <button onClick={handleUpdate}>Update</button>
                         </div>
                         {/* <table width="30%" className='total_table '>

@@ -16,6 +16,7 @@ import Order2 from './pages/Order2';
 import InvoiceOrder from './pages/InvoiceOrder';
 import ProductPage from './pages/ProductPage';
 import CustomerPage from './pages/CustomerPage';
+import CustomerDetailsPage from './pages/CustomerDetailsPage';
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/invoice/:id" element={<InvoiceOrder />} />
         <Route path="/product-page" element={<ProductPage />} />
         <Route path="/customer-page" element={<CustomerPage />} />
+        <Route path="/customer-details/:id" element={<CustomerDetailsPage />} />
       </Routes>
     </Router>
   )
