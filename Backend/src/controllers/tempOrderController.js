@@ -2,8 +2,8 @@ import tempInvoice from "../models/tempOrderModel.js";
 
 export const addTempOrder = async (req, res) => {
     try {
-        const { InvNo,customer, products, paid } = req.body;
-        const invoice = new tempInvoice({ InvNo, customer, products, paid });
+        const { InvNo, name, products, paid } = req.body;
+        const invoice = new tempInvoice({ InvNo, name, products, paid });
         const result = await invoice.save();
         res.status(201).json(result);
     } catch (error) {
@@ -11,3 +11,24 @@ export const addTempOrder = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
+export const getTempById = async (req, res) => {
+    try {
+        const id = req.params.id
+        const findTempById = await tempInvoice.findById(id)
+        res.status(200).json(findTempById)
+    } catch (error) {
+        console.log(error, "error in the getTempOrder")
+    }
+}
+
+
+export const getAllTempInvoices = async(req, res)=>{
+    try {
+        const response = await tempInvoice.find()
+        res.status(200).json(response)
+    } catch (error) {
+        console.log(error)
+    }
+}

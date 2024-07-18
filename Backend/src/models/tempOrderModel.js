@@ -23,7 +23,7 @@ const tempOrderSchema = new mongoose.Schema({
         type: Number,
         unique: true
     },
-    customer: {
+    name: {
         type: String
     },
     products: [productSchema],

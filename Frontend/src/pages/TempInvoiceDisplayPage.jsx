@@ -5,107 +5,96 @@ import { Eye, Pen, Truck, Trash2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
-const Invoices = () => {
+function TempInvoiceDisplayPage() {
 
-  const [orders, setOrders] = useState([])
-  const [price, setPrice] = useState('')
-  const [search, setSearch] = useState("")
-  const [time, setTime] = useState([])
-  // console.log(orders)
-
-
-  // console.log(price)
-  // console.log(orders)
-
-  const ShowAllorders = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/api/order/getall", {
-        method: "GET"
-      });
-      const result = await response.json();
-      
-      const filteredOrders = result.filter(order =>
-        order.customer && order.customer.name && 
-        (search ? order.customer.name.toLowerCase().includes(search.toLowerCase()) : true)
-      );
+    const [orders, setOrders] = useState([])
+    const [price, setPrice] = useState('')
+    const [search, setSearch] = useState("")
+    const [time, setTime] = useState([])
   
-      setOrders(filteredOrders);
-      setTime(result);
-    } catch (error) {
-      console.log("Fetching Orders Error", error);
-    }
-  };
-  
-  useEffect(() => {
-    ShowAllorders();
-  }, [search]);
-  
+    console.log(orders)
+    const ShowAllorders = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/order/get-all", {
+          method: "GET"
+        });
+        const result = await response.json();
 
-  const handleDelete = async (id) => {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'You are about to delete this order',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, keep it'
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const response = await fetch(`http://localhost:5000/api/order/deletebyid/${id}`, {
-            method: "DELETE"
-          });
-          if (response.ok) {
-            ShowAllorders();
-            Swal.fire({
-              title: 'Success!',
-              text: 'Order deleted successfully',
-              icon: 'success',
-              confirmButtonText: 'Cool'
-            });
-          } else {
-            Swal.fire({
-              title: 'Error!',
-              text: 'Failed to delete order',
-              icon: 'error',
-              confirmButtonText: 'OK'
-            });
-          }
-        } catch (error) {
-          console.error('Error:', error);
-          Swal.fire({
-            title: 'Error!',
-            text: 'An error occurred while deleting the order',
-            icon: 'error',
-            confirmButtonText: 'OK'
-          });
-        }
+        // setOrders(result)
+    
+        const filteredOrders = result.filter(order =>
+          order && order.name && 
+          (search ? order.name.toLowerCase().includes(search.toLowerCase()) : true)
+        );
+    
+        setOrders(filteredOrders);
+        setTime(result);
+      } catch (error) {
+        console.log("Fetching Orders Error", error);
       }
-    });
-
-  };
-
-  // const FormattedDate = new Date(order.date).toLocaleDateString('en-US', {
-  //   year: 'numeric',
-  //   month: 'long',
-  //   day: 'numeric',
-  // });
-
-  // console.log(FormattedDate);
-
+    };
+    
+    useEffect(() => {
+      ShowAllorders();
+    }, [search]);
+    
+  
+    // const handleDelete = async (id) => {
+    //   Swal.fire({
+    //     title: 'Are you sure?',
+    //     text: 'You are about to delete this order',
+    //     icon: 'warning',
+    //     showCancelButton: true,
+    //     confirmButtonText: 'Yes, delete it!',
+    //     cancelButtonText: 'No, keep it'
+    //   }).then(async (result) => {
+    //     if (result.isConfirmed) {
+    //       try {
+    //         const response = await fetch(`http://localhost:5000/api/order/deletebyid/${id}`, {
+    //           method: "DELETE"
+    //         });
+    //         if (response.ok) {
+    //           ShowAllorders();
+    //           Swal.fire({
+    //             title: 'Success!',
+    //             text: 'Order deleted successfully',
+    //             icon: 'success',
+    //             confirmButtonText: 'Cool'
+    //           });
+    //         } else {
+    //           Swal.fire({
+    //             title: 'Error!',
+    //             text: 'Failed to delete order',
+    //             icon: 'error',
+    //             confirmButtonText: 'OK'
+    //           });
+    //         }
+    //       } catch (error) {
+    //         console.error('Error:', error);
+    //         Swal.fire({
+    //           title: 'Error!',
+    //           text: 'An error occurred while deleting the order',
+    //           icon: 'error',
+    //           confirmButtonText: 'OK'
+    //         });
+    //       }
+    //     }
+    //   });
+  
+    // };
 
   return (
     <>
-      <Navbar />
-      <section id="invoice">
+    <Navbar/>
+    <section id="invoice">
         {/* <h1 style={{ textAlign: "center" }}>ALL INVOICES</h1> */}
         {/* <>INVOICES</> */}
         <div className="btns">
           <input type="search" name="" id="" placeholder='Search by Customer Name...' value={search}
             // onChange={handleSearchChange}
             onChange={(e) => setSearch(e.target.value)} />
-          <Link to={'/show-temp-invoices'}>
-            <button>TEMP INVOICES</button>
+          <Link to={'/invoices'}>
+            <button>INVOICES</button>
           </Link>
         </div>
         <div className="invoice_table">
@@ -134,7 +123,7 @@ const Invoices = () => {
                   <td>{index + 1}</td>
                   <td>INV{(order._id).slice(0, 9)}</td>
                   <td>{new Date(order.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', })}</td>
-                  <td>{order.customer.name}</td>
+                  <td>{order.name}</td>
                   <td>
                     <select className='select' id="productSelect" >
                       {order.products.map(product => (
@@ -195,7 +184,7 @@ const Invoices = () => {
                     }}>Unpaid</p>}
                   </td>
                   <td>
-                    <Link to={`/pdf/${order._id}`}><Eye size={20} color="#000000" strokeWidth={1} /></Link>
+                    <Link to={`/temp-invoice/${order._id}`}><Eye size={20} color="#000000" strokeWidth={1} /></Link>
                   </td>
                   <td>
                     <Trash2 size={20} onClick={() => handleDelete(order._id)} color="#000000" strokeWidth={1} />
@@ -216,4 +205,4 @@ const Invoices = () => {
   )
 }
 
-export default Invoices
+export default TempInvoiceDisplayPage

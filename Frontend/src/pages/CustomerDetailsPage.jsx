@@ -15,6 +15,7 @@ function CustomerDetailsPage() {
     const [unpaidInvoice, setUnpaidInvoice] = useState([])
     const [unpaidCost, setUnpaidCost] = useState(0)
     // console.log(unpaidInvoice)
+    // console.log(id)
 
     const getUserByID = async () => {
         try {
@@ -47,7 +48,7 @@ function CustomerDetailsPage() {
                 method: "GET"
             });
             const result = await response.json();
-            const allInvoices = result.filter((order) => order.customer.customerId === id)
+            const allInvoices = result.filter((order) => order.customer ? order.customer.customerId === id : 'not-found')
             // const unPaidInvoices = result.filter((order) => order.paid === false)
             const unPaidInvoices = allInvoices.filter((order) => !order.paid && order.customer.customerId === id)
             setCustomerInvoices(allInvoices)

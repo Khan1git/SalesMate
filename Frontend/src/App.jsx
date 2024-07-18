@@ -12,12 +12,14 @@ import InvoicePDF from './componentes/InvoicePDF';
 import Invoices from './pages/Invoices';
 import Company from './pages/Company';
 import Analytics from './pages/Analytics';
-import Order2 from './pages/Order2';
 import InvoiceOrder from './pages/InvoiceOrder';
 import ProductPage from './pages/ProductPage';
 import CustomerPage from './pages/CustomerPage';
 import CustomerDetailsPage from './pages/CustomerDetailsPage';
 import Payment from './pages/Payment';
+import TemorderPage from './pages/TemorderPage';
+import TempInvoicePage from './pages/TempInvoicePage';
+import TempInvoiceDisplayPage from './pages/TempInvoiceDisplayPage';
 
 const App = () => {
   return (
@@ -29,13 +31,15 @@ const App = () => {
         <Route path="/invoices" element={<Invoices />} />
         <Route path="/pdf/:id" element={<InvoicePDF />} />
         <Route path="/analytics" element={<Analytics />} />
-        <Route path="/walk-order" element={<Order2 />} />
         <Route path="/invoice-order" element={<InvoiceOrder />} />
         <Route path="/invoice/:id" element={<InvoiceOrder />} />
         <Route path="/product-page" element={<ProductPage />} />
         <Route path="/customer-page" element={<CustomerPage />} />
         <Route path="/customer-details/:id" element={<CustomerDetailsPage />} />
         <Route path="/payment" element={<Payment />} />
+        <Route path="/temp-order" element={<TemorderPage />} />
+        <Route path="/temp-invoice/:id" element={<TempInvoicePage />} />
+        <Route path="/show-temp-invoices" element={<TempInvoiceDisplayPage />} />
       </Routes>
     </Router>
   )

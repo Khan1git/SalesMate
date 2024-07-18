@@ -85,7 +85,7 @@ const InvoiceOrder = () => {
     };
     setTableData([...tableData, newData]);
     const newTotalCost = cost + parseFloat(price) * quantity;
-    setCost(newTotalCost) 
+    setCost(newTotalCost)
 
     setItem('');
     setQuantity('');
@@ -408,6 +408,9 @@ const InvoiceOrder = () => {
             <div class="order_btns">
               <button onClick={sendTableDataToBackend}>Place Order</button>
               <button onClick={handleUpdate}>Update</button>
+              <button >
+                <Link to={'/temp-order'}>Temp</Link>
+              </button>
             </div>
             <table width="30%" className='total_table '>
               <thead>
@@ -416,7 +419,6 @@ const InvoiceOrder = () => {
                   <td>{cost}</td>
                 </tr>
               </thead>
-
             </table>
           </div>
         </form>

@@ -6,12 +6,13 @@ import { Eye, MoveRight } from 'lucide-react'
 
 const InvoiceTable = () => {
   const [orders, setOrders] = useState([])
+
   const [price, setPrice] = useState('')
   const [search, setSearch] = useState("")
 
 
   // console.log(price)
-  // console.log(orders)
+  console.log(orders)
 
   const ShowAllorders = async () => {
     try {
@@ -75,7 +76,7 @@ const InvoiceTable = () => {
               <tr key={order._id}>
                 <td>{index + 1}</td>
                 {/* <td>INV{(order._id).slice(0, 5)}</td> */}
-                <td>{order.customer.name}</td>
+                <td>{order.customer? order.customer.name : 'temp customer'}</td>
                 <td>
                   <select className='select' id="productSelect" >
                     {order.products.map(product => (
