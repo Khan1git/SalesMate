@@ -17,6 +17,7 @@ import InvoiceOrder from './pages/InvoiceOrder';
 import ProductPage from './pages/ProductPage';
 import CustomerPage from './pages/CustomerPage';
 import CustomerDetailsPage from './pages/CustomerDetailsPage';
+import Payment from './pages/Payment';
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="/product-page" element={<ProductPage />} />
         <Route path="/customer-page" element={<CustomerPage />} />
         <Route path="/customer-details/:id" element={<CustomerDetailsPage />} />
+        <Route path="/payment" element={<Payment />} />
       </Routes>
     </Router>
   )

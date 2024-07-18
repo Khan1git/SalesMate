@@ -5,6 +5,7 @@ import { addProduct, countProducts, deleteProduct, getAllProducts, updateProduct
 import { UpdateByid, addCompanyDetails, getCompanyById, showDetails } from '../controllers/companyController.js'
 import { DeleteById, UpdateOrder, addOrder, countAllOrders,  countOrders, findUnpaidCustomerBill, getAllOrders, getOrderById } from '../controllers/orderController.js'
 import { addTempOrder } from '../controllers/tempOrderController.js'
+import { addPayment } from '../controllers/paymentController.js'
 
 const router = express.Router()
 
@@ -45,7 +46,11 @@ router.get('/order/customerUnpaid/:id', findUnpaidCustomerBill)
 
 
 // ------------------ TEMPORARY INVOICES
-
 router.post('/order/temp', addTempOrder)
+
+
+// ------------------------ PAYMENT METHOD
+
+router.post('/order/add-payment', addPayment)
 
 export default router

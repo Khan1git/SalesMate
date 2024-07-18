@@ -110,6 +110,17 @@ const styles = StyleSheet.create({
         fontSize: '12px',
         margin: '3px',
         borderStyle: 'solid'
+    },
+    cash:{
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        flexDirection: 'row',
+        paddingRight: '10%',
+        // textAlign: 'center',
+        // gap: '90px'
+        marginTop: '1px',
+        // margin: "1rem"
     }
 });
 
@@ -133,9 +144,9 @@ const InvoicePDF = () => {
     const [products, setProduct] = useState([]);
     const [customerId, setId] = useState('')
     const [customerDetails, setCustomerDetails] = useState([])
-    // console.log(customerId)
-    // console.log(orderData)
-    // console.log(customerDetails)
+ 
+
+    // -------------------- SHOWING THE COMPANY DATA
 
     const showCompanyDate = async () => {
         try {
@@ -168,6 +179,40 @@ const InvoicePDF = () => {
         showOrder();
     }, [id]);
 
+
+     // ----------------------------- SHOWING THE UNPAID BALANCE
+     const [customerInvoices, setCustomerInvoices] = useState([])
+     const [unpaidInvoice, setUnpaidInvoice] = useState([])
+     const [unpaidCost, setUnpaidCost] = useState(0)
+     console.log(unpaidCost)
+ 
+ 
+     const ShowAllorders = async () => {
+         try {
+             const response = await fetch("http://localhost:5000/api/order/getall", {
+                 method: "GET"
+             });
+             const result = await response.json();
+             const allInvoices =  await result.filter((order) => order.customer.customerId === customerId)
+             // const unPaidInvoices = result.filter((order) => order.paid === false)
+             const unPaidInvoices =  await result.filter((order) => order.paid === false && order.customer.customerId === customerId )
+             setCustomerInvoices(allInvoices)
+             setUnpaidInvoice(unPaidInvoices)
+ 
+             // -------- THE UNPAID COST
+             const totalCost = unPaidInvoices.reduce((total, invoice) => {
+                 const invoiceTotal = invoice.products.reduce((invoiceSum, product) => {
+                     return invoiceSum + (product.price * product.quantity);
+                 }, 0);
+                 return total + invoiceTotal;
+             }, 0);
+             setUnpaidCost(totalCost)
+ 
+         } catch (error) {
+             console.log("Fetching Orders Error", error);
+         }
+     };
+   
     // --------------- showing the customer using the id
 
 
@@ -191,9 +236,12 @@ const InvoicePDF = () => {
         }
     };
 
+
+
     useEffect(() => {
         if (customerId) {
             showCustomerById();
+            ShowAllorders(); 
         }
     }, [customerId]);
 
@@ -231,9 +279,9 @@ const InvoicePDF = () => {
                                 <Text>Date: {orderData.date ? format(new Date(orderData.date), 'dd-MMMM-yyyy') : ''}</Text>
                             </View>
                             <Text>Customer Name: {orderData.customer ? orderData.customer.name : ''}</Text>
-                            <Text>Previous Remaining Balance: 2340</Text>
+                            <Text>Previous Remaining Balance: {unpaidCost}</Text>
                             <Text>Total Balance: {customerDetails.AccountBalance ? customerDetails.AccountBalance : ''}</Text>
-                            <Text>Payment Method: {orderData.payment ? orderData.payment : ''}</Text>
+                            {/* <Text>Payment Method: {orderData.payment ? orderData.payment : ''}</Text> */}
                             <View style={styles.table}>
                                 <View style={styles.tableRow}>
                                     <Text style={styles.tableCellHeader}>Item</Text>
@@ -263,8 +311,12 @@ const InvoicePDF = () => {
                                 <Text style={styles.total_amount}>Total Payable (in ):</Text>
                                 <Text style={styles.price}>{TotalAmount}.00</Text>
                             </View>
+                            <View style={styles.cash}>
+                                <Text style={styles.total_amount}>Payment Method:</Text>
+                                <Text style={styles.price}>cash</Text>
+                            </View>
                             <View style={styles.words}>
-                                <Text>Amount In Words:{numberToWords(TotalAmount)} only</Text>
+                                <Text>Amount In Words:{numberToWords(TotalAmount)}only</Text>
                             </View>
                         </View>
                     </View>

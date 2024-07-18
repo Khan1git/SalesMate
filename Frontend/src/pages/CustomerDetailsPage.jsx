@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import './css/customerdetails.css'
 import Navbar from '../componentes/Navbar'
 import { useParams } from 'react-router-dom'
+import { Eye, Pen, Truck, Trash2 } from 'lucide-react'
 
+import { Link } from 'react-router-dom'
 
 function CustomerDetailsPage() {
     const { id } = useParams()
@@ -12,7 +14,7 @@ function CustomerDetailsPage() {
     const [cost, setTotalCost] = useState(0)
     const [unpaidInvoice, setUnpaidInvoice] = useState([])
     const [unpaidCost, setUnpaidCost] = useState(0)
-    console.log(unpaidInvoice)
+    // console.log(unpaidInvoice)
 
     const getUserByID = async () => {
         try {
@@ -79,8 +81,8 @@ function CustomerDetailsPage() {
                     <table width="40% " className="customer_table_Details">
                         <thead>
                             <tr>
-                                <th>Customer Name</th>
-                                <th>Customer Pno</th>
+                                <th>Name</th>
+                                <th>Phone no</th>
                                 <th>Remaining Balance</th>
                             </tr>
                         </thead>
@@ -103,6 +105,8 @@ function CustomerDetailsPage() {
                                     <th>DESCRIPTION</th>
                                     <th>Amount</th>
                                     <th>Status</th>
+                                    <th>Show</th>
+                                    <th>Edit</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -117,18 +121,24 @@ function CustomerDetailsPage() {
                                             <td>Invoice No: {invoice.InvoiceNo} Issued</td>
                                             <td>{totalAmount}</td>
                                             <td>{invoice.paid ? "Paid" : "Unpaid"}</td>
+                                            <td>
+                                                <Link to={`/pdf/${invoice._id}`}><Eye size={20} color="#000000" strokeWidth={1} /></Link>
+                                            </td>
+                                            <td>
+                                                <Link to={`/invoice/${invoice._id}`}><Pen size={20} color="#000000" strokeWidth={1} /></Link>
+                                            </td>
                                         </tr>
                                     )
                                 })}
                             </tbody>
                         </table>
                     </div>
-                    <div className="customer-left_section">
+                    {/* <div className="customer-left_section">
                         <div className="order_btns">
                             <button>Place Order</button>
                             <button>Update</button>
                         </div>
-                    </div>
+                    </div> */}
                 </form>
             </section>
         </>
