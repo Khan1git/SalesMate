@@ -154,6 +154,8 @@ function TempInvoicePage() {
     const [products, setProduct] = useState([]);
     const [customerId, setId] = useState('')
     const [customerDetails, setCustomerDetails] = useState([])
+    const [payment, setPayment] = useState("cash")
+    // console.log(orderData)
  
 
     // -------------------- SHOWING THE COMPANY DATA
@@ -178,6 +180,7 @@ function TempInvoicePage() {
             const response = await fetch(`http://localhost:5000/api/order/getby-id/${id}`, { method: "GET" });
             const result = await response.json();
             setOrderData(result);
+            setPayment(result.payment)
             setProduct(result.products);
             setId(result.customer.customerId)
         } catch (error) {
@@ -254,7 +257,7 @@ function TempInvoicePage() {
                             </View>
                             <View style={styles.cash}>
                                 <Text style={styles.total_amount}>Payment Method:</Text>
-                                <Text style={styles.method}>cash</Text>
+                                <Text style={styles.method}>{payment}</Text>
                             </View>
                             <View style={styles.words}>
                                 <Text>Amount In Words:{numberToWords(TotalAmount)} only</Text>

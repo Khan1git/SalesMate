@@ -144,6 +144,7 @@ const InvoicePDF = () => {
     const [products, setProduct] = useState([]);
     const [customerId, setId] = useState('')
     const [customerDetails, setCustomerDetails] = useState([])
+    const [payment, setPayment] = useState("cash")
  
 
     // -------------------- SHOWING THE COMPANY DATA
@@ -169,6 +170,7 @@ const InvoicePDF = () => {
             const result = await response.json();
             setOrderData(result);
             setProduct(result.products);
+            setPayment(result.payment)
             setId(result.customer.customerId)
         } catch (error) {
             console.log(error);
@@ -313,7 +315,7 @@ const InvoicePDF = () => {
                             </View>
                             <View style={styles.cash}>
                                 <Text style={styles.total_amount}>Payment Method:</Text>
-                                <Text style={styles.price}>cash</Text>
+                                <Text style={styles.price}>{payment}</Text>
                             </View>
                             <View style={styles.words}>
                                 <Text>Amount In Words:{numberToWords(TotalAmount)}only</Text>

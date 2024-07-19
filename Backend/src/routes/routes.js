@@ -5,7 +5,7 @@ import { addProduct, countProducts, deleteProduct, getAllProducts, updateProduct
 import { UpdateByid, addCompanyDetails, getCompanyById, showDetails } from '../controllers/companyController.js'
 import { DeleteById, UpdateOrder, addOrder, countAllOrders,  countOrders, findUnpaidCustomerBill, getAllOrders, getOrderById } from '../controllers/orderController.js'
 import { addTempOrder, deleteTempOrderById, getAllTempInvoices, getTempById, updateTempOrder } from '../controllers/tempOrderController.js'
-import { addPayment, findAllPaymnets, findPaymentById } from '../controllers/paymentController.js'
+import { addPayment, deletePaymentById, findAllPaymnets, findPaymentById } from '../controllers/paymentController.js'
 
 const router = express.Router()
 
@@ -57,5 +57,6 @@ router.delete('/order/delete-temp/:id', deleteTempOrderById)
 router.post('/order/add-payment', addPayment)
 router.get('/order/find-payment/:id', findPaymentById)
 router.get('/order/all-payments', findAllPaymnets)
+router.delete('/order/delete-payment/:id', deletePaymentById)
 
 export default router

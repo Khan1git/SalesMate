@@ -30,3 +30,13 @@ export const findAllPaymnets = async(req, res)=>{
         console.log(error)
     }
 }
+
+export const deletePaymentById = async(req, res)=> {
+    try {
+        const id = req.params.id
+        const response = await Payment.findByIdAndDelete(id)
+        res.status(200).json(response)
+    } catch (error) {
+        console.log(error, "Failed to delete the paymnet")
+    }
+}

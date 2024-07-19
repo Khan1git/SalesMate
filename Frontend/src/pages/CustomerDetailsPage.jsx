@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './css/customerdetails.css'
 import Navbar from '../componentes/Navbar'
 import { useParams } from 'react-router-dom'
+import Swal from 'sweetalert2'
 import { Eye, Pen, Truck, Trash2 } from 'lucide-react'
 
 import { Link } from 'react-router-dom'
@@ -91,7 +92,7 @@ function CustomerDetailsPage() {
 
     useEffect(() => { showAllPayments() }, [])
 
-    // -------------- COMBINING THE TWO ARRAYS
+    // -------------- COMBINING THE TWO ARRAYS-------------
 
     const combinedData = [
         ...customerInvoices.map((invoice) => ({
@@ -104,6 +105,51 @@ function CustomerDetailsPage() {
         })),
     ].sort((a, b) => new Date(a.date) - new Date(b.date));
 
+    //----------------- DELTEING THE PAYMENT IF NEEDED
+
+    const handleDelete = async (id) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You are about to delete this order',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, keep it'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch(`http://localhost:5000/api/order/delete-payment/${id}`, {
+                        method: "DELETE"
+                    });
+                    if (response.ok) {
+                        showAllPayments();
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Order deleted successfully',
+                            icon: 'success',
+                            confirmButtonText: 'Cool'
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Failed to delete order',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'An error occurred while deleting the order',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            }
+        });
+
+    };
 
 
     return (
@@ -180,7 +226,7 @@ function CustomerDetailsPage() {
                                                 </td>
                                                 <td>Invoice #{data.InvoiceNo} Issued</td>
                                                 <td>{totalAmount}</td>
-                                                <td>{data.paid ? 'paid': 'Unpaid'}</td>
+                                                <td>{data.paid ? 'paid' : 'Unpaid'}</td>
                                                 <td>
                                                     <Link to={`/pdf/${data._id}`}>
                                                         <Eye size={20} color="#000000" strokeWidth={1} />
@@ -208,7 +254,7 @@ function CustomerDetailsPage() {
                                                 <td
                                                 //   style={{"width": '60%'}}
                                                 >{data.amount}</td>
-                                                <td><Trash2 size={20} color="#000000" strokeWidth={1} /></td>
+                                                <td><Trash2 size={20} color="#000000" strokeWidth={1}   onClick={() => handleDelete(data._id)}/></td>
                                                 <td>
                                                     <Eye size={20} color="#000000" strokeWidth={1} />
                                                 </td>

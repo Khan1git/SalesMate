@@ -218,35 +218,35 @@ function TemorderPage() {
 
     // --------------- THE UPDATE METHODS ----------------------
 
-      const { id } = useParams()
-      // console.log(id)
+    const { id } = useParams()
+    // console.log(id)
 
-      const [orderData, setOrderData] = useState({});
-      const [product, setProduct] = useState([])
-      // console.log(product)
+    const [orderData, setOrderData] = useState({});
+    const [product, setProduct] = useState([])
+    // console.log(product)
 
-      const fetchOrderData = async () => {
+    const fetchOrderData = async () => {
         try {
-          const response = await fetch(`http://localhost:5000/api/order/getby-id/${id}`);
-          if (!response.ok) {
-            throw new Error('Failed to fetch order data');
-          }
-          const data = await response.json();
-          setOrderData(data);
-        //   setCustomerID(data.customer.customerId)
-        setname(data.name)
-        setPayment(data.payment)
-          setPayment(data.payment)
-          setTableData(data.products)
+            const response = await fetch(`http://localhost:5000/api/order/getby-id/${id}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch order data');
+            }
+            const data = await response.json();
+            setOrderData(data);
+            //   setCustomerID(data.customer.customerId)
+            setname(data.name)
+            setPayment(data.payment)
+            setPayment(data.payment)
+            setTableData(data.products)
         } catch (error) {
-          console.error('Error fetching order data:', error);
-          toast.error('Failed to fetch order data');
+            console.error('Error fetching order data:', error);
+            toast.error('Failed to fetch order data');
         }
-      };
+    };
 
-      useEffect(() => {
+    useEffect(() => {
         fetchOrderData();
-      }, [id]);
+    }, [id]);
 
 
     const handleUpdate = async (e) => {
@@ -287,6 +287,8 @@ function TemorderPage() {
         }
     };
 
+ 
+
     return (
         <>
             <Navbar />
@@ -294,7 +296,7 @@ function TemorderPage() {
                 <form action="">
                     <div class="fields">
                         {/* <!-- <label for="">PLACE ORDER</label> --> */}
-                        <input type="text" placeholder='Customer Name..' value={name} onChange={((e)=> setname(e.target.value))} />
+                        <input type="text" placeholder='Customer Name..' value={name} onChange={((e) => setname(e.target.value))} />
                         <select name="Select Product" id="productSelect" onChange={(e) => setItem(e.target.value)}>
                             <option value="">PRODUCTS</option>
                             {products.map(product => (

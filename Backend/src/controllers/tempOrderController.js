@@ -2,8 +2,8 @@ import tempInvoice from "../models/tempOrderModel.js";
 
 export const addTempOrder = async (req, res) => {
     try {
-        const { InvNo, name, products, paid } = req.body;
-        const invoice = new tempInvoice({ InvNo, name, products, paid });
+        const { InvNo, name, products, paid, payment } = req.body;
+        const invoice = new tempInvoice({ InvNo, name, products, paid, payment });
         const result = await invoice.save();
         res.status(201).json(result);
     } catch (error) {
