@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
         // fontWeight: 'bold',
         width: '22.4%',
         backgroundColor: '#edece8',
-        marginLeft: '2%',
+        marginLeft: '1%',
         marginRight: '-13%',
         textAlign: 'center',
         padding: '4px',
@@ -121,6 +121,16 @@ const styles = StyleSheet.create({
         // gap: '90px'
         marginTop: '1px',
         // margin: "1rem"
+    },
+    method:{
+        border: 1,
+        // fontWeight: 'bold',
+        width: '22.4%',
+        // backgroundColor: '#edece8',
+        marginLeft: '1%',
+        marginRight: '-13%',
+        textAlign: 'center',
+        padding: '2px',
     }
 });
 
@@ -244,10 +254,10 @@ function TempInvoicePage() {
                             </View>
                             <View style={styles.cash}>
                                 <Text style={styles.total_amount}>Payment Method:</Text>
-                                <Text style={styles.price}>cash</Text>
+                                <Text style={styles.method}>cash</Text>
                             </View>
                             <View style={styles.words}>
-                                <Text>Amount In Words:{numberToWords(TotalAmount)}only</Text>
+                                <Text>Amount In Words:{numberToWords(TotalAmount)} only</Text>
                             </View>
                         </View>
                     </View>

@@ -4,8 +4,8 @@ import { createCustomer, deleteCustomerById, getAllCustomers, getAllCustomersNum
 import { addProduct, countProducts, deleteProduct, getAllProducts, updateProductById } from '../controllers/productController.js'
 import { UpdateByid, addCompanyDetails, getCompanyById, showDetails } from '../controllers/companyController.js'
 import { DeleteById, UpdateOrder, addOrder, countAllOrders,  countOrders, findUnpaidCustomerBill, getAllOrders, getOrderById } from '../controllers/orderController.js'
-import { addTempOrder, getAllTempInvoices, getTempById } from '../controllers/tempOrderController.js'
-import { addPayment } from '../controllers/paymentController.js'
+import { addTempOrder, deleteTempOrderById, getAllTempInvoices, getTempById, updateTempOrder } from '../controllers/tempOrderController.js'
+import { addPayment, findAllPaymnets, findPaymentById } from '../controllers/paymentController.js'
 
 const router = express.Router()
 
@@ -47,12 +47,15 @@ router.get('/order/customerUnpaid/:id', findUnpaidCustomerBill)
 
 // ------------------ TEMPORARY INVOICES
 router.post('/order/temp', addTempOrder)
+router.get('/order/getby-id/:id', getTempById)
+router.get('/order/get-all', getAllTempInvoices)
+router.put('/order/update-temp/:id', updateTempOrder)
+router.delete('/order/delete-temp/:id', deleteTempOrderById)
 
 
 // ------------------------ PAYMENT METHOD
-
 router.post('/order/add-payment', addPayment)
-router.get('/order/getby-id/:id', getTempById)
-router.get('/order/get-all', getAllTempInvoices)
+router.get('/order/find-payment/:id', findPaymentById)
+router.get('/order/all-payments', findAllPaymnets)
 
 export default router

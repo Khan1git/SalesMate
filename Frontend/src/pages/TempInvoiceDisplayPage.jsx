@@ -20,8 +20,6 @@ function TempInvoiceDisplayPage() {
         });
         const result = await response.json();
 
-        // setOrders(result)
-    
         const filteredOrders = result.filter(order =>
           order && order.name && 
           (search ? order.name.toLowerCase().includes(search.toLowerCase()) : true)
@@ -39,49 +37,49 @@ function TempInvoiceDisplayPage() {
     }, [search]);
     
   
-    // const handleDelete = async (id) => {
-    //   Swal.fire({
-    //     title: 'Are you sure?',
-    //     text: 'You are about to delete this order',
-    //     icon: 'warning',
-    //     showCancelButton: true,
-    //     confirmButtonText: 'Yes, delete it!',
-    //     cancelButtonText: 'No, keep it'
-    //   }).then(async (result) => {
-    //     if (result.isConfirmed) {
-    //       try {
-    //         const response = await fetch(`http://localhost:5000/api/order/deletebyid/${id}`, {
-    //           method: "DELETE"
-    //         });
-    //         if (response.ok) {
-    //           ShowAllorders();
-    //           Swal.fire({
-    //             title: 'Success!',
-    //             text: 'Order deleted successfully',
-    //             icon: 'success',
-    //             confirmButtonText: 'Cool'
-    //           });
-    //         } else {
-    //           Swal.fire({
-    //             title: 'Error!',
-    //             text: 'Failed to delete order',
-    //             icon: 'error',
-    //             confirmButtonText: 'OK'
-    //           });
-    //         }
-    //       } catch (error) {
-    //         console.error('Error:', error);
-    //         Swal.fire({
-    //           title: 'Error!',
-    //           text: 'An error occurred while deleting the order',
-    //           icon: 'error',
-    //           confirmButtonText: 'OK'
-    //         });
-    //       }
-    //     }
-    //   });
+    const handleDelete = async (id) => {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You are about to delete this order',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const response = await fetch(`http://localhost:5000/api/order/delete-temp/${id}`, {
+              method: "DELETE"
+            });
+            if (response.ok) {
+              ShowAllorders();
+              Swal.fire({
+                title: 'Success!',
+                text: 'Order deleted successfully',
+                icon: 'success',
+                confirmButtonText: 'Cool'
+              });
+            } else {
+              Swal.fire({
+                title: 'Error!',
+                text: 'Failed to delete order',
+                icon: 'error',
+                confirmButtonText: 'OK'
+              });
+            }
+          } catch (error) {
+            console.error('Error:', error);
+            Swal.fire({
+              title: 'Error!',
+              text: 'An error occurred while deleting the order',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+          }
+        }
+      });
   
-    // };
+    };
 
   return (
     <>
@@ -190,7 +188,7 @@ function TempInvoiceDisplayPage() {
                     <Trash2 size={20} onClick={() => handleDelete(order._id)} color="#000000" strokeWidth={1} />
                   </td>
                   <td>
-                    <Link to={`/invoice/${order._id}`}><Pen size={20} color="#000000" strokeWidth={1} /></Link>
+                    <Link to={`/temp-order/${order._id}`}><Pen size={20} color="#000000" strokeWidth={1} /></Link>
                   </td>
                 </tr>
               ))}

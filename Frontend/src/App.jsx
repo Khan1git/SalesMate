@@ -38,6 +38,7 @@ const App = () => {
         <Route path="/customer-details/:id" element={<CustomerDetailsPage />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/temp-order" element={<TemorderPage />} />
+        <Route path="/temp-order/:id" element={<TemorderPage />} />
         <Route path="/temp-invoice/:id" element={<TempInvoicePage />} />
         <Route path="/show-temp-invoices" element={<TempInvoiceDisplayPage />} />
       </Routes>

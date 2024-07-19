@@ -10,3 +10,23 @@ export const addPayment = async (req, res) => {
         console.log(error)
     }
 }
+
+
+export const findPaymentById = async(req, res) =>{
+    try {
+        const id = req.params.id
+        const response = await Payment.findById(id)
+        res.status(200).json(response)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const findAllPaymnets = async(req, res)=>{
+    try {
+        const response = await Payment.find()
+        res.status(200).json(response)
+    } catch (error) {
+        console.log(error)
+    }
+}

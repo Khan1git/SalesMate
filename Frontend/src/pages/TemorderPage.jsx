@@ -218,75 +218,74 @@ function TemorderPage() {
 
     // --------------- THE UPDATE METHODS ----------------------
 
-    //   const { id } = useParams()
-    //   // console.log(id)
+      const { id } = useParams()
+      // console.log(id)
 
-    //   const [orderData, setOrderData] = useState({});
-    //   const [product, setProduct] = useState([])
-    //   // console.log(product)
+      const [orderData, setOrderData] = useState({});
+      const [product, setProduct] = useState([])
+      // console.log(product)
 
-    //   const fetchOrderData = async () => {
-    //     try {
-    //       const response = await fetch(`http://localhost:5000/api/order/getbyid/${id}`);
-    //       if (!response.ok) {
-    //         throw new Error('Failed to fetch order data');
-    //       }
-    //       const data = await response.json();
-    //       setOrderData(data);
-    //     //   setCustomerID(data.customer.customerId)
-    //       setPayment(data.payment)
-    //       setTableData(data.products)
-    //     } catch (error) {
-    //       console.error('Error fetching order data:', error);
-    //       toast.error('Failed to fetch order data');
-    //     }
-    //   };
+      const fetchOrderData = async () => {
+        try {
+          const response = await fetch(`http://localhost:5000/api/order/getby-id/${id}`);
+          if (!response.ok) {
+            throw new Error('Failed to fetch order data');
+          }
+          const data = await response.json();
+          setOrderData(data);
+        //   setCustomerID(data.customer.customerId)
+        setname(data.name)
+        setPayment(data.payment)
+          setPayment(data.payment)
+          setTableData(data.products)
+        } catch (error) {
+          console.error('Error fetching order data:', error);
+          toast.error('Failed to fetch order data');
+        }
+      };
 
-    //   useEffect(() => {
-    //     fetchOrderData();
-    //   }, [id]);
+      useEffect(() => {
+        fetchOrderData();
+      }, [id]);
 
 
-    // const handleUpdate = async (e) => {
-    //     e.preventDefault()
-    //     const payload = {
-    //         customer: {
-    //             customerId: customerID,
-    //             name: datas.find(customer => customer._id === customerID)?.name,
-    //         },
-    //         products: tableData.map(data => ({
-    //             productId: data.productId,
-    //             name: products.find(product => product._id === data.productId)?.productName,
-    //             quantity: data.quantity,
-    //             price: data.price,
-    //             discount: data.discount,
-    //             unit: data.unit
+    const handleUpdate = async (e) => {
+        e.preventDefault()
+        const payload = {
+            name,
+            products: tableData.map(data => ({
+                productId: data.productId,
+                name: products.find(product => product._id === data.productId)?.productName,
+                quantity: data.quantity,
+                price: data.price,
+                discount: data.discount,
+                unit: data.unit
 
-    //         })),
-    //         paid: paid,
-    //         payment
-    //     };
+            })),
+            paid: paid,
+            payment
+        };
 
-    //     try {
-    //         const response = await fetch(`http://localhost:5000/api/order/updateorder/${id}`, {
-    //             method: "PUT",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //             body: JSON.stringify(payload),
-    //         });
+        try {
+            const response = await fetch(`http://localhost:5000/api/order/update-temp/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
 
-    //         const data = await response.json();
-    //         console.log(data);
+            const data = await response.json();
+            console.log(data);
 
-    //         if (response.ok) {
-    //             navigate("/");
-    //             // alert("Post Updated....");
-    //         }
-    //     } catch (error) {
-    //         console.log('DATA UPDATE FAILED');
-    //     }
-    // };
+            if (response.ok) {
+                navigate("/show-temp-invoices");
+                // alert("Post Updated....");
+            }
+        } catch (error) {
+            console.log('DATA UPDATE FAILED');
+        }
+    };
 
     return (
         <>
@@ -313,7 +312,6 @@ function TemorderPage() {
                             <thead>
                                 <tr>
                                     <th>Customer Name</th>
-                                    {/* <th>Invoice No</th> */}
                                     <th>Payment Method</th>
                                     <th>Paid</th>
                                 </tr>
@@ -366,7 +364,7 @@ function TemorderPage() {
                     <div class="left">
                         <div class="order_btns">
                             <button onClick={sendTableDataToBackend}>Place Order</button>
-                            {/* <button onClick={handleUpdate}>Update</button> */}
+                            <button onClick={handleUpdate}>Update</button>
                         </div>
                         <table width="30%" className='total_table '>
                             <thead>

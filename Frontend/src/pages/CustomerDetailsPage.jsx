@@ -14,8 +14,9 @@ function CustomerDetailsPage() {
     const [cost, setTotalCost] = useState(0)
     const [unpaidInvoice, setUnpaidInvoice] = useState([])
     const [unpaidCost, setUnpaidCost] = useState(0)
-    // console.log(unpaidInvoice)
-    // console.log(id)
+    const [payment, setPayment] = useState([])
+    console.log(payment)
+
 
     const getUserByID = async () => {
         try {
@@ -72,6 +73,37 @@ function CustomerDetailsPage() {
         ShowAllorders();
     }, []);
 
+    // ----------------- FETCHING PAYMENTS MADE BY CUSTOMERS-
+
+    const showAllPayments = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/api/order/all-payments', {
+                method: "GET"
+            })
+            const result = await response.json()
+            const customerPayment = result.filter((payment) => payment.name === id)
+            setPayment(customerPayment)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => { showAllPayments() }, [])
+
+    // -------------- COMBINING THE TWO ARRAYS
+
+    const combinedData = [
+        ...customerInvoices.map((invoice) => ({
+            ...invoice,
+            type: 'invoice',
+        })),
+        ...payment.map((pay) => ({
+            ...pay,
+            type: 'payment',
+        })),
+    ].sort((a, b) => new Date(a.date) - new Date(b.date));
+
 
 
     return (
@@ -111,7 +143,7 @@ function CustomerDetailsPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {customerInvoices.map((invoice, index) => {
+                                {/* {customerInvoices.map((invoice, index) => {
                                     const totalAmount = invoice.products.reduce((total, product) => {
                                         return total + (product.price * product.quantity)
                                     }, 0)
@@ -130,6 +162,62 @@ function CustomerDetailsPage() {
                                             </td>
                                         </tr>
                                     )
+                                })} */}
+                                {combinedData.map((data, index) => {
+                                    if (data.type === 'invoice') {
+                                        const totalAmount = data.products.reduce((total, product) => {
+                                            return total + product.price * product.quantity;
+                                        }, 0);
+                                        return (
+                                            <tr key={data._id}>
+                                                <td>{index + 1}</td>
+                                                <td>
+                                                    {new Date(data.date).toLocaleDateString('en-US', {
+                                                        year: 'numeric',
+                                                        month: 'short',
+                                                        day: 'numeric',
+                                                    })}
+                                                </td>
+                                                <td>Invoice #{data.InvoiceNo} Issued</td>
+                                                <td>{totalAmount}</td>
+                                                <td>{data.paid ? 'paid': 'Unpaid'}</td>
+                                                <td>
+                                                    <Link to={`/pdf/${data._id}`}>
+                                                        <Eye size={20} color="#000000" strokeWidth={1} />
+                                                    </Link>
+                                                </td>
+                                                <td>
+                                                    <Link to={`/invoice/${data._id}`}>
+                                                        <Pen size={20} color="#000000" strokeWidth={1} />
+                                                    </Link>
+                                                </td>
+                                            </tr>
+                                        );
+                                    } else if (data.type === 'payment') {
+                                        return (
+                                            <tr key={data._id}>
+                                                <td>{index + 1}</td>
+                                                <td>
+                                                    {new Date(data.date).toLocaleDateString('en-US', {
+                                                        year: 'numeric',
+                                                        month: 'short',
+                                                        day: 'numeric',
+                                                    })}
+                                                </td>
+                                                <td>{data.method} Payment</td>
+                                                <td
+                                                //   style={{"width": '60%'}}
+                                                >{data.amount}</td>
+                                                <td><Trash2 size={20} color="#000000" strokeWidth={1} /></td>
+                                                <td>
+                                                    <Eye size={20} color="#000000" strokeWidth={1} />
+                                                </td>
+                                                <td>
+                                                    <Pen size={20} color="#000000" strokeWidth={1} />
+                                                </td>
+                                            </tr>
+                                        );
+                                    }
                                 })}
                             </tbody>
                         </table>

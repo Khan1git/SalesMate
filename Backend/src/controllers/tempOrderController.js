@@ -32,3 +32,27 @@ export const getAllTempInvoices = async(req, res)=>{
         console.log(error)
     }
 }
+
+export const updateTempOrder = async(req, res)=>{
+    try {
+        const id = req.params.id
+        const response = await tempInvoice.findByIdAndUpdate(id, req.body)
+        res.status(200).json(response)
+    } catch (error) {
+        res.status(401).json({
+            message: error
+        })
+        console.log(error,'error while updating the temporary order')
+    }
+}
+
+export const deleteTempOrderById = async(req, res)=>{
+    try {
+        const id = req.params.id
+        const response = await tempInvoice.findByIdAndDelete(id, req.body)
+        res.status(200).json(response)
+    } catch (error) {
+        console.log(error, 'Failed To Delete Temp order')
+        
+    }
+}
