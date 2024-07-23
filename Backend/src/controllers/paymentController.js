@@ -40,3 +40,13 @@ export const deletePaymentById = async(req, res)=> {
         console.log(error, "Failed to delete the paymnet")
     }
 }
+
+export const updatePaymentByid = async(req, res)=>{
+    try {
+        const id = req.params.id
+        const response = await Payment.findByIdAndUpdate(id, req.body)
+        res.status(200).json(response)
+    } catch (error) {
+        console.log(error, "can't update payment")
+    }
+}

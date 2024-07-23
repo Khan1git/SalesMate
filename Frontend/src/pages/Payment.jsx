@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './css/payment.css';
 import Navbar from '../componentes/Navbar';
 import Swal from 'sweetalert2'
+import { useNavigate, useParams } from 'react-router-dom';
 
 function Payment() {
     const [customerId, setCustomerId] = useState(''); // Customer ID if needed
@@ -10,7 +11,9 @@ function Payment() {
     const [date, setDate] = useState('');
     const [amount, setAmount] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('');
-    console.log(paymentMethod)
+    const params = useParams()
+    const id = params.id
+    const navigate = useNavigate()
 
     // Fetching all available customers
     const [customers, setCustomers] = useState([]);
@@ -30,7 +33,6 @@ function Payment() {
     useEffect(() => {
         getAllCustomers();
     }, []);
-
 
 
     // Adding payment method
@@ -82,8 +84,61 @@ function Payment() {
             console.log('Error registering payment:', error);
         }
     };
-    
 
+    //------------ UPDATING THE paYMENT--------------
+
+    const [idPyament, setIdPyament] = useState([])
+
+    console.log(idPyament)
+    const getPaymentById = async () => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/order/find-payment/${id}`, {
+                method: "GET"
+            })
+            const result = await response.json()
+            setIdPyament(result)
+            setBalance(result.balance)
+            setAmount(result.amount)
+            // setDate(result.date)
+            setCustomerId(result.name)
+            setPaymentMethod(result.method)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        getPaymentById()
+    }, [])
+
+    //------------------------- udpating the Payment -----------------
+    const [update, setUpdated]= useState([])
+
+    const handleUpdate = async () => {
+        const paymentDetails = {
+            name: customerId,
+            balance,
+            date,
+            amount,
+            method: paymentMethod
+        };
+        try {
+            const response = await fetch(`http://localhost:5000/api/order/update-payment/${id}`, {
+                method: "PUT",
+                headers: {
+                    'Content-type': "application/json"
+                },
+                body: JSON.stringify(paymentDetails)
+            })
+            const result = await response.json()
+            setUpdated(result)
+            navigate(`/customer-details/${result.name}`)
+            
+
+        } catch (error) {
+            alert('failed to update')
+            console.log(error, "can't updat th payemnt")
+        }
+    }
     return (
         <>
             <Navbar />
@@ -172,7 +227,7 @@ function Payment() {
 
                     <div className="payment_btn">
                         <button type="button" onClick={handleSubmit}>Register</button>
-                        <button type="button">Close</button>
+                        <button type="button" onClick={handleUpdate}>Update</button>
                     </div>
                 </div>
             </section>

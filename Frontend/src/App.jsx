@@ -36,7 +36,12 @@ const App = () => {
         <Route path="/product-page" element={<ProductPage />} />
         <Route path="/customer-page" element={<CustomerPage />} />
         <Route path="/customer-details/:id" element={<CustomerDetailsPage />} />
+
+        {/* ------------- THE PAYMENT --------------- */}
         <Route path="/payment" element={<Payment />} />
+        <Route path="/payment/:id" element={<Payment />} />
+
+        {/* --------------- TEMP ORDER SECTION */}
         <Route path="/temp-order" element={<TemorderPage />} />
         <Route path="/temp-order/:id" element={<TemorderPage />} />
         <Route path="/temp-invoice/:id" element={<TempInvoicePage />} />

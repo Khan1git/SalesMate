@@ -151,7 +151,6 @@ function CustomerDetailsPage() {
 
     };
 
-
     return (
         <>
             <Navbar />
@@ -254,12 +253,15 @@ function CustomerDetailsPage() {
                                                 <td
                                                 //   style={{"width": '60%'}}
                                                 >{data.amount}</td>
-                                                <td><Trash2 size={20} color="#000000" strokeWidth={1}   onClick={() => handleDelete(data._id)}/></td>
                                                 <td>
-                                                    <Eye size={20} color="#000000" strokeWidth={1} />
+                                                    {/* <Eye size={20} color="#000000" strokeWidth={1} /> */}
+                                                    Recieved
                                                 </td>
+                                                <td><Trash2 size={20} color="#000000" strokeWidth={1} onClick={() => handleDelete(data._id)} /></td>
                                                 <td>
-                                                    <Pen size={20} color="#000000" strokeWidth={1} />
+                                                    <Link to={`/payment/${data._id}`} >
+                                                        <Pen size={20} color="#000000" strokeWidth={1} />
+                                                    </Link>
                                                 </td>
                                             </tr>
                                         );

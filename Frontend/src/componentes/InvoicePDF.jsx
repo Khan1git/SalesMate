@@ -318,7 +318,7 @@ const InvoicePDF = () => {
                                 <Text style={styles.price}>{payment}</Text>
                             </View>
                             <View style={styles.words}>
-                                <Text>Amount In Words:{numberToWords(TotalAmount)}only</Text>
+                                <Text>Amount In Words:{numberToWords(TotalAmount)} only</Text>
                             </View>
                         </View>
                     </View>
