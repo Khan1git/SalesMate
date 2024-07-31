@@ -313,10 +313,10 @@ const InvoicePDF = () => {
                                 <Text style={styles.total_amount}>Total Payable (in ):</Text>
                                 <Text style={styles.price}>{TotalAmount}.00</Text>
                             </View>
-                            <View style={styles.cash}>
+                            {/* <View style={styles.cash}>
                                 <Text style={styles.total_amount}>Payment Method:</Text>
                                 <Text style={styles.price}>{payment}</Text>
-                            </View>
+                            </View> */}
                             <View style={styles.words}>
                                 <Text>Amount In Words:{numberToWords(TotalAmount)} only</Text>
                             </View>

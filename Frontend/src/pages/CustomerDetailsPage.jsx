@@ -156,11 +156,12 @@ function CustomerDetailsPage() {
             <Navbar />
             <section id="customer_details_section">
                 <form action="">
-                    <table width="40% " className="customer_table_Details">
+                    <table width="60% " className="customer_table_Details">
                         <thead>
                             <tr>
                                 <th>Name</th>
                                 <th>Phone no</th>
+                                <th>Total Account Balance</th>
                                 <th>Remaining Balance</th>
                             </tr>
                         </thead>
@@ -169,6 +170,7 @@ function CustomerDetailsPage() {
                                 <tr key={customers._id}>
                                     <td>{customers.name}</td>
                                     <td>{customers.phone}</td>
+                                    <td>{customers.AccountBalance}</td>
                                     <td>{unpaidCost}</td>
                                 </tr>
                             )}

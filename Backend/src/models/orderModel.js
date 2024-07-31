@@ -34,7 +34,6 @@ const invoiceSchema = new mongoose.Schema({
     },
     payment: {
         type: String,
-        required: true
     },
     date: {
         type: Date,

@@ -6,10 +6,6 @@ const paymentSchema = new mongoose.Schema({
         ref: 'Customer',
         required: true,  
     },
-    balance: {
-        type: Number,
-        required: true,
-    },
     date: {
         type: Date,
         required: true,

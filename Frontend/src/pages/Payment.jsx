@@ -39,51 +39,82 @@ function Payment() {
     const handleSubmit = async () => {
         const paymentDetails = {
             name: customerId,
-            balance,
+            // balance,
             date,
             amount,
             method: paymentMethod
         };
+    
         try {
-            const response = await fetch('http://localhost:5000/api/order/add-payment', {
-                method: "POST",
+            // Adding Payment
+            const paymentResponse = await fetch('http://localhost:5000/api/order/add-payment', {
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json"
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(paymentDetails)
             });
-            const result = await response.json();
-            if (response.ok) {
-                Swal.fire({
-                    title: 'Success!',
-                    text: 'Payment Added Successfully',
-                    icon: 'success',
-                    confirmButtonText: 'Cool'
-                })
-                setCustomerId('')
-                setAmount('')
-                setBalance('')
-                setDate('')
-                setPaymentMethod('')
-            } else {
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'Failed to Add Payment',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
+    
+            const paymentResult = await paymentResponse.json();
+    
+            if (!paymentResponse.ok) {
+                throw new Error(paymentResult.message || 'Failed to add payment');
             }
-            console.log('Payment registered successfully:', result);
+    
+            // Successfully added payment
+            Swal.fire({
+                title: 'Success!',
+                text: 'Payment Added Successfully',
+                icon: 'success',
+                confirmButtonText: 'Cool'
+            });
+    
+            // Fetching Customer Data
+            const customerResponse = await fetch(`http://localhost:5000/api/customer/findByid/${customerId}`);
+            if (!customerResponse.ok) {
+                throw new Error('Failed to fetch customer data');
+            }
+    
+            const customerData = await customerResponse.json();
+            const currentBalance = Number(customerData.AccountBalance);
+    
+            // Calculating new balance
+            const newBalance = currentBalance + Number(amount);
+    
+            // Updating Customer Balance
+            const updateBalanceResponse = await fetch(`http://localhost:5000/api/customer/updatebyid/${customerId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    AccountBalance: newBalance
+                })
+            });
+    
+            if (!updateBalanceResponse.ok) {
+                throw new Error('Failed to update customer balance');
+            }
+    
+            // Resetting form fields
+            setCustomerId('');
+            setAmount('');
+            // setBalance('');
+            setDate('');
+            setPaymentMethod('');
+    
+            console.log('Payment registered successfully:', paymentResult);
         } catch (error) {
             Swal.fire({
                 title: 'Error!',
-                text: 'Failed to Payment',
+                text: error.message || 'Failed to process payment',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
-            console.log('Error registering payment:', error);
+            console.log('Error processing payment:', error);
         }
     };
+    
 
     //------------ UPDATING THE paYMENT--------------
 
@@ -97,7 +128,7 @@ function Payment() {
             })
             const result = await response.json()
             setIdPyament(result)
-            setBalance(result.balance)
+            // setBalance(result.balance)
             setAmount(result.amount)
             // setDate(result.date)
             setCustomerId(result.name)
@@ -111,7 +142,7 @@ function Payment() {
     }, [])
 
     //------------------------- udpating the Payment -----------------
-    const [update, setUpdated]= useState([])
+    const [update, setUpdated] = useState([])
 
     const handleUpdate = async () => {
         const paymentDetails = {
@@ -132,7 +163,7 @@ function Payment() {
             const result = await response.json()
             setUpdated(result)
             navigate(`/customer-details/${result.name}`)
-            
+
 
         } catch (error) {
             alert('failed to update')

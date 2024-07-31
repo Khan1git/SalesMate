@@ -19,7 +19,7 @@ const InvoiceOrder = () => {
   const [customerAccountBalance, setCustomerAccountBalance] = useState(0);
   const [paid, setPaid] = useState(false);
   const [unit, setUnit] = useState('')
-  const [payment, setPayment] = useState('')
+
   const [cost, setCost] = useState(0)
 
   const handleCheckboxChange = (e) => {
@@ -80,8 +80,7 @@ const InvoiceOrder = () => {
       quantity,
       price: parseFloat(price),
       discount,
-      unit,
-      payment
+      // unit,
     };
     setTableData([...tableData, newData]);
     const newTotalCost = cost + parseFloat(price) * quantity;
@@ -111,10 +110,10 @@ const InvoiceOrder = () => {
           quantity: data.quantity,
           price: data.price,
           discount: data.discount,
-          unit: data.unit,
+          unit: products.find(product => product._id === data.productId)?.unit,
+          // unit: data.unit,
         })),
         paid: paid,
-        payment,
       };
 
       const response = await fetch('http://localhost:5000/api/order/add', {
@@ -173,23 +172,29 @@ const InvoiceOrder = () => {
         if (customerResponse.ok) {
           const customerData = await customerResponse.json();
           const currentBalance = customerData.AccountBalance;
-          const newBalance = currentBalance + totalCost;
-
-          const updateBalanceResponse = await fetch(`http://localhost:5000/api/customer/updatebyid/${customerID}`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              AccountBalance: newBalance,
-            }),
-          });
-
-          if (!updateBalanceResponse.ok) {
-            throw new Error('Failed to update customer balance');
+          if (currentBalance < totalCost) {
+            toast.error(`Not Enough balance in ${customerData.name} Account`)
           }
-        } else {
-          throw new Error('Failed to fetch customer data');
+          else if (currentBalance >= totalCost) {
+
+            const newBalance = currentBalance - totalCost;
+
+            const updateBalanceResponse = await fetch(`http://localhost:5000/api/customer/updatebyid/${customerID}`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                AccountBalance: newBalance,
+              }),
+            });
+
+            if (!updateBalanceResponse.ok) {
+              throw new Error('Failed to update customer balance');
+            }
+          } else {
+            throw new Error('Failed to fetch customer data');
+          }
         }
 
         navigate(`/pdf/${savedDataId}`);
@@ -261,11 +266,10 @@ const InvoiceOrder = () => {
       const data = await response.json();
       setOrderData(data);
       setCustomerID(data.customer.customerId)
-      setPayment(data.payment)
       setTableData(data.products)
     } catch (error) {
-      console.error('Error fetching order data:', error);
-      toast.error('Failed to fetch order data');
+      // console.error('Error fetching order data:', error);
+      // toast.error('Failed to fetch order data');
     }
   };
 
@@ -291,7 +295,6 @@ const InvoiceOrder = () => {
 
       })),
       paid: paid,
-      payment
     };
 
     try {
@@ -338,8 +341,8 @@ const InvoiceOrder = () => {
             </select>
             <input type="Number" placeholder="Quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
             <input type="Number" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} />
-            <input type="text" placeholder="Unit" value={unit} onChange={(e) => setUnit(e.target.value)} />
-            <input type="text" placeholder="Payment Method" value={payment} onChange={((e) => setPayment(e.target.value))} />
+            {/* <input type="text" placeholder="Unit" value={unit} onChange={(e) => setUnit(e.target.value)} /> */}
+            {/* <input type="text" placeholder="Payment Method" value={payment} onChange={((e) => setPayment(e.target.value))} /> */}
             <button onClick={handleAddToTable}>Add</button>
           </div>
           <div class="tables">
@@ -351,7 +354,7 @@ const InvoiceOrder = () => {
                   >Customer ID</th>
                   <th>Customer Name</th>
                   {/* <th>Invoice No</th> */}
-                  <th>Payment Method</th>
+                  {/* <th>Payment Method</th> */}
                   <th>Paid</th>
                 </tr>
               </thead>
@@ -362,7 +365,7 @@ const InvoiceOrder = () => {
                   >{customerID}</td>
                   <td>{datas.find(customer => customer._id === customerID)?.name}</td>
                   {/* <td></td> */}
-                  <td>{payment}</td>
+                  {/* <td>{payment}</td> */}
                   <td>
                     <input type="checkbox"
                       className='check'
@@ -383,7 +386,7 @@ const InvoiceOrder = () => {
                   <th>Product Name</th>
                   <th>Quantity</th>
                   <th>Price</th>
-                  <th>Unit</th>
+                  {/* <th>Unit</th> */}
                   <th>Action</th>
                 </tr>
               </thead>
@@ -397,7 +400,7 @@ const InvoiceOrder = () => {
                     <td>{products.find(product => product._id === data.productId)?.productName}</td>
                     <td>{data.quantity} </td>
                     <td>{data.price} </td>
-                    <td>{data.unit ? data.unit : "others"}</td>
+                    {/* <td>{data.unit ? data.unit : "others"}</td> */}
                     <td onClick={(e) => handleDelete(index)} ><XCircle size={16} /></td>
                   </tr>
                 ))}
