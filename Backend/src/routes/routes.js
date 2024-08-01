@@ -48,10 +48,10 @@ router.get('/order/customerUnpaid/:id', validateObjectId, findUnpaidCustomerBill
 
 // ------------------ TEMPORARY INVOICES
 router.post('/order/temp', addTempOrder)
-router.get('/order/getby-id/:id', getTempById)
+router.get('/order/getby-id/:id', validateObjectId, getTempById)
 router.get('/order/get-all', getAllTempInvoices)
-router.put('/order/update-temp/:id', updateTempOrder)
-router.delete('/order/delete-temp/:id', deleteTempOrderById)
+router.put('/order/update-temp/:id', validateObjectId, updateTempOrder)
+router.delete('/order/delete-temp/:id', validateObjectId, deleteTempOrderById)
 
 
 //---------------- middlewared-----------

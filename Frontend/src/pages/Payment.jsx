@@ -11,6 +11,8 @@ function Payment() {
     const [date, setDate] = useState('');
     const [amount, setAmount] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('');
+
+    
     const params = useParams()
     const id = params.id
     const navigate = useNavigate()
@@ -34,6 +36,23 @@ function Payment() {
         getAllCustomers();
     }, []);
 
+    //    ------------------------------ MANAGING THE CUSTOMER ACCOUNT BALANCE
+
+    const [selectedCustomerBalance, setSelectedCustomerBalance] = useState(0);
+    useEffect(() => {
+        if (customerId !== null) {
+            const selectedCustomer = customers.find(customer => customer._id === customerId);
+            if (selectedCustomer) {
+                setSelectedCustomerBalance(selectedCustomer.AccountBalance);
+            }
+        }
+    }, [customerId, customers]);
+    console.log(selectedCustomerBalance)
+
+    const handleSelectChange = (e) => {
+        setSelectedCustomerId(parseInt(e.target.value));
+    };
+
 
     // Adding payment method
     const handleSubmit = async () => {
@@ -44,7 +63,7 @@ function Payment() {
             amount,
             method: paymentMethod
         };
-    
+
         try {
             // Adding Payment
             const paymentResponse = await fetch('http://localhost:5000/api/order/add-payment', {
@@ -54,13 +73,13 @@ function Payment() {
                 },
                 body: JSON.stringify(paymentDetails)
             });
-    
+
             const paymentResult = await paymentResponse.json();
-    
+
             if (!paymentResponse.ok) {
                 throw new Error(paymentResult.message || 'Failed to add payment');
             }
-    
+
             // Successfully added payment
             Swal.fire({
                 title: 'Success!',
@@ -68,19 +87,19 @@ function Payment() {
                 icon: 'success',
                 confirmButtonText: 'Cool'
             });
-    
+
             // Fetching Customer Data
             const customerResponse = await fetch(`http://localhost:5000/api/customer/findByid/${customerId}`);
             if (!customerResponse.ok) {
                 throw new Error('Failed to fetch customer data');
             }
-    
+
             const customerData = await customerResponse.json();
             const currentBalance = Number(customerData.AccountBalance);
-    
+
             // Calculating new balance
             const newBalance = currentBalance + Number(amount);
-    
+
             // Updating Customer Balance
             const updateBalanceResponse = await fetch(`http://localhost:5000/api/customer/updatebyid/${customerId}`, {
                 method: 'PUT',
@@ -91,18 +110,18 @@ function Payment() {
                     AccountBalance: newBalance
                 })
             });
-    
+
             if (!updateBalanceResponse.ok) {
                 throw new Error('Failed to update customer balance');
             }
-    
+
             // Resetting form fields
             setCustomerId('');
             setAmount('');
             // setBalance('');
             setDate('');
             setPaymentMethod('');
-    
+
             console.log('Payment registered successfully:', paymentResult);
         } catch (error) {
             Swal.fire({
@@ -114,13 +133,12 @@ function Payment() {
             console.log('Error processing payment:', error);
         }
     };
-    
+
 
     //------------ UPDATING THE paYMENT--------------
 
     const [idPyament, setIdPyament] = useState([])
 
-    console.log(idPyament)
     const getPaymentById = async () => {
         try {
             const response = await fetch(`http://localhost:5000/api/order/find-payment/${id}`, {
@@ -198,8 +216,9 @@ function Payment() {
                         type="number"
                         name="Balance"
                         placeholder="Balance"
-                        value={balance}
-                        onChange={(e) => setBalance(e.target.value)}
+                        // value={}
+                        value={selectedCustomerBalance}
+                        onChange={handleSelectChange}
                     />
                     <label htmlFor="date">Date</label>
                     <input
