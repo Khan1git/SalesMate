@@ -12,7 +12,7 @@ function Payment() {
     const [amount, setAmount] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('');
 
-    
+
     const params = useParams()
     const id = params.id
     const navigate = useNavigate()
@@ -118,7 +118,7 @@ function Payment() {
             // Resetting form fields
             setCustomerId('');
             setAmount('');
-            // setBalance('');
+            setBalance('');
             setDate('');
             setPaymentMethod('');
 
