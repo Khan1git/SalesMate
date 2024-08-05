@@ -55,7 +55,7 @@ function TemorderPage() {
             const result = await response.json()
             setProducts(result)
         } catch (error) {
-            toast.error("An Error Has Occured")
+            // toast.error("An Error Has Occured")
             console.log(error)
         }
     }
@@ -179,7 +179,7 @@ function TemorderPage() {
             }
         } catch (error) {
             console.error('Error sending data:', error);
-            toast.error('Error Please try again later');
+            // toast.error('Error Please try again later');
         }
     };
 
@@ -240,7 +240,7 @@ function TemorderPage() {
             setTableData(data.products)
         } catch (error) {
             console.error('Error fetching order data:', error);
-            toast.error('Failed to fetch order data');
+            // toast.error('Failed to fetch order data');
         }
     };
 

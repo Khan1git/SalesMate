@@ -95,8 +95,124 @@ const InvoiceOrder = () => {
 
   // -------- SENDING DATA TO THE BACKEND ADDING THE ORDER
 
+  // const sendTableDataToBackend = async (e) => {
+  //   e.preventDefault()
+  //   try {
+  //     // Creating a payload including customer and product data
+  //     const payload = {
+  //       customer: {
+  //         customerId: customerID,
+  //         name: datas.find(customer => customer._id === customerID)?.name,
+  //       },
+  //       products: tableData.map(data => ({
+  //         productId: data.productId,
+  //         name: products.find(product => product._id === data.productId)?.productName,
+  //         quantity: data.quantity,
+  //         price: data.price,
+  //         discount: data.discount,
+  //         unit: products.find(product => product._id === data.productId)?.unit,
+  //         // unit: data.unit,
+  //       })),
+  //       paid: paid,
+  //     };
+
+  //     const response = await fetch('http://localhost:5000/api/order/add', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(payload),
+  //     });
+
+  //     if (response.ok) {
+  //       const responseData = await response.json();
+  //       const savedDataId = await responseData._id;
+
+  //       if (!savedDataId) {
+  //         throw new Error('Missing savedDataId in response data');
+  //       }
+
+  //       //---------------- CALCULATING THE TOTAL COST OF THE PRODUCTS
+  //       const totalCost = tableData.reduce((total, data) => {
+  //         const productTotal = data.price * data.quantity;
+  //         return total + productTotal;
+  //       }, 0);
+
+  //       // Update product quantities
+  //       await Promise.all(
+  //         tableData.map(async (data) => {
+  //           const originalProduct = products.find(product => product._id === data.productId);
+  //           const Name = await (originalProduct.productName);
+  //           // console.log("THIS IS THE ORIGINAL PRODUCT");
+  //           if (originalProduct) {
+  //             const newQuantity = originalProduct.quantity - data.quantity;
+  //             if (newQuantity < 0) {
+  //               toast.error('Not enough stock available for ' + Name);
+  //               throw new Error('Not enough stock available');
+  //             } else {
+  //               const response = await fetch(`http://localhost:5000/api/product/update/${data.productId}`, {
+  //                 method: "PUT",
+  //                 headers: {
+  //                   "Content-type": "application/json"
+  //                 },
+  //                 body: JSON.stringify({
+  //                   quantity: newQuantity
+  //                 })
+  //               });
+  //               if (!response.ok) {
+  //                 throw new Error('Failed to update product quantity');
+  //               }
+  //             }
+  //           }
+  //         })
+  //       );
+
+  //       // Update customer balance
+  //       const customerResponse = await fetch(`http://localhost:5000/api/customer/findByid/${customerID}`);
+  //       if (customerResponse.ok) {
+  //         const customerData = await customerResponse.json();
+  //         const currentBalance = customerData.AccountBalance;
+
+  //         const newBalance = currentBalance + totalCost;
+
+  //         const updateBalanceResponse = await fetch(`http://localhost:5000/api/customer/updatebyid/${customerID}`, {
+  //           method: 'PUT',
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //           },
+  //           body: JSON.stringify({
+  //             AccountBalance: newBalance,
+  //           }),
+  //         });
+
+  //         if (!updateBalanceResponse.ok) {
+  //           throw new Error('Failed to update customer balance');
+  //         }
+  //       } else {
+  //         throw new Error('Failed to fetch customer data');
+
+  //       }
+
+  //       navigate(`/pdf/${savedDataId}`);
+
+  //       setCustomerID('');
+  //       setItem('');
+  //       setQuantity('');
+  //       setPrice('');
+  //       setDiscount('');
+  //       setTableData([]);
+  //       toast.success('Data sent successfully');
+  //     } else {
+  //       toast.error('Failed To Place Order Please Try Again Later');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error sending data:', error);
+  //     toast.error('Error Please try again later');
+  //   }
+  // };
+
   const sendTableDataToBackend = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       // Creating a payload including customer and product data
       const payload = {
@@ -111,11 +227,10 @@ const InvoiceOrder = () => {
           price: data.price,
           discount: data.discount,
           unit: products.find(product => product._id === data.productId)?.unit,
-          // unit: data.unit,
         })),
         paid: paid,
       };
-
+  
       const response = await fetch('http://localhost:5000/api/order/add', {
         method: 'POST',
         headers: {
@@ -123,32 +238,58 @@ const InvoiceOrder = () => {
         },
         body: JSON.stringify(payload),
       });
-
+  
       if (response.ok) {
         const responseData = await response.json();
-        const savedDataId = await responseData._id;
-
+        const savedDataId = responseData._id;
+  
         if (!savedDataId) {
           throw new Error('Missing savedDataId in response data');
         }
-
+  
         //---------------- CALCULATING THE TOTAL COST OF THE PRODUCTS
         const totalCost = tableData.reduce((total, data) => {
           const productTotal = data.price * data.quantity;
           return total + productTotal;
         }, 0);
-
+  
+        // Check for sufficient stock before updating product quantities
+        let insufficientStock = false;
+        for (const data of tableData) {
+          const originalProduct = products.find(product => product._id === data.productId);
+          if (originalProduct && originalProduct.quantity < data.quantity) {
+            insufficientStock = true;
+            break;
+          }
+        }
+  
+        if (insufficientStock) {
+          const result = await Swal.fire({
+            title: 'Not enough stock',
+            text: 'One or more products have insufficient stock. The  order is still placed you can check it ?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ok',
+            // cancelButtonText: 'No, cancel',
+          });
+  
+          // if (!result.isConfirmed) {
+          //   return; // Do not proceed if the user cancels
+          // }
+        }
+  
         // Update product quantities
         await Promise.all(
           tableData.map(async (data) => {
             const originalProduct = products.find(product => product._id === data.productId);
-            const Name = await (originalProduct.productName);
-            console.log("THIS IS THE ORIGINAL PRODUCT");
             if (originalProduct) {
               const newQuantity = originalProduct.quantity - data.quantity;
               if (newQuantity < 0) {
-                toast.error('Not enough stock available for ' + Name);
-                throw new Error('Not enough stock available');
+                // Only throw an error if the user did not confirm to proceed
+                if (!insufficientStock) {
+                  toast.error('Not enough stock available for ' + originalProduct.productName);
+                  throw new Error('Not enough stock available');
+                }
               } else {
                 const response = await fetch(`http://localhost:5000/api/product/update/${data.productId}`, {
                   method: "PUT",
@@ -166,39 +307,34 @@ const InvoiceOrder = () => {
             }
           })
         );
-
+  
         // Update customer balance
         const customerResponse = await fetch(`http://localhost:5000/api/customer/findByid/${customerID}`);
         if (customerResponse.ok) {
           const customerData = await customerResponse.json();
           const currentBalance = customerData.AccountBalance;
-          if (currentBalance < totalCost) {
-            toast.error(`Not Enough balance in ${customerData.name} Account`)
+  
+          const newBalance = currentBalance + totalCost;
+  
+          const updateBalanceResponse = await fetch(`http://localhost:5000/api/customer/updatebyid/${customerID}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              AccountBalance: newBalance,
+            }),
+          });
+  
+          if (!updateBalanceResponse.ok) {
+            throw new Error('Failed to update customer balance');
           }
-          else if (currentBalance >= totalCost) {
-
-            const newBalance = currentBalance - totalCost;
-
-            const updateBalanceResponse = await fetch(`http://localhost:5000/api/customer/updatebyid/${customerID}`, {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                AccountBalance: newBalance,
-              }),
-            });
-
-            if (!updateBalanceResponse.ok) {
-              throw new Error('Failed to update customer balance');
-            }
-          } else {
-            throw new Error('Failed to fetch customer data');
-          }
+        } else {
+          throw new Error('Failed to fetch customer data');
         }
-
+  
         navigate(`/pdf/${savedDataId}`);
-
+  
         setCustomerID('');
         setItem('');
         setQuantity('');
@@ -214,6 +350,7 @@ const InvoiceOrder = () => {
       toast.error('Error Please try again later');
     }
   };
+  
 
 
 
@@ -277,46 +414,156 @@ const InvoiceOrder = () => {
     fetchOrderData();
   }, [id]);
 
+  // -------------- THE UPDATE FUNCTION -------------
 
-  const handleUpdate = async (e) => {
-    e.preventDefault()
-    const payload = {
-      customer: {
-        customerId: customerID,
-        name: datas.find(customer => customer._id === customerID)?.name,
-      },
-      products: tableData.map(data => ({
-        productId: data.productId,
-        name: products.find(product => product._id === data.productId)?.productName,
-        quantity: data.quantity,
-        price: data.price,
-        discount: data.discount,
-        unit: data.unit
+  // const handleUpdate = async (e) => {
+  //   e.preventDefault()
+  //   const payload = {
+  //     customer: {
+  //       customerId: customerID,
+  //       name: datas.find(customer => customer._id === customerID)?.name,
+  //     },
+  //     products: tableData.map(data => ({
+  //       productId: data.productId,
+  //       name: products.find(product => product._id === data.productId)?.productName,
+  //       quantity: data.quantity,
+  //       price: data.price,
+  //       discount: data.discount,
+  //       unit: data.unit
 
-      })),
-      paid: paid,
-    };
+  //     })),
+  //     paid: paid,
+  //   };
 
-    try {
-      const response = await fetch(`http://localhost:5000/api/order/updateorder/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
+  //   try {
+  //     const response = await fetch(`http://localhost:5000/api/order/updateorder/${id}`, {
+  //       method: "PUT",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(payload),
+  //     });
+
+  //     const data = await response.json();
+  //     console.log(data);
+
+  //     if (response.ok) {
+  //       navigate("/");
+  //       // alert("Post Updated....");
+  //     }
+  //   } catch (error) {
+  //     console.log('DATA UPDATE FAILED');
+  //   }
+  // };
+
+
+const handleUpdate = async (e) => {
+  e.preventDefault();
+  const payload = {
+    customer: {
+      customerId: customerID,
+      name: datas.find(customer => customer._id === customerID)?.name,
+    },
+    products: tableData.map(data => ({
+      productId: data.productId,
+      name: products.find(product => product._id === data.productId)?.productName,
+      quantity: data.quantity,
+      price: data.price,
+      discount: data.discount,
+      unit: data.unit
+    })),
+    paid: paid,
+  };
+
+  try {
+    // Check for sufficient stock before updating product quantities
+    let insufficientStock = false;
+    for (const data of tableData) {
+      const originalProduct = products.find(product => product._id === data.productId);
+      if (originalProduct && originalProduct.quantity < data.quantity) {
+        insufficientStock = true;
+        break;
+      }
+    }
+
+    if (insufficientStock) {
+      const result = await Swal.fire({
+        title: 'Not enough stock',
+        text: 'One or more products have insufficient stock. Do you still want to proceed?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, proceed',
+        cancelButtonText: 'No, cancel',
       });
 
-      const data = await response.json();
-      console.log(data);
-
-      if (response.ok) {
-        navigate("/");
-        // alert("Post Updated....");
+      if (!result.isConfirmed) {
+        return; 
       }
-    } catch (error) {
-      console.log('DATA UPDATE FAILED');
     }
-  };
+
+    // Fetch the existing order to get the previous total cost
+    const existingOrderResponse = await fetch(`http://localhost:5000/api/order/getbyid/${id}`);
+    if (!existingOrderResponse.ok) {
+      throw new Error('Failed to fetch existing order data');
+    }
+    const existingOrder = await existingOrderResponse.json();
+
+    const previousTotalCost = existingOrder.products.reduce((total, product) => {
+      return total + (product.price * product.quantity);
+    }, 0);
+
+    // Update the order
+    const response = await fetch(`http://localhost:5000/api/order/updateorder/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json();
+    // console.log(data);
+
+    if (response.ok) {
+      const newTotalCost = tableData.reduce((total, data) => {
+        const productTotal = data.price * data.quantity;
+        return total + productTotal;
+      }, 0);
+
+      // ...........................................................
+      const customerResponse = await fetch(`http://localhost:5000/api/customer/findByid/${customerID}`);
+      if (customerResponse.ok) {
+        const customerData = await customerResponse.json();
+        const currentBalance = customerData.AccountBalance;
+
+       
+        const adjustedBalance = currentBalance - previousTotalCost + newTotalCost;
+
+        // ............................................................
+        const updateBalanceResponse = await fetch(`http://localhost:5000/api/customer/updatebyid/${customerID}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            AccountBalance: adjustedBalance,
+          }),
+        });
+
+        if (!updateBalanceResponse.ok) {
+          throw new Error('Failed to update customer balance');
+        }
+      } else {
+        throw new Error('Failed to fetch customer data');
+      }
+
+      navigate("/");
+      // alert("Post Updated....");
+    }
+  } catch (error) {
+    console.log('DATA UPDATE FAILED', error);
+  }
+};
 
 
 

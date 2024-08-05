@@ -54,7 +54,7 @@ router.put('/order/update-temp/:id', validateObjectId, updateTempOrder)
 router.delete('/order/delete-temp/:id', validateObjectId, deleteTempOrderById)
 
 
-//---------------- middlewared-----------
+//---------------- Payment -----------
 router.post('/order/add-payment', addPayment);
 router.get('/order/find-payment/:id', validateObjectId, findPaymentById);
 router.get('/order/all-payments', findAllPaymnets);

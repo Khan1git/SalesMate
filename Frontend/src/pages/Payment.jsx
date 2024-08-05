@@ -98,7 +98,7 @@ function Payment() {
             const currentBalance = Number(customerData.AccountBalance);
 
             // Calculating new balance
-            const newBalance = currentBalance + Number(amount);
+            const newBalance = currentBalance - Number(amount);
 
             // Updating Customer Balance
             const updateBalanceResponse = await fetch(`http://localhost:5000/api/customer/updatebyid/${customerId}`, {
@@ -162,32 +162,99 @@ function Payment() {
     //------------------------- udpating the Payment -----------------
     const [update, setUpdated] = useState([])
 
+    // const handleUpdate = async () => {
+    //     const paymentDetails = {
+    //         name: customerId,
+    //         balance,
+    //         date,
+    //         amount,
+    //         method: paymentMethod
+    //     };
+    //     try {
+    //         const response = await fetch(`http://localhost:5000/api/order/update-payment/${id}`, {
+    //             method: "PUT",
+    //             headers: {
+    //                 'Content-type': "application/json"
+    //             },
+    //             body: JSON.stringify(paymentDetails)
+    //         })
+    //         const result = await response.json()
+    //         setUpdated(result)
+    //         navigate(`/customer-details/${result.name}`)
+
+
+    //     } catch (error) {
+    //         alert('failed to update')
+    //         console.log(error, "can't updat th payemnt")
+    //     }
+    // }
+
     const handleUpdate = async () => {
         const paymentDetails = {
-            name: customerId,
-            balance,
-            date,
-            amount,
-            method: paymentMethod
+          name: customerId,
+          balance,
+          date,
+          amount,
+          method: paymentMethod
         };
+      
         try {
-            const response = await fetch(`http://localhost:5000/api/order/update-payment/${id}`, {
-                method: "PUT",
+          // Fetch the existing payment details to get the previous amount
+          const existingPaymentResponse = await fetch(`http://localhost:5000/api/order/find-payment/${id}`);
+          if (!existingPaymentResponse.ok) {
+            throw new Error('Failed to fetch existing payment data');
+          }
+          const existingPayment = await existingPaymentResponse.json();
+      
+          const previousAmount = existingPayment.amount;
+      
+          // Calculate the new balance by subtracting the previous payment amount and adding the new payment amount
+          const response = await fetch(`http://localhost:5000/api/order/update-payment/${id}`, {
+            method: "PUT",
+            headers: {
+              'Content-type': "application/json"
+            },
+            body: JSON.stringify(paymentDetails)
+          });
+          const result = await response.json();
+      
+          if (response.ok) {
+            // Fetch current customer balance
+            const customerResponse = await fetch(`http://localhost:5000/api/customer/findByid/${customerId}`);
+            if (customerResponse.ok) {
+              const customerData = await customerResponse.json();
+              const currentBalance = customerData.AccountBalance;
+      
+              // Adjust the customer balance
+              const adjustedBalance = Number(currentBalance) + Number(previousAmount) - Number(amount);
+      
+              // Update customer balance
+              const updateBalanceResponse = await fetch(`http://localhost:5000/api/customer/updatebyid/${customerId}`, {
+                method: 'PUT',
                 headers: {
-                    'Content-type': "application/json"
+                  'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(paymentDetails)
-            })
-            const result = await response.json()
-            setUpdated(result)
-            navigate(`/customer-details/${result.name}`)
-
-
+                body: JSON.stringify({
+                  AccountBalance: adjustedBalance,
+                }),
+              });
+      
+              if (!updateBalanceResponse.ok) {
+                throw new Error('Failed to update customer balance');
+              }
+            } else {
+              throw new Error('Failed to fetch customer data');
+            }
+      
+            setUpdated(result);
+            navigate(`/customer-details/${result.name}`);
+          }
         } catch (error) {
-            alert('failed to update')
-            console.log(error, "can't updat th payemnt")
+          alert('Failed to update');
+          console.log("Can't update the payment", error);
         }
-    }
+      };
+      
     return (
         <>
             <Navbar />

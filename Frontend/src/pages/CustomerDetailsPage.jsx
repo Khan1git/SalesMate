@@ -162,7 +162,7 @@ function CustomerDetailsPage() {
                                 <th>Name</th>
                                 <th>Phone no</th>
                                 <th>Total Account Balance</th>
-                                <th>Remaining Balance</th>
+                                {/* <th>Remaining Balance</th> */}
                             </tr>
                         </thead>
                         <tbody>
@@ -171,7 +171,7 @@ function CustomerDetailsPage() {
                                     <td>{customers.name}</td>
                                     <td>{customers.phone}</td>
                                     <td>{customers.AccountBalance}</td>
-                                    <td>{unpaidCost}</td>
+                                    {/* <td>{unpaidCost}</td> */}
                                 </tr>
                             )}
                         </tbody>
