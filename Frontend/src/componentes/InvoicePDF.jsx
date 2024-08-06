@@ -281,7 +281,7 @@ const InvoicePDF = () => {
                                 <Text>Date: {orderData.date ? format(new Date(orderData.date), 'dd-MMMM-yyyy') : ''}</Text>
                             </View>
                             <Text>Customer Name: {orderData.customer ? orderData.customer.name : ''}</Text>
-                            <Text>Previous Remaining Balance: {unpaidCost}</Text>
+                            {/* <Text>Previous Remaining Balance: {unpaidCost}</Text> */}
                             <Text>Total Balance: {customerDetails.AccountBalance ? customerDetails.AccountBalance : ''}</Text>
                             {/* <Text>Payment Method: {orderData.payment ? orderData.payment : ''}</Text> */}
                             <View style={styles.table}>

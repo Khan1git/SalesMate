@@ -199,7 +199,7 @@ function Payment() {
         };
       
         try {
-          // Fetch the existing payment details to get the previous amount
+          // Fetch the existing payment details for  previous amount
           const existingPaymentResponse = await fetch(`http://localhost:5000/api/order/find-payment/${id}`);
           if (!existingPaymentResponse.ok) {
             throw new Error('Failed to fetch existing payment data');
@@ -208,7 +208,7 @@ function Payment() {
       
           const previousAmount = existingPayment.amount;
       
-          // Calculate the new balance by subtracting the previous payment amount and adding the new payment amount
+          // Calculate the new balance by adding the previous payment amount and subtracting  the new payment amount
           const response = await fetch(`http://localhost:5000/api/order/update-payment/${id}`, {
             method: "PUT",
             headers: {
