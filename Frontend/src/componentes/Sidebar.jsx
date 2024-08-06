@@ -170,11 +170,11 @@ const Sidebar = () => {
           <div className="card3">
             <BadgeDollarSign />
             <p>total Sales</p>
-            <p>${sales}</p></div>
+            <p>{sales}</p></div>
           <div className="card4">
             <ShoppingBag />
             <p>total Purchases</p>
-            <p>${totalPurchase}</p>
+            <p>{totalPurchase}</p>
           </div>
         </div>
         <div className="Analytics">

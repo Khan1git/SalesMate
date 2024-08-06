@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
         margin: '3px',
         borderStyle: 'solid'
     },
-    cash:{
+    cash: {
         display: 'flex',
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
@@ -126,15 +126,21 @@ const styles = StyleSheet.create({
 
 const numberToWords = (num) => {
     const ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
-    const teens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
     const belowTwenty = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+    const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
 
-    if (num < 10) return ones[num];
-    if (num < 20) return belowTwenty[num - 10];
-    if (num < 100) return teens[Math.floor(num / 10)] + (num % 10 !== 0 ? '-' + ones[num % 10] : '');
-    if (num < 1000) return ones[Math.floor(num / 100)] + ' hundred ' + (num % 100 !== 0 ? numberToWords(num % 100) : '');
+    const getBelowThousand = (num) => {
+        if (num < 10) return ones[num];
+        if (num < 20) return belowTwenty[num - 10];
+        if (num < 100) return tens[Math.floor(num / 10)] + (num % 10 !== 0 ? '-' + ones[num % 10] : '');
+        return ones[Math.floor(num / 100)] + ' hundred' + (num % 100 !== 0 ? ' ' + getBelowThousand(num % 100) : '');
+    };
 
-    return numberToWords(Math.floor(num / 1000)) + ' thousand ' + (num % 1000 !== 0 ? numberToWords(num % 1000) : '');
+    if (num === 0) return 'zero';
+    if (num < 1000) return getBelowThousand(num);
+    if (num < 100000) return getBelowThousand(Math.floor(num / 1000)) + ' thousand' + (num % 1000 !== 0 ? ' ' + getBelowThousand(num % 1000) : '');
+    if (num < 10000000) return getBelowThousand(Math.floor(num / 100000)) + ' lakh' + (num % 100000 !== 0 ? ' ' + numberToWords(num % 100000) : '');
+    return getBelowThousand(Math.floor(num / 10000000)) + ' crore' + (num % 10000000 !== 0 ? ' ' + numberToWords(num % 10000000) : '');
 };
 
 
@@ -145,10 +151,10 @@ const InvoicePDF = () => {
     const [customerId, setId] = useState('')
     const [customerDetails, setCustomerDetails] = useState([])
     const [payment, setPayment] = useState("cash")
- 
+
 
     // -------------------- SHOWING THE COMPANY DATA
-
+    
     const showCompanyDate = async () => {
         try {
             const response = await fetch('http://localhost:5000/api/company/get', { method: "GET" });
@@ -182,39 +188,39 @@ const InvoicePDF = () => {
     }, [id]);
 
 
-     // ----------------------------- SHOWING THE UNPAID BALANCE
-     const [customerInvoices, setCustomerInvoices] = useState([])
-     const [unpaidInvoice, setUnpaidInvoice] = useState([])
-     const [unpaidCost, setUnpaidCost] = useState(0)
-     console.log(unpaidCost)
- 
- 
-     const ShowAllorders = async () => {
-         try {
-             const response = await fetch("http://localhost:5000/api/order/getall", {
-                 method: "GET"
-             });
-             const result = await response.json();
-             const allInvoices =  await result.filter((order) => order.customer.customerId === customerId)
-             // const unPaidInvoices = result.filter((order) => order.paid === false)
-             const unPaidInvoices =  await result.filter((order) => order.paid === false && order.customer.customerId === customerId )
-             setCustomerInvoices(allInvoices)
-             setUnpaidInvoice(unPaidInvoices)
- 
-             // -------- THE UNPAID COST
-             const totalCost = unPaidInvoices.reduce((total, invoice) => {
-                 const invoiceTotal = invoice.products.reduce((invoiceSum, product) => {
-                     return invoiceSum + (product.price * product.quantity);
-                 }, 0);
-                 return total + invoiceTotal;
-             }, 0);
-             setUnpaidCost(totalCost)
- 
-         } catch (error) {
-             console.log("Fetching Orders Error", error);
-         }
-     };
-   
+    // ----------------------------- SHOWING THE UNPAID BALANCE
+    const [customerInvoices, setCustomerInvoices] = useState([])
+    const [unpaidInvoice, setUnpaidInvoice] = useState([])
+    const [unpaidCost, setUnpaidCost] = useState(0)
+    console.log(unpaidCost)
+
+
+    const ShowAllorders = async () => {
+        try {
+            const response = await fetch("http://localhost:5000/api/order/getall", {
+                method: "GET"
+            });
+            const result = await response.json();
+            const allInvoices = await result.filter((order) => order.customer.customerId === customerId)
+            // const unPaidInvoices = result.filter((order) => order.paid === false)
+            const unPaidInvoices = await result.filter((order) => order.paid === false && order.customer.customerId === customerId)
+            setCustomerInvoices(allInvoices)
+            setUnpaidInvoice(unPaidInvoices)
+
+            // -------- THE UNPAID COST
+            const totalCost = unPaidInvoices.reduce((total, invoice) => {
+                const invoiceTotal = invoice.products.reduce((invoiceSum, product) => {
+                    return invoiceSum + (product.price * product.quantity);
+                }, 0);
+                return total + invoiceTotal;
+            }, 0);
+            setUnpaidCost(totalCost)
+
+        } catch (error) {
+            console.log("Fetching Orders Error", error);
+        }
+    };
+
     // --------------- showing the customer using the id
 
 
@@ -231,7 +237,7 @@ const InvoicePDF = () => {
                 setCustomerDetails(result)
                 // console.log(result.name);
             }
-    
+
             // console.log(result);
         } catch (error) {
             console.error('Error fetching customer data:', error);
@@ -243,7 +249,7 @@ const InvoicePDF = () => {
     useEffect(() => {
         if (customerId) {
             showCustomerById();
-            ShowAllorders(); 
+            ShowAllorders();
         }
     }, [customerId]);
 
@@ -318,7 +324,7 @@ const InvoicePDF = () => {
                                 <Text style={styles.price}>{payment}</Text>
                             </View> */}
                             <View style={styles.words}>
-                                <Text>Amount In Words:{numberToWords(TotalAmount)} only</Text>
+                                <Text>Amount In Words: {numberToWords(TotalAmount)} only</Text>
                             </View>
                         </View>
                     </View>
